@@ -31,12 +31,10 @@ header {
 }
 
 .header-left {
-    display: flex;
     align-items: center;
 }
 
 .header-logo-link {
-    display: flex;
     align-items: center;
     text-decoration: none;
 }
@@ -58,7 +56,6 @@ header {
 }
 
 .header-login {
-    display: flex;
     align-items: center;
 }
 
@@ -271,180 +268,6 @@ footer {
     height: 1.5em;
 }
 
-<<<<<<< HEAD
-/* Media queries for smartphones */
-=======
-/* Media queries for smartphones and smaller devices */
->>>>>>> 589cdf1 (reverted syle changes)
-@media (max-width: 480px) {
-    body {
-        background-image: url('../static/background/CTF_background_mobile.webp');
-    }
-
-<<<<<<< HEAD
-    header {
-        height: 3em;
-        padding: 0 0.5em;
-    }
-
-    .header-logo {
-        margin-right: 0.5em;
-        height: 1.5em;
-    }
-
-    .header-title {
-        font-size: 1.2em;
-    }
-
-    main {
-        padding: 0.5em;
-        font-size: 1em;
-    }
-
-    .form-container-title {
-        margin-top: 1.5em;
-        font-size: 1.5em;
-    }
-
-    .form-group {
-        max-width: 330px;
-    }
-
-    .form-group input {
-        font-size: 0.8em;
-    }
-
-    footer {
-        padding: 0.5em 0.5em;
-    }
-
-    .footer-links {
-        font-size: 0.8em;
-    }
-
-    .footer-discord,
-    .footer-telegram {
-        height: 1em;
-    }
-
-    .header-button {
-        padding: 0.3em 0.8em;
-        font-size: 0.8em;
-    }
-}
-
-/* Media queries for tablets */
-@media (max-width: 768px) {
-    body {
-        background-image: url('../static/background/CTF_background_mobile.webp');
-    }
-
-    header {
-        height: 4em;
-        padding: 0 1em;
-    }
-
-    .header-logo {
-        margin-right: 0.75em;
-        height: 2em;
-    }
-
-    .header-title {
-        font-size: 1.5em;
-    }
-
-    main {
-        padding: 1em;
-        font-size: 1.2em;
-    }
-
-    .form-container-title {
-        margin-top: 2em;
-        font-size: 2em;
-    }
-
-    .form-group {
-        max-width: 330px;
-    }
-
-    .form-group input {
-        font-size: 0.9em;
-    }
-
-    footer {
-        padding: 0.5em 1em;
-    }
-
-    .footer-links {
-        font-size: 0.9em;
-    }
-
-    .footer-discord,
-    .footer-telegram {
-        height: 1.2em;
-    }
-
-    .header-button {
-        padding: 0.4em 0.9em;
-        font-size: 0.9em;
-    }
-}
-
-/* Media queries for small desktops */
-@media (max-width: 1024px) {
-=======
->>>>>>> 589cdf1 (reverted syle changes)
-    header {
-        height: 4.5em;
-        padding: 0 1.5em;
-    }
-
-    .header-logo {
-        margin-right: 1em;
-        height: 2.5em;
-    }
-
-    .header-title {
-        font-size: 1.75em;
-    }
-
-    main {
-        padding: 1.5em;
-        font-size: 1.35em;
-    }
-
-    .form-container-title {
-        margin-top: 2.5em;
-        font-size: 2.5em;
-    }
-
-    .form-group {
-        max-width: 330px;
-    }
-
-    .form-group input {
-        font-size: 1em;
-    }
-
-    footer {
-        padding: 0.75em 1.5em;
-    }
-
-    .footer-links {
-        font-size: 1em;
-    }
-
-    .footer-discord,
-    .footer-telegram {
-        height: 1.35em;
-    }
-
-    .header-button {
-        padding: 0.5em 1em;
-        font-size: 1em;
-    }
-}
-
 /* Media queries for tablets and smaller devices */
 @media (max-width: 768px) {
     body {
@@ -470,17 +293,17 @@ footer {
         font-size: 1.2em;
     }
 
-    .form-container-title {
+    .register-title {
         margin-top: 2em;
         font-size: 2em;
     }
 
     .form-group {
         max-width: 330px;
-    }
+    } 
 
     .form-group input {
-        font-size: 0.9em;
+        font-size: 0.9em; 
     }
 
     footer {
@@ -499,5 +322,62 @@ footer {
     .header-button {
         padding: 0.4em 0.9em;
         font-size: 0.9em;
+    }
+}
+
+/* Media queries for smartphones and smaller devices */
+@media (max-width: 480px) {
+    body {
+        background-image: url('../static/background/CTF_background_mobile.webp');
+    }
+
+    header {
+        height: 3em;
+        padding: 0 0.5em;
+    }
+
+    .header-logo {
+        margin-right: 0.5em;
+        height: 1.5em;
+    }
+
+    .header-title {
+        font-size: 1.2em;
+    }
+
+    main {
+        padding: 0.5em;
+        font-size: 1em;
+    }
+
+    .register-title {
+        font-size: 1.5em;
+        margin-top: 1.5em;
+    }
+    
+    .form-group {
+        max-width: 330px;
+    } 
+
+    .form-group input {
+        font-size: 0.8em; 
+    }
+
+    footer {
+        padding: 0.5em 0.5em;
+    }
+
+    .footer-links {
+        font-size: 0.8em;
+    }
+
+    .footer-discord,
+    .footer-telegram {
+        height: 1em;
+    }
+
+    .header-button {
+        padding: 0.3em 0.8em;
+        font-size: 0.8em;
     }
 }

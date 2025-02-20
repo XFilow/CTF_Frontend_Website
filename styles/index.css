@@ -64,21 +64,22 @@ header {
 
 main {
     color: white;
-    font-weight: bold;
+    font-weight: normal;
     text-align: center;
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
     align-items: center;
-    margin: 1em auto;
+    margin: 2em auto;
     border-radius: 10px;
     font-size: 1.5em;
-    max-width: 100%;
     padding: 2em;
+    width: 100%;
 }
 
 .main-content {
     display: flex;
+    font-weight: bold;
     flex-direction: column;
     align-items: center;
 }
@@ -115,14 +116,14 @@ main {
     text-decoration: none;
     padding: 0.5em 1em;
     font-size: 1em;
-    border-radius: 5px;
+    border-radius: 10px;
     transition: background-color 0.3s;
 }
 
 .header-button {
     color: white;
     background-color: black;
-    border: 2px solid white;
+    border: 3px solid white;
 }
 
 .header-button:hover {
@@ -132,21 +133,16 @@ main {
 
 .main-button {
     color: white;
-    background-color: transparent;
+    background-color: rgb(0, 0, 0, 0.9);;
     display: inline-block;
-    margin: 3.5em auto;
-    border: 2px solid white;
-    text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;
+    margin: 2em auto;
+    border: 3px solid white;
 }
 
 .main-button:hover {
     color: black;
-    background-color: white;
-    text-shadow: none;
+    background-color: rgba(230, 230, 230, 0.9);
+    border: 4px solid black;
 }
 
 footer {
@@ -159,7 +155,7 @@ footer {
     box-sizing: border-box;
     justify-content: space-between;
     border-top: 1px solid white;
-    padding: 1em 2em;
+    padding: 0.8em 1em;
     width: 100%;
     bottom: 0;
 }
@@ -202,17 +198,13 @@ footer {
     height: 1.5em;
 }
 
-<<<<<<< HEAD
+
 /* Media queries for smartphones */
-=======
-/* Media queries for smartphones and smaller devices */
->>>>>>> 589cdf1 (reverted syle changes)
 @media (max-width: 480px) {
     body {
         background-image: url('../static/background/CTF_background_mobile.webp');
     }
 
-<<<<<<< HEAD
     header {
         height: 3em;
         padding: 0 0.5em;
@@ -233,12 +225,12 @@ footer {
     }
 
     .main-title {
-        margin-top: 2em;
         font-size: 2em;
+        margin-top: 2em;
     }
-
+    
     .main-subtitle {
-        font-size: 1.2em;
+        font-size: 1em;
     }
 
     .typing-effect {
@@ -261,118 +253,6 @@ footer {
     .header-button {
         padding: 0.3em 0.8em;
         font-size: 0.8em;
-    }
-}
-
-/* Media queries for tablets */
-@media (max-width: 768px) {
-    body {
-        background-image: url('../static/background/CTF_background_mobile.webp');
-    }
-
-    header {
-        height: 4em;
-        padding: 0 1em;
-    }
-
-    .header-logo {
-        margin-right: 0.75em;
-        height: 2em;
-    }
-
-    .header-title {
-        font-size: 1.5em;
-    }
-
-    main {
-        padding: 1em;
-        font-size: 1.2em;
-    }
-
-    .main-title {
-        margin-top: 3em;
-        font-size: 3em;
-    }
-
-    .main-subtitle {
-        font-size: 1.5em;
-    }
-
-    .typing-effect {
-        font-size: 0.9em;
-    }
-
-    footer {
-        padding: 0.5em 1em;
-    }
-
-    .footer-links {
-        font-size: 0.9em;
-    }
-
-    .footer-discord,
-    .footer-telegram {
-        height: 1.2em;
-    }
-
-    .header-button {
-        padding: 0.4em 0.9em;
-        font-size: 0.9em;
-    }
-}
-
-/* Media queries for small desktops */
-@media (max-width: 1024px) {
-=======
->>>>>>> 589cdf1 (reverted syle changes)
-    header {
-        height: 4.5em;
-        padding: 0 1.5em;
-    }
-
-    .header-logo {
-        margin-right: 1em;
-        height: 2.5em;
-    }
-
-    .header-title {
-        font-size: 1.75em;
-    }
-
-    main {
-        padding: 1.5em;
-        font-size: 1.35em;
-    }
-
-    .main-title {
-        margin-top: 2.5em;
-        font-size: 3.5em;
-    }
-
-    .main-subtitle {
-        font-size: 1.75em;
-    }
-
-    .typing-effect {
-        font-size: 1em;
-    }
-
-    footer {
-        padding: 0.75em 1.5em;
-    }
-
-    .footer-links {
-        font-size: 1em;
-    }
-
-    .footer-discord,
-    .footer-telegram {
-        height: 1.35em;
-    }
-
-    .header-button {
-        padding: 0.5em 1em;
-        font-size: 1em;
     }
 }
 
@@ -402,10 +282,10 @@ footer {
     }
 
     .main-title {
-        margin-top: 3em;
         font-size: 3em;
+        margin-top: 3em;
     }
-
+    
     .main-subtitle {
         font-size: 1.5em;
     }

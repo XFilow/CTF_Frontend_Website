@@ -211,12 +211,12 @@ footer {
     }
 
     .header-logo {
-        height: 2.5em;
-        margin-right: 0.25em;
+        height: 3em;
+        margin-right: 0.1em;
     }
 
     .header-title {
-        font-size: 1em;
+        font-size: 0.8em;
     }
     
     .header-button {

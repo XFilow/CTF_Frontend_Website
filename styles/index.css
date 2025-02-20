@@ -44,6 +44,7 @@ header {
 .header-logo {
     height: 3em;
     margin-right: 1em;
+    transform: scale(1.25);
 }
 
 .header-title-link {
@@ -79,7 +80,6 @@ main {
 
 .main-content {
     display: flex;
-    font-weight: bold;
     flex-direction: column;
     align-items: center;
 }
@@ -114,6 +114,7 @@ main {
 
 .button {
     text-decoration: none;
+    font-weight: bold;
     padding: 0.5em 1em;
     font-size: 1em;
     border-radius: 10px;
@@ -155,7 +156,7 @@ footer {
     box-sizing: border-box;
     justify-content: space-between;
     border-top: 1px solid white;
-    padding: 0.8em 1em;
+    padding: 0.8em 1.5em;
     width: 100%;
     bottom: 0;
 }
@@ -195,7 +196,7 @@ footer {
 .footer-discord,
 .footer-telegram {
     background: transparent;
-    height: 1.5em;
+    height: 1.25em;
 }
 
 
@@ -243,16 +244,20 @@ footer {
     }
 
     footer {
-        padding: 0 0.25em;
+        padding: 0.1em 0.1em;
     }
 
     .footer-links {
         font-size: 0.5em;
     }
 
-    .footer-discord,
+    .footer-discord {
+        height: 0.5em;
+    }
+
     .footer-telegram {
         height: 0.5em;
+        padding-right:  0.5em;
     }
 
 }

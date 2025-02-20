@@ -250,63 +250,6 @@ footer {
     height: 1.5em;
 }
 
-/* Media queries for tablets and smaller devices */
-@media (max-width: 768px) {
-    body {
-        background-image: url('../static/background/CTF_background_mobile.webp');
-    }
-
-    header {
-        height: 4em;
-        padding: 0 1em;
-    }
-
-    .header-logo {
-        margin-right: 0.75em;
-        height: 2em;
-    }
-
-    .header-title {
-        font-size: 1.5em;
-    }
-
-    main {
-        padding: 1em;
-        font-size: 1.2em;
-    }
-
-    .register-title {
-        margin-top: 2em;
-        font-size: 2em;
-    }
-
-    .form-group {
-        max-width: 330px;
-    }
-
-    .form-group input {
-        font-size: 0.9em;
-    }
-
-    footer {
-        padding: 0.5em 1em;
-    }
-
-    .footer-links {
-        font-size: 0.9em;
-    }
-
-    .footer-discord,
-    .footer-telegram {
-        height: 1.2em;
-    }
-
-    .header-button {
-        padding: 0.4em 0.9em;
-        font-size: 0.9em;
-    }
-}
-
 /* Media queries for smartphones and smaller devices */
 @media (max-width: 480px) {
     body {
@@ -361,5 +304,62 @@ footer {
     .header-button {
         padding: 0.3em 0.8em;
         font-size: 0.8em;
+    }
+}
+
+/* Media queries for tablets and smaller devices */
+@media (max-width: 768px) {
+    body {
+        background-image: url('../static/background/CTF_background_mobile.webp');
+    }
+
+    header {
+        height: 4em;
+        padding: 0 1em;
+    }
+
+    .header-logo {
+        margin-right: 0.75em;
+        height: 2em;
+    }
+
+    .header-title {
+        font-size: 1.5em;
+    }
+
+    main {
+        padding: 1em;
+        font-size: 1.2em;
+    }
+
+    .register-title {
+        margin-top: 2em;
+        font-size: 2em;
+    }
+
+    .form-group {
+        max-width: 330px;
+    }
+
+    .form-group input {
+        font-size: 0.9em;
+    }
+
+    footer {
+        padding: 0.5em 1em;
+    }
+
+    .footer-links {
+        font-size: 0.9em;
+    }
+
+    .footer-discord,
+    .footer-telegram {
+        height: 1.2em;
+    }
+
+    .header-button {
+        padding: 0.4em 0.9em;
+        font-size: 0.9em;
     }
 }

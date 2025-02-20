@@ -198,6 +198,63 @@ footer {
     height: 1.25em;
 }
 
+/* Media queries for tablets and smaller devices */
+@media (max-width: 768px) {
+    body {
+        background-image: url('../static/background/CTF_background_mobile.webp');
+    }
+
+    header {
+        height: 4em;
+        padding: 0 1em;
+    }
+
+    .header-logo {
+        margin-right: 0.75em;
+        height: 2em;
+    }
+
+    .header-title {
+        font-size: 1.5em;
+    }
+    
+    .header-button {
+        padding: 0.4em 0.9em;
+        font-size: 0.9em;
+    }
+
+    main {
+        padding: 1em;
+        font-size: 1.2em;
+    }
+
+    .main-title {
+        font-size: 3em;
+        margin-top: 1em;
+    }
+    
+    .main-subtitle {
+        font-size: 1.5em;
+    }
+
+    .typing-effect {
+        font-size: 0.9em;
+    }
+
+    footer {
+        padding: 0.5em 1em;
+    }
+
+    .footer-links {
+        font-size: 0.9em;
+    }
+
+    .footer-discord,
+    .footer-telegram {
+        height: 1.2em;
+    }
+}
+
 
 /* Media queries for smartphones */
 @media (max-width: 480px) {
@@ -207,16 +264,16 @@ footer {
 
     header {
         height: 3em;
-        padding: 0 0.25em;
+        padding: 0 0.8em;
     }
 
     .header-logo {
-        height: 3em;
-        margin-right: 0.1em;
+        height: 2.5em;
+        margin-right: 0.5em;
     }
 
     .header-title {
-        font-size: 0.8em;
+        font-size: 1.2em;
     }
     
     .header-button {
@@ -230,12 +287,12 @@ footer {
     }
 
     .main-title {
-        font-size: 2em;
-        margin-top: 0.5em;
+        font-size: 1.5em;
+        margin-top: 1.5em;
     }
     
     .main-subtitle {
-        font-size: 1em;
+        font-size: 1.25em;
     }
 
     .typing-effect {
@@ -243,20 +300,20 @@ footer {
     }
 
     footer {
-        padding: 0.1em 0.1em;
+        padding: 0.8em 0.8em;
     }
 
     .footer-links {
-        font-size: 0.5em;
+        font-size: 0.8em;
     }
 
     .footer-discord {
-        height: 0.5em;
+        height: 0.8em;
     }
 
     .footer-telegram {
-        height: 0.5em;
-        padding-right:  0.5em;
+        height: 0.8em;
+        padding-right:  0.8em;
     }
 
 }

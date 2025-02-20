@@ -219,6 +219,7 @@ footer {
     }
     
     .header-button {
+        border: 2px solid white;
         padding: 0.4em 0.9em;
         font-size: 0.9em;
     }
@@ -268,7 +269,7 @@ footer {
     }
 
     .header-logo {
-        height: 2.5em;
+        height: 2em;
         margin-right: 0.5em;
     }
 
@@ -282,25 +283,25 @@ footer {
     }
 
     main {
-        padding: 0.5em;
+        padding: 1em;
         font-size: 1em;
     }
 
     .main-title {
-        font-size: 1.5em;
-        margin-top: 1.5em;
+        font-size: 2.5em;
+        margin-top: 2.5em;
     }
     
     .main-subtitle {
-        font-size: 1.25em;
+        font-size: 1.75em;
     }
 
     .typing-effect {
-        font-size: 0.8em;
+        font-size: 1em;
     }
 
     footer {
-        padding: 0.8em 0.8em;
+        padding: 0.5em 0.5em;
     }
 
     .footer-links {
@@ -308,12 +309,12 @@ footer {
     }
 
     .footer-discord {
-        height: 0.8em;
+        height: 1em;
     }
 
     .footer-telegram {
-        height: 0.8em;
-        padding-right:  0.8em;
+        height: 1em;
+        padding-right:  0.5em;
     }
 
 }

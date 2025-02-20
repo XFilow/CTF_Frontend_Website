@@ -42,9 +42,8 @@ header {
 }
 
 .header-logo {
-    height: 3em;
+    height: 4em;
     margin-right: 1em;
-    transform: scale(1.25);
 }
 
 .header-title-link {
@@ -212,8 +211,8 @@ footer {
     }
 
     .header-logo {
+        height: 2.5em;
         margin-right: 0.25em;
-        height: 1.5em;
     }
 
     .header-title {

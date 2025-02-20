@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Crypto Trading Flow</title>
+    <style>
+        body {
+            color: white;
+            background-color: #000;
+            font-family: Arial, sans-serif;
+            background-image: url('../static/background/CTF_background.webp');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            flex-direction: column;
+            align-items: center;
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        @media (max-width: 768px) {
+            body {
+                background-image: url('../static/background/CTF_background_mobile.webp');
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../styles/login.css" media="print" onload="this.media='all'"></head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="/" class="header-logo-link">
+                <img src="../static/logo/CTF_logo_transparent.png" alt="Logo" class="header-logo">
+            </a>
+            <a href="/" class="header-title-link">
+                <h2 class="header-title">Crypto Trading Flow</h2>
+            </a>
+        </div>
+        <div class="header-login">
+            <a href="/login" class="button header-button">Sign In</a>
+        </div>
+    </header>
+    <main>
+        <section id="login">
+            <div class="login-content">
+                <h1 class="login-title">Sign In</h1>
+                <form id="login-form">
+                    <div id="login-message-container" class="login-message-container"></div>
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" name="email" placeholder="Enter email address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" name="password" placeholder="Enter password" required>
+                    </div>
+                    <div class="form-group-text">
+                        <label for="sign-up">
+                            Don't have an account?
+                            <a href="/register" class="register-link">Sign up</a>
+                            <br><br>Forgot your password?
+                            <a href="/reset-password" class="reset-link">Reset password</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="button login-button">Login</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-links">
+            <a href="/terms-and-conditions" class="footer-link">Terms and Conditions</a>
+            <span class="footer-separator">|</span>
+            <a href="/privacy-policy" class="footer-link">Privacy Policy</a>
+        </div>
+        <div class="footer-social-links">
+            <a href="https://discord.gg/fxNe2x8SCD" class="footer-discord-link">
+                <img src="../static/icon/discord_icon.png" alt="Discord Icon" class="footer-discord">
+            </a>
+            <a href="https://t.me/cryptotradingflow" class="footer-telegram-link">
+                <img src="../static/icon/telegram_icon.png" alt="Telegram Icon" class="footer-telegram">
+            </a>
+        </div>
+    </footer>
+    <script src="../scripts/login.js"></script>
+</body>
+</html>

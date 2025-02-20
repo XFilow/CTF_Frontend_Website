@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Crypto Trading Flow</title>
+    <link rel="stylesheet" href="../styles/register.css">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="/" class="header-logo-link">
+                <img src="../static/logo/CTF_logo_transparent.png" alt="Logo" class="header-logo">
+            </a>
+            <a href="/" class="header-title-link">
+                <h2 class="header-title">Crypto Trading Flow</h2>
+            </a>
+        </div>
+        <div class="header-login">
+            <a href="/login" class="button header-button">Sign In</a>
+        </div>
+    </header>
+    <main>
+        <section id="register">
+            <div class="register-content">
+                <h1 class="register-title">Sign Up</h1>
+                <div id="new-register-form" class="form-container active">
+                    <div id="register-container" class="form-register-container"></div>
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter email address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Enter password" required>
+                        </div>
+                        <div class="form-group-text">
+                            <label for="terms">
+                                <input type="checkbox" id="terms" name="terms" required>
+                                I confirm that I am over 18 years old and have read and agree to the
+                                <a href="/terms-and-conditions" class="terms-link">Terms and Conditions</a> and
+                                <a href="/privacy-policy" class="privacy-link">Privacy Policy</a>.
+                            </label>
+                        </div>
+                        <button type="submit" class="button register-button">Register</button>
+                    </form>
+                </div>
+                <div id="verify-code-form" class="form-container">
+                    <div id="code-container" class="form-code-container"></div>
+                    <form id="code-form">
+                        <label for="code">Code</label>
+                        <input type="text" id="code" name="code" placeholder="Enter 6 digit code" required>
+                        <button type="submit" class="button code-button">Verify Code</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-links">
+            <a href="/terms-and-conditions" class="footer-link">Terms and Conditions</a>
+            <span class="footer-separator">|</span>
+            <a href="/privacy-policy" class="footer-link">Privacy Policy</a>
+        </div>
+        <div class="footer-social-links">
+            <a href="https://discord.gg/fxNe2x8SCD" class="footer-discord-link">
+                <img src="../static/icon/discord_icon.png" alt="Discord Icon" class="footer-discord">
+            </a>
+            <a href="https://t.me/cryptotradingflow" class="footer-telegram-link">
+                <img src="../static/icon/telegram_icon.png" alt="Telegram Icon" class="footer-telegram">
+            </a>
+        </div>
+    </footer>
+    <script src="../scripts/register.js"></script>
+</body>
+</html>

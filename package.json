@@ -1,0 +1,23 @@
+{
+  "name": "ctf_flow_website",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Filow",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "mysql2": "^3.12.0",
+    "nanoid": "^5.1.0",
+    "nodemailer": "^6.10.0",
+    "express-rate-limit": "^7.5.0"
+  },
+  "scripts": {
+    "build": "exit 0",
+    "start": "node server.js"
+  }
+}

@@ -1,0 +1,434 @@
+body {
+    font-family: Arial, sans-serif;
+    color: white;
+    background-color: #000;
+    background-image: url('../static/background/CTF_background.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    position: fixed;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: space-between;
+    border-bottom: 1px solid white;
+    width: 100%;
+    height: 5em;
+    padding: 0 2em;
+    top: 0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.header-logo {
+    height: 3em;
+    margin-right: 1em;
+}
+
+.header-title-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.header-title {
+    text-align: left;
+    font-size: 2em;
+    margin: 0;
+}
+
+.header-login {
+    display: flex;
+    align-items: center;
+}
+
+main {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    margin: 1em auto;
+    border-radius: 10px;
+    font-size: 1.5em;
+    max-width: 100%;
+    padding: 2em;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-title {
+    font-size: 4em;
+    margin-bottom: 1em;
+}
+
+.main-subtitle {
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+
+.typing-effect {
+    color: white;
+    overflow: hidden;
+    display: inline-block;
+    border-right: 0.15em solid white;
+    animation: caret 0.7s steps(1) infinite;
+    font-size: 1em;
+    min-height: 1em;
+    height: 1.25em;
+    margin-bottom: 1em;
+}
+
+@keyframes caret {
+    50% {
+        border-color: transparent;
+    }
+}
+
+.button {
+    text-decoration: none;
+    padding: 0.5em 1em;
+    font-size: 1em;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.header-button {
+    color: white;
+    background-color: black;
+    border: 2px solid white;
+}
+
+.header-button:hover {
+    color: black;
+    background-color: white;
+}
+
+.main-button {
+    color: white;
+    background-color: transparent;
+    display: inline-block;
+    margin: 3.5em auto;
+    border: 2px solid white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
+.main-button:hover {
+    color: black;
+    background-color: white;
+    text-shadow: none;
+}
+
+footer {
+    color: white;
+    background-color: black;
+    text-align: center;
+    display: flex;
+    position: fixed;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: space-between;
+    border-top: 1px solid white;
+    padding: 1em 2em;
+    width: 100%;
+    bottom: 0;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-link:hover {
+    color: grey;
+}
+
+.footer-separator {
+    color: white;
+    margin: 0 0.5em;
+}
+
+.footer-social-links {
+    display: flex;
+    align-items: center;
+}
+
+.footer-discord-link,
+.footer-telegram-link {
+    text-decoration: none;
+    margin-left: 1em;
+}
+
+.footer-discord,
+.footer-telegram {
+    background: transparent;
+    height: 1.5em;
+}
+
+<<<<<<< HEAD
+/* Media queries for smartphones */
+=======
+/* Media queries for smartphones and smaller devices */
+>>>>>>> 589cdf1 (reverted syle changes)
+@media (max-width: 480px) {
+    body {
+        background-image: url('../static/background/CTF_background_mobile.webp');
+    }
+
+<<<<<<< HEAD
+    header {
+        height: 3em;
+        padding: 0 0.5em;
+    }
+
+    .header-logo {
+        margin-right: 0.5em;
+        height: 1.5em;
+    }
+
+    .header-title {
+        font-size: 1.2em;
+    }
+
+    main {
+        padding: 0.5em;
+        font-size: 1em;
+    }
+
+    .main-title {
+        margin-top: 2em;
+        font-size: 2em;
+    }
+
+    .main-subtitle {
+        font-size: 1.2em;
+    }
+
+    .typing-effect {
+        font-size: 0.8em;
+    }
+
+    footer {
+        padding: 0.5em 0.5em;
+    }
+
+    .footer-links {
+        font-size: 0.8em;
+    }
+
+    .footer-discord,
+    .footer-telegram {
+        height: 1em;
+    }
+
+    .header-button {
+        padding: 0.3em 0.8em;
+        font-size: 0.8em;
+    }
+}
+
+/* Media queries for tablets */
+@media (max-width: 768px) {
+    body {
+        background-image: url('../static/background/CTF_background_mobile.webp');
+    }
+
+    header {
+        height: 4em;
+        padding: 0 1em;
+    }
+
+    .header-logo {
+        margin-right: 0.75em;
+        height: 2em;
+    }
+
+    .header-title {
+        font-size: 1.5em;
+    }
+
+    main {
+        padding: 1em;
+        font-size: 1.2em;
+    }
+
+    .main-title {
+        margin-top: 3em;
+        font-size: 3em;
+    }
+
+    .main-subtitle {
+        font-size: 1.5em;
+    }
+
+    .typing-effect {
+        font-size: 0.9em;
+    }
+
+    footer {
+        padding: 0.5em 1em;
+    }
+
+    .footer-links {
+        font-size: 0.9em;
+    }
+
+    .footer-discord,
+    .footer-telegram {
+        height: 1.2em;
+    }
+
+    .header-button {
+        padding: 0.4em 0.9em;
+        font-size: 0.9em;
+    }
+}
+
+/* Media queries for small desktops */
+@media (max-width: 1024px) {
+=======
+>>>>>>> 589cdf1 (reverted syle changes)
+    header {
+        height: 4.5em;
+        padding: 0 1.5em;
+    }
+
+    .header-logo {
+        margin-right: 1em;
+        height: 2.5em;
+    }
+
+    .header-title {
+        font-size: 1.75em;
+    }
+
+    main {
+        padding: 1.5em;
+        font-size: 1.35em;
+    }
+
+    .main-title {
+        margin-top: 2.5em;
+        font-size: 3.5em;
+    }
+
+    .main-subtitle {
+        font-size: 1.75em;
+    }
+
+    .typing-effect {
+        font-size: 1em;
+    }
+
+    footer {
+        padding: 0.75em 1.5em;
+    }
+
+    .footer-links {
+        font-size: 1em;
+    }
+
+    .footer-discord,
+    .footer-telegram {
+        height: 1.35em;
+    }
+
+    .header-button {
+        padding: 0.5em 1em;
+        font-size: 1em;
+    }
+}
+
+/* Media queries for tablets and smaller devices */
+@media (max-width: 768px) {
+    body {
+        background-image: url('../static/background/CTF_background_mobile.webp');
+    }
+
+    header {
+        height: 4em;
+        padding: 0 1em;
+    }
+
+    .header-logo {
+        margin-right: 0.75em;
+        height: 2em;
+    }
+
+    .header-title {
+        font-size: 1.5em;
+    }
+
+    main {
+        padding: 1em;
+        font-size: 1.2em;
+    }
+
+    .main-title {
+        margin-top: 3em;
+        font-size: 3em;
+    }
+
+    .main-subtitle {
+        font-size: 1.5em;
+    }
+
+    .typing-effect {
+        font-size: 0.9em;
+    }
+
+    footer {
+        padding: 0.5em 1em;
+    }
+
+    .footer-links {
+        font-size: 0.9em;
+    }
+
+    .footer-discord,
+    .footer-telegram {
+        height: 1.2em;
+    }
+
+    .header-button {
+        padding: 0.4em 0.9em;
+        font-size: 0.9em;
+    }
+}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trader Dashboard</title>
+    <link rel="stylesheet" href="../styles/trader.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="logo.png" alt="Logo" class="logo">
+                <h2>WunderTrading</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Exchanges</a></li>
+                <li><a href="#">Analytics</a></li>
+                <li><a href="#">Positions</a></li>
+                <li><a href="#">Copy-Trading</a></li>
+                <li><a href="#">Help Center</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <a href="#" class="support-link">Support</a>
+                <div class="social-links">
+                    <a href="#"><img src="twitter.png" alt="Twitter"></a>
+                    <a href="#"><img src="telegram.png" alt="Telegram"></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Dashboard</h1>
+                <div class="quick-start">
+                    <select>
+                        <option>Quick start</option>
+                    </select>
+                </div>
+                <div class="notifications">
+                    <a href="#">Not Telegram Notifications</a>
+                    <a href="#">Start plan: 40 days left</a>
+                </div>
+            </div>
+            <div class="content">
+                <div class="section">
+                    <h2>Explore best trades</h2>
+                    <div class="cards">
+                        <div class="card">
+                            <h3>Profit and Loss</h3>
+                            <div class="card-content">
+                                <div class="summary">
+                                    <p>7 days P/L: $0</p>
+                                    <p>30 days P/L: $0</p>
+                                    <p>Overall: $45.62</p>
+                                </div>
+                                <div class="bots">
+                                    <div class="bot">
+                                        <h4>AI Bot</h4>
+                                        <p>Active Bots: 0</p>
+                                        <p>Realized P/L: $0</p>
+                                        <p>Unrealized P/L: $0</p>
+                                    </div>
+                                    <div class="bot">
+                                        <h4>DCA Bots</h4>
+                                        <p>Active Bots: 0</p>
+                                        <p>Realized P/L: $0</p>
+                                        <p>Unrealized P/L: $0</p>
+                                    </div>
+                                    <div class="bot">
+                                        <h4>Grid Bots</h4>
+                                        <p>Active Bots: 0</p>
+                                        <p>Realized P/L: $0</p>
+                                        <p>Unrealized P/L: $0</p>
+                                    </div>
+                                    <div class="bot">
+                                        <h4>Signal Bots</h4>
+                                        <p>Active Bots: 1</p>
+                                        <p>Realized P/L: $4.08</p>
+                                        <p>Unrealized P/L: $0</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Assets</h3>
+                            <div class="card-content">
+                                <div class="portfolio">
+                                    <h4>Portfolio value</h4>
+                                    <p>$4.21</p>
+                                    <p>BTC 0.00069809</p>
+                                    <p>ETH 0.00108574</p>
+                                </div>
+                                <div class="portfolio-details">
+                                    <h4>By Coin</h4>
+                                    <p>B BNPCR 100% $4.21</p>
+                                    <h4>By Exchange</h4>
+                                    <p>4.21456544 $4.21</p>
+                                    <h4>By API</h4>
+                                    <p>$4.21</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Analytics</h3>
+                            <div class="card-content">
+                                <div class="traders">
+                                    <select>
+                                        <option>Traders</option>
+                                    </select>
+                                    <select>
+                                        <option>Signal Bots</option>
+                                    </select>
+                                </div>
+                                <div class="trader-details">
+                                    <select>
+                                        <option>Month</option>
+                                    </select>
+                                    <select>
+                                        <option>Min. trades quantity</option>
+                                        <option>10</option>
+                                    </select>
+                                </div>
+                                <div class="trader-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Name/Account</th>
+                                                <th>Exchange</th>
+                                                <th>P/L %</th>
+                                                <th>P/L</th>
+                                                <th>ROI %</th>
+                                                <th>Trades</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="7">No traders found</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

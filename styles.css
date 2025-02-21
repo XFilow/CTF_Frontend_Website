@@ -232,11 +232,11 @@ footer {
     
     .header-buttons {
         padding: 0.4em 0.6em;
-        font-size: 0.8em;
+        font-size: 1em;
     }
 
     .login-button {
-        margin-right: 0.5em;
+        margin-right: 0.75em;
     }
 
     main {
@@ -289,11 +289,11 @@ footer {
     
     .header-buttons {
         padding: 0.3em 0.5em;
-        font-size: 0.6em;
+        font-size: 0.75em;
     }
 
     .login-button {
-        margin-right: 0.25em;
+        margin-right: 0.5em;
     }
 
     main {

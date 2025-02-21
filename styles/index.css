@@ -124,7 +124,6 @@ main {
     color: white;
     background-color: black;
     border: 3px solid white;
-    font-size: 1.25em;
 }
 
 .header-button:hover {
@@ -216,12 +215,13 @@ footer {
     }
 
     .header-title {
-        font-size: 1.5em;
+        font-size: 1.75em;
     }
     
     .header-button {
         padding: 0.4em 0.9em;
         margin-right: 0.5em;
+        font-size: 1.1em;
     }
 
     main {
@@ -236,10 +236,6 @@ footer {
     
     .main-subtitle {
         font-size: 2em;
-    }
-
-    .typing-effect {
-        font-size: 1em;
     }
 
     footer {
@@ -283,6 +279,7 @@ footer {
     .header-button {
         padding: 0.3em 0.8em;
         margin-right: 0.25em;
+        font-size: 1em;
     }
 
     main {
@@ -297,10 +294,6 @@ footer {
     
     .main-subtitle {
         font-size: 1.75em;
-    }
-
-    .typing-effect {
-        font-size: 1em;
     }
 
     footer {

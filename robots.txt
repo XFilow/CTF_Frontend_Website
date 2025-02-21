@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://cryptotradingflow.com/sitemap.xml

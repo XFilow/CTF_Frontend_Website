@@ -206,7 +206,7 @@ footer {
 
     header {
         height: 4em;
-        padding: 0 1em;
+        padding-right: 1em;
     }
 
     .header-logo {
@@ -239,20 +239,16 @@ footer {
     }
 
     footer {
-        padding: 0.5em 1em;
+        padding-right: 0.75em;
     }
 
     .footer-links {
         font-size: 0.9em;
     }
 
-    .footer-discord {
-        height: 1.2em;
-    }
-
+    .footer-discord,
     .footer-telegram {
         height: 1.2em;
-        margin-right:  0.5em;
     }
 }
 
@@ -264,7 +260,7 @@ footer {
 
     header {
         height: 3.5em;
-        padding: 0 0.5em;
+        padding-right: 0.75em;
     }
 
     .header-logo {
@@ -304,13 +300,8 @@ footer {
         font-size: 0.8em;
     }
 
-    .footer-discord {
-        height: 1em;
-    }
-
+    .footer-discord,
     .footer-telegram {
         height: 1em;
-        margin-right:  0.25em;
     }
-
 }

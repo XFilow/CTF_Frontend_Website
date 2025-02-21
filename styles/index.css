@@ -178,18 +178,19 @@ footer {
     align-items: center;
 }
 
-.footer-link {
+.footer-terms-link,
+.footer-privacy-link {
     color: white;
     text-decoration: none;
     transition: color 0.3s;
 }
 
-.footer-link:hover {
+.footer-terms-link:hover,
+.footer-privacy-link:hover {
     color: grey;
 }
 
 .footer-separator {
-    color: white;
     margin: 0 0.5em;
 }
 
@@ -198,12 +199,14 @@ footer {
     align-items: center;
 }
 
+.footer-twitter-link,
 .footer-discord-link,
 .footer-telegram-link {
     text-decoration: none;
     margin-left: 1em;
 }
 
+.footer-twitter,
 .footer-discord,
 .footer-telegram {
     background: transparent;
@@ -261,6 +264,10 @@ footer {
         font-size: 0.9em;
     }
 
+    .footer-separator {
+        margin: 0 0.4em;
+    }
+
     .footer-discord,
     .footer-telegram {
         height: 1.2em;
@@ -316,6 +323,10 @@ footer {
 
     .footer-links {
         font-size: 0.8em;
+    }
+
+    .footer-separator {
+        margin: 0 0.3em;
     }
 
     .footer-discord,

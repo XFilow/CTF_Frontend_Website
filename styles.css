@@ -52,7 +52,7 @@ header {
 
 .header-logo {
     height: 4em;
-    margin-right: 1em;
+    margin-right: 0.5em;
 }
 
 .header-title-link {
@@ -62,7 +62,6 @@ header {
 
 .header-title {
     font-size: 2.5em;
-    margin: 0;
 }
 
 .header-buttons {
@@ -75,6 +74,7 @@ header {
     color: white;
     background-color: black;
     border: 2px solid white;
+    margin-right: 1em;
 }
 
 .login-button:hover {
@@ -85,7 +85,6 @@ header {
     color: black;
     background-color: white;
     border: 2px solid black;
-    margin: 0 0.75em;
 }
 
 .register-button:hover {
@@ -219,12 +218,12 @@ footer {
 
     header {
         height: 4em;
-        padding: 0.3em;
+        padding: 0.5em;
     }
 
     .header-logo {
         height: 3em;
-        margin-right: 0.3em;
+        margin-right: 0.25em;
     }
 
     .header-title {
@@ -236,8 +235,8 @@ footer {
         font-size: 0.8em;
     }
 
-    .register-button {
-        margin: 0 0.5em;
+    .login-button {
+        margin-right: 0.5em;
     }
 
     main {
@@ -280,8 +279,8 @@ footer {
     }
 
     .header-logo {
-        height: 2.5em;
-        margin-right: 0.15em;
+        height: 2.3em;
+        margin-right: 0.1em;
     }
 
     .header-title {
@@ -293,8 +292,8 @@ footer {
         font-size: 0.6em;
     }
 
-    .register-button {
-        margin: 0 0.25em;
+    .login-button {
+        margin-right: 0.25em;
     }
 
     main {

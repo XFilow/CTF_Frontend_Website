@@ -222,7 +222,7 @@ footer {
 
     header {
         height: 4em;
-        padding: 0.5em;
+        padding: 0.3em;
     }
 
     .header-logo {
@@ -279,7 +279,7 @@ footer {
 
     header {
         height: 3.5em;
-        padding: 0.25em;
+        padding: 0.1em;
     }
 
     .header-logo {
@@ -293,7 +293,7 @@ footer {
     
     .header-buttons {
         padding: 0.3em 0.5em;
-        font-size: 0.5em;
+        font-size: 0.75em;
     }
 
     .register-button {

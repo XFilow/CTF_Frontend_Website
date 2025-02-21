@@ -43,7 +43,7 @@ header {
 
 .header-logo {
     height: 4em;
-    margin: 0 1em;
+    margin-right: 1em;
 }
 
 .header-title-link {
@@ -210,8 +210,8 @@ footer {
     }
 
     .header-logo {
-        margin-right: 0.5em;
         height: 3em;
+        margin-right: 0.5em;
     }
 
     .header-title {

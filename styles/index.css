@@ -131,8 +131,7 @@ main {
 }
 
 .login-button:hover {
-    color: black;
-    background-color: white;
+    background-color: navy;
 }
 
 .register-button {
@@ -144,7 +143,7 @@ main {
 
 .register-button:hover {
     color: white;
-    background-color: black;
+    background-color: navy;
     border: 2px solid white;
 }
 

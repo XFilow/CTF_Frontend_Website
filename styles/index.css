@@ -124,6 +124,7 @@ main {
     color: white;
     background-color: black;
     border: 2px solid white;
+    margin-right: 0.3em;
 }
 
 .login-button:hover {
@@ -236,6 +237,10 @@ footer {
         font-size: 0.8em;
     }
 
+    .login-button {
+        margin-right: 0.2em;
+    }
+    
     .register-button {
         margin: 0 0.5em;
     }
@@ -291,6 +296,10 @@ footer {
     .header-buttons {
         padding: 0.3em 0.5em;
         font-size: 0.6em;
+    }
+
+    .login-button {
+        margin-right: 0.1em;
     }
 
     .register-button {

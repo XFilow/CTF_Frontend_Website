@@ -222,7 +222,7 @@ footer {
 
     header {
         height: 4em;
-        padding-right: 1em;
+        padding: 0.5em;
     }
 
     .header-logo {
@@ -231,7 +231,7 @@ footer {
     }
 
     .header-title {
-        font-size: 1.75em;
+        font-size: 2em;
     }
     
     .header-buttons {
@@ -279,7 +279,7 @@ footer {
 
     header {
         height: 3.5em;
-        padding-right: 0.75em;
+        padding: 0.25em;
     }
 
     .header-logo {
@@ -288,7 +288,7 @@ footer {
     }
 
     .header-title {
-        font-size: 1.25em;
+        font-size: 1.5em;
     }
     
     .header-buttons {

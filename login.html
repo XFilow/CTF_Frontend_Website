@@ -4,32 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Crypto Trading Flow</title>
-    <style>
-        body {
-            color: white;
-            background-color: #000;
-            font-family: Arial, sans-serif;
-            background-image: url('../static/background/CTF_background.webp');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            flex-direction: column;
-            align-items: center;
-            display: flex;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-        }
-        @media (max-width: 768px) {
-            body {
-                background-image: url('../static/background/CTF_background_mobile.webp');
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="../styles/login.css" media="print" onload="this.media='all'"></head>
+    <link rel="stylesheet" href="../styles/login.css">
 <body>
     <header>
-        <div class="header-left">
+        <div class="header-ctf">
             <a href="/" class="header-logo-link">
                 <img src="../static/logo/CTF_logo_transparent.png" alt="Logo" class="header-logo">
             </a>
@@ -37,8 +15,9 @@
                 <h2 class="header-title">Crypto Trading Flow</h2>
             </a>
         </div>
-        <div class="header-login">
-            <a href="/login" class="button header-button">Sign In</a>
+        <div class="header-buttons">
+            <a href="/login" class="button login-button">Sign In</a>
+            <a href="/register" class="button register-button">Sign Up</a>
         </div>
     </header>
     <main>
@@ -47,16 +26,16 @@
                 <h1 class="login-title">Sign In</h1>
                 <form id="login-form">
                     <div id="login-message-container" class="login-message-container"></div>
-                    <div class="form-group">
+                    <div class="login-form-email">
                         <label for="login-email">Email</label>
                         <input type="email" id="login-email" name="email" placeholder="Enter email address" required>
                     </div>
-                    <div class="form-group">
+                    <div class="login-form-password">
                         <label for="login-password">Password</label>
                         <input type="password" id="login-password" name="password" placeholder="Enter password" required>
                     </div>
-                    <div class="form-group-text">
-                        <label for="sign-up">
+                    <div class="login-form-text">
+                        <label for="login-text">
                             Don't have an account?
                             <a href="/register" class="register-link">Sign up</a>
                             <br><br>Forgot your password?

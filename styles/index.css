@@ -199,7 +199,7 @@ footer {
     height: 1.25em;
 }
 
-/* Media queries for tablets and smaller devices */
+/* Media queries for tablets */
 @media (max-width: 768px) {
     body {
         background-image: url('../static/background/CTF_background_mobile.webp');
@@ -211,8 +211,8 @@ footer {
     }
 
     .header-logo {
-        margin-right: 0.75em;
-        height: 2em;
+        margin-right: 0.5em;
+        height: 3em;
     }
 
     .header-title {
@@ -220,27 +220,26 @@ footer {
     }
     
     .header-button {
-        border: 2px solid white;
         padding: 0.4em 0.9em;
-        font-size: 0.9em;
+        margin-right: 0.5em;
     }
 
     main {
         padding: 1em;
-        font-size: 1.2em;
+        font-size: 1.25em;
     }
 
     .main-title {
         font-size: 3em;
-        margin-top: 1em;
+        margin-top: 1.5em;
     }
     
     .main-subtitle {
-        font-size: 1.5em;
+        font-size: 2em;
     }
 
     .typing-effect {
-        font-size: 0.9em;
+        font-size: 1em;
     }
 
     footer {
@@ -251,12 +250,15 @@ footer {
         font-size: 0.9em;
     }
 
-    .footer-discord,
-    .footer-telegram {
+    .footer-discord {
         height: 1.2em;
     }
-}
 
+    .footer-telegram {
+        height: 1.2em;
+        margin-right:  0.5em;
+    }
+}
 
 /* Media queries for smartphones */
 @media (max-width: 480px) {
@@ -280,6 +282,7 @@ footer {
     
     .header-button {
         padding: 0.3em 0.8em;
+        margin-right: 0.25em;
     }
 
     main {
@@ -314,7 +317,7 @@ footer {
 
     .footer-telegram {
         height: 1em;
-        padding-right:  0.5em;
+        margin-right:  0.25em;
     }
 
 }

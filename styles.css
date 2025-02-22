@@ -201,12 +201,12 @@ main {
     overflow-y: auto;
     background-color: rgba(0, 0, 0, 0.9);
     border: 1px solid white;
-    margin: auto 4em;
+    margin: auto 2em;
     font-size: 0.8em;
     border-radius: 10px;
     max-height: 700px;
-    padding: 3em;
-    margin-bottom: 3em;
+    padding: 2em;
+    margin-bottom: 4em;
 }
 
 .status-message {
@@ -370,9 +370,8 @@ footer {
     }
 
     .scrollable-box {
-        margin: auto 2em;
-        padding: 2em;
-        margin-bottom: 2em;
+        margin: auto 1.5em;
+        padding: 1.5em;
     }
 
     footer {
@@ -437,7 +436,6 @@ footer {
     .scrollable-box {
         margin: auto 1em;
         padding: 1em;
-        margin-bottom: 1em;
     }
 
     footer {

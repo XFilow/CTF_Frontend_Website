@@ -322,7 +322,7 @@ footer {
     margin-left: 1em;
 }
 
-.footer-icon {
+.footer-icons {
     background: transparent;
     height: 1.25em;
 }
@@ -374,7 +374,7 @@ footer {
         padding: 0.6em 0.75em;
     }
 
-    .footer-links {
+    .footer-text-links {
         font-size: 0.9em;
     }
 
@@ -382,8 +382,7 @@ footer {
         margin: 0 0.4em;
     }
 
-    .footer-discord,
-    .footer-telegram {
+    .footer-icons {
         height: 1.2em;
     }
 }
@@ -435,7 +434,7 @@ footer {
         padding: 0.5em 0.5em;
     }
 
-    .footer-links {
+    .footer-text-links {
         font-size: 0.8em;
     }
 
@@ -443,8 +442,7 @@ footer {
         margin: 0 0.3em;
     }
 
-    .footer-discord,
-    .footer-telegram {
+    .footer-icons {
         height: 1em;
     }
 }

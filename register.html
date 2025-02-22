@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Crypto Trading Flow</title>
-    <link rel="stylesheet" href="../styles/register.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
@@ -23,56 +23,56 @@
     </header>
     <main>
         <section id="register">
-            <div class="register-content">
-                <h1 class="register-title">Sign Up</h1>
-                <div id="register-form-container" class="register-form-container active">
-                    <div id="register-message" class="register-message"></div>
-                    <form id="register-form">
-                        <div class="register-form-email">
+            <div class="main-content">
+                <h1 class="main-subtitle">Sign Up</h1>
+                <div id="register-form-container" class="form-container active">
+                    <div id="register-message" class="status-message"></div>
+                    <form id="register-email-form">
+                        <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" id="email" name="email" placeholder="Enter email address" required>
                         </div>
-                        <div class="register-form-password">
+                        <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" id="password" name="password" placeholder="Enter password" required>
                         </div>
-                        <div class="register-form-text">
+                        <div class="form-text">
                             <label for="terms">
                                 <input type="checkbox" id="terms" name="terms" required>
                                 I confirm that I am over 18 years old and have read and agree to the
-                                <a href="/terms-and-conditions" class="terms-link">Terms and Conditions</a> and
-                                <a href="/privacy-policy" class="privacy-link">Privacy Policy</a>.
+                                <a href="/terms-and-conditions" class="form-link">Terms and Conditions</a> and
+                                <a href="/privacy-policy" class="form-link">Privacy Policy</a>.
                             </label>
                         </div>
-                        <button type="submit" class="button register-button">Register</button>
+                        <button type="submit" class="button submit-button">Register</button>
                     </form>
                 </div>
-                <div id="code-form-container" class="code-form-container">
-                    <div id="code-message" class="code-message"></div>
-                    <form id="code-form">
+                <div id="code-form-container" class="form-container">
+                    <div id="register-code-message" class="status-message"></div>
+                    <form id="register-code-form">
                         <label for="code">Code</label>
                         <input type="text" id="code" name="code" placeholder="Enter 6 digit code" required>
-                        <button type="submit" class="button code-button">Verify Code</button>
+                        <button type="submit" class="button submit-button">Verify Code</button>
                     </form>
                 </div>
             </div>
         </section>
     </main>
     <footer>
-        <div class="footer-links">
-            <a href="/terms-and-conditions" class="footer-terms-link">Terms and Conditions</a>
+        <div class="footer-text-links">
+            <a href="/terms-and-conditions" class="footer-text-link">Terms and Conditions</a>
             <span class="footer-separator">|</span>
-            <a href="/privacy-policy" class="footer-privacy-link">Privacy Policy</a>
+            <a href="/privacy-policy" class="footer-text-link">Privacy Policy</a>
         </div>
-        <div class="footer-social-links">
-            <a href="https://x.com/CTF_314" class="footer-twitter-link">
-                <img src="../static/icon/twitter_icon.png" alt="Twitter Icon" class="footer-twitter">
+        <div class="footer-icon-links">
+            <a href="https://x.com/CTF_314" class="footer-icon-link">
+                <img src="../static/icon/twitter_icon.png" alt="Twitter Icon" class="footer-icon">
             </a>
-            <a href="https://discord.gg/fxNe2x8SCD" class="footer-discord-link">
-                <img src="../static/icon/discord_icon.png" alt="Discord Icon" class="footer-discord">
+            <a href="https://discord.gg/fxNe2x8SCD" class="footer-icon-link">
+                <img src="../static/icon/discord_icon.png" alt="Discord Icon" class="footer-icon">
             </a>
-            <a href="https://t.me/cryptotradingflow" class="footer-telegram-link">
-                <img src="../static/icon/telegram_icon.png" alt="Telegram Icon" class="footer-telegram">
+            <a href="https://t.me/cryptotradingflow" class="footer-icon-link">
+                <img src="../static/icon/telegram_icon.png" alt="Telegram Icon" class="footer-icon">
             </a>
         </div>
     </footer>

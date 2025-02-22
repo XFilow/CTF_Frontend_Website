@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Crypto Trading Flow</title>
-    <link rel="stylesheet" href="../styles/login.css">
+    <link rel="stylesheet" href="styles.css">
 <body>
     <header>
         <div class="header-ctf">
@@ -22,46 +22,46 @@
     </header>
     <main>
         <section id="login">
-            <div class="login-content">
-                <h1 class="login-title">Sign In</h1>
+            <div class="main-content">
+                <h1 class="main-subtitle">Sign In</h1>
+                <div id="login-message" class="status-message"></div>
                 <form id="login-form">
-                    <div id="login-message-container" class="login-message-container"></div>
-                    <div class="login-form-email">
+                    <div class="form-group">
                         <label for="login-email">Email</label>
                         <input type="email" id="login-email" name="email" placeholder="Enter email address" required>
                     </div>
-                    <div class="login-form-password">
+                    <div class="form-group">
                         <label for="login-password">Password</label>
                         <input type="password" id="login-password" name="password" placeholder="Enter password" required>
                     </div>
-                    <div class="login-form-text">
+                    <div class="form-text">
                         <label for="login-text">
                             Don't have an account?
-                            <a href="/register" class="register-link">Sign up</a>
+                            <a href="/register" class="form-link">Sign up</a>
                             <br><br>Forgot your password?
-                            <a href="/reset-password" class="reset-link">Reset password</a>
+                            <a href="/reset-password" class="form-link">Reset password</a>
                         </label>
                     </div>
-                    <button type="submit" class="button login-button">Login</button>
+                    <button type="submit" class="button submit-button">Login</button>
                 </form>
             </div>
         </section>
     </main>
     <footer>
-        <div class="footer-links">
-            <a href="/terms-and-conditions" class="footer-terms-link">Terms and Conditions</a>
+        <div class="footer-text-links">
+            <a href="/terms-and-conditions" class="footer-text-link">Terms and Conditions</a>
             <span class="footer-separator">|</span>
-            <a href="/privacy-policy" class="footer-privacy-link">Privacy Policy</a>
+            <a href="/privacy-policy" class="footer-text-link">Privacy Policy</a>
         </div>
-        <div class="footer-social-links">
-            <a href="https://x.com/CTF_314" class="footer-twitter-link">
-                <img src="../static/icon/twitter_icon.png" alt="Twitter Icon" class="footer-twitter">
+        <div class="footer-icon-links">
+            <a href="https://x.com/CTF_314" class="footer-icon-link">
+                <img src="../static/icon/twitter_icon.png" alt="Twitter Icon" class="footer-icon">
             </a>
-            <a href="https://discord.gg/fxNe2x8SCD" class="footer-discord-link">
-                <img src="../static/icon/discord_icon.png" alt="Discord Icon" class="footer-discord">
+            <a href="https://discord.gg/fxNe2x8SCD" class="footer-icon-link">
+                <img src="../static/icon/discord_icon.png" alt="Discord Icon" class="footer-icon">
             </a>
-            <a href="https://t.me/cryptotradingflow" class="footer-telegram-link">
-                <img src="../static/icon/telegram_icon.png" alt="Telegram Icon" class="footer-telegram">
+            <a href="https://t.me/cryptotradingflow" class="footer-icon-link">
+                <img src="../static/icon/telegram_icon.png" alt="Telegram Icon" class="footer-icon">
             </a>
         </div>
     </footer>

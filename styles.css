@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     color: white;
     background-color: #000;
-    background-image: url('../static/background/CTF_background.webp');
+    background-image: url('../static/backgrounds/CTF_background.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -329,7 +329,7 @@ footer {
 /* Media queries for tablets */
 @media (max-width: 768px) {
     body {
-        background-image: url('../static/background/CTF_background_mobile.webp');
+        background-image: url('../static/backgrounds/CTF_background_mobile.webp');
     }
 
     header {
@@ -393,7 +393,7 @@ footer {
 /* Media queries for smartphones */
 @media (max-width: 480px) {
     body {
-        background-image: url('../static/background/CTF_background_mobile.webp');
+        background-image: url('../static/backgrounds/CTF_background_mobile.webp');
     }
 
     header {

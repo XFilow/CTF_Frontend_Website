@@ -9,54 +9,88 @@
 <body>
     <div class="container">
         <!-- Sidebar -->
-        <div class="sidebar">
+        <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="../static/logo/CTF_logo_transparent.webp" alt="Logo" class="sidebar-logo">
-                <h2>CTF</h2>
+                <img src="../static/logos/CTF_logo_transparent.webp" alt="Logo" class="sidebar-logo">
+                <h3>Crypto Trading Flow</h3>
             </div>
-            <ul class="sidebar-menu">
-                <li><a href="#dashboard">Dashboard</a></li>
-                <li><a href="#exchanges">Exchanges</a></li>
-                <li><a href="#analytics">Analytics</a></li>
-                <li><a href="#positions">Positions</a></li>
-                <li><a href="#copy-trading">Copy-Trading</a></li>
-                <li><a href="#help-enter">Help Center</a></li>
-                <li><a href="#donations">Donations</a></li>
-            </ul>
-            <div class="sidebar-footer">
-                <a href="#support" class="support-link">Support</a>
+            <nav class="sidebar-menu">
+                <ul>
+                    <li>
+                        <a href="#dashboard">
+                            <img src="../static/icons/dashboard_icon.png" alt="Dashboard Icon" class="sidebar-icon">
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#exchanges">
+                            <img src="../static/icons/exchanges_icon.png" alt="Exchanges Icon" class="sidebar-icon">
+                            <span>Exchanges</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#analytics">
+                            <img src="../static/icons/analytics_icon.png" alt="Analytics Icon" class="sidebar-icon">
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#positions">
+                            <img src="../static/icons/positions_icon.png" alt="Positions Icon" class="sidebar-icon">
+                            <span>Positions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#copy-trading">
+                            <img src="../static/icons/copy_trading_icon.png" alt="Copy Trading Icon" class="sidebar-icon">
+                            <span>Copy-Trading</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#help-center">
+                            <img src="../static/icons/help_icon.png" alt="Help Icon" class="sidebar-icon">
+                            <span>Help Center</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#donations">
+                            <img src="../static/icons/donations_icon.png" alt="Donations Icon" class="sidebar-icon">
+                            <span>Donations</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <footer class="sidebar-footer">
                 <div class="footer-icon-links">
-                    <a href="https://x.com/CTF_314" class="footer-icon-link">
-                        <img src="../static/icon/twitter_icon.webp" alt="Twitter Icon" class="footer-icons">
+                    <a href="https://x.com/CTF_314" class="footer-icon-link" aria-label="Twitter">
+                        <img src="../static/icons/twitter_icon.webp" alt="Twitter Icon" class="footer-icons">
                     </a>
-                    <a href="https://discord.gg/fxNe2x8SCD" class="footer-icon-link">
-                        <img src="../static/icon/discord_icon.webp" alt="Discord Icon" class="footer-icons">
+                    <a href="https://discord.gg/fxNe2x8SCD" class="footer-icon-link" aria-label="Discord">
+                        <img src="../static/icons/discord_icon.webp" alt="Discord Icon" class="footer-icons">
                     </a>
-                    <a href="https://t.me/cryptotradingflow" class="footer-icon-link">
-                        <img src="../static/icon/telegram_icon.webp" alt="Telegram Icon" class="footer-icons">
+                    <a href="https://t.me/cryptotradingflow" class="footer-icon-link" aria-label="Telegram">
+                        <img src="../static/icons/telegram_icon.webp" alt="Telegram Icon" class="footer-icons">
                     </a>
                 </div>
-            </div>
-        </div>
+            </footer>
+        </aside>
 
         <!-- Main Content -->
-        <div class="main-content">
-            <div class="header">
+        <main class="main-content">
+            <header class="content-header">
                 <h1>Dashboard</h1>
-                <div class="quick-start">
+                <div class="user-menu">
+                    <h4>User</h4>
                     <select>
-                        <option>Quick start</option>
+                        <option><a href="#profile">Profile</a></option>
+                        <option><a href="#settings">Settings</a></option>
+                        <option><a href="#logout">Log Out</a></option>
                     </select>
                 </div>
-                <div class="user-settings">
-                    <a href="#profile">Profile</a>
-                    <a href="#settings">Settings</a>
-                    <a href="#logout">Log Out</a>
-                </div>
-            </div>
-            <div class="content">
-                <div class="section">
-                    <h2>Explore best trades</h2>
+            </header>
+            <div class="content-body">
+                <section class="section">
+                    <h2>Dashboard</h2>
                     <div class="cards">
                         <div class="card">
                             <h3>Profit and Loss</h3>
@@ -88,9 +122,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
-        </div>
+        </main>
     </div>
+    <script src="../scripts/trader.js"></script>
 </body>
 </html>

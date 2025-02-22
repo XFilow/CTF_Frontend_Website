@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     color: white;
-    background-color: #000;
+    background-color: black;
     background-image: url('../static/backgrounds/CTF_background.webp');
     background-size: cover;
     background-position: center;
@@ -26,6 +26,7 @@ body {
     padding: 1em;
     box-sizing: border-box;
     transition: width 0.3s; /* Smooth transition for width changes */
+    overflow: hidden; /* Prevent content overflow */
 }
 
 .sidebar.expanded {
@@ -36,24 +37,28 @@ body {
     display: flex;
     align-items: center;
     margin-bottom: 1em;
-    cursor: pointer; /* Indicate that the logo is clickable */
+    cursor: pointer; /* Indicate that the area is clickable */
 }
 
 .sidebar-logo {
-    height: 4em;
+    height: 3em;
     margin-right: 0.5em;
+}
+
+.sidebar-title {
+    transition: opacity 0.3s; /* Smooth transition for visibility */
 }
 
 .sidebar-menu {
     list-style: none;
     padding: 0;
-    width: 100%;
+    margin: 0;
 }
 
 .sidebar-menu ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    list-style: none; /* Remove default bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
 }
 
 .sidebar-menu li {
@@ -61,10 +66,16 @@ body {
 }
 
 .sidebar-menu a {
+    color: white;
     display: flex;
     align-items: center;
     text-decoration: none;
     padding: 0.5em 1em;
+    transition: background-color 0.3s;
+}
+
+.sidebar-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .sidebar-icon {
@@ -72,12 +83,8 @@ body {
     margin-right: 0.5em;
 }
 
-.sidebar-menu a span {
-    display: inline-block;
-    transition: opacity 0.3s;
-}
-
 /* Icons-only mode */
+body.icons-only .sidebar-title,
 body.icons-only .sidebar-menu a span {
     display: none;
 }
@@ -91,7 +98,7 @@ body.icons-only .main-content {
 }
 
 body.icons-only .content-header {
-    width: calc(100% - 80px); /* Adjust header width */
+    width: calc(100%  80px); /* Adjust header width */
 }
 
 .sidebar-footer {
@@ -122,6 +129,7 @@ body.icons-only .content-header {
     padding: 2em;
     border-left: 1px solid white;
     overflow-y: auto;
+    transition: width 0.3s; /* Smooth transition for width changes */
 }
 
 .content-header {
@@ -137,7 +145,6 @@ body.icons-only .content-header {
     z-index: 1000;
     border-bottom: 1px solid white;
     width: calc(100% - 200px); /* Adjust width based on sidebar width */
-    transition: width 0.3s; /* Smooth transition for width changes */
 }
 
 .main-content.expanded .content-header {
@@ -169,17 +176,6 @@ body.icons-only .content-header {
 .user-menu select option {
     background-color: black;
     color: white;
-}
-
-.user-settings a {
-    text-decoration: none;
-    color: white;
-    margin-left: 1em;
-    font-weight: bold;
-}
-
-.user-settings a:hover {
-    text-decoration: underline;
 }
 
 .content .section {

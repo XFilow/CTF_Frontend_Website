@@ -10,50 +10,50 @@
     <div class="container">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <div class="sidebar-header">
+            <div class="sidebar-header" id="sidebar-toggle">
                 <img src="../static/logos/CTF_logo_transparent.webp" alt="Logo" class="sidebar-logo">
-                <h3>Crypto Trading Flow</h3>
+                <h4 class="sidebar-title">Crypto Trading Flow</h4>
             </div>
             <nav class="sidebar-menu">
                 <ul>
                     <li>
-                        <a href="#dashboard">
+                        <a href="#dashboard" data-content="dashboard-content">
                             <img src="../static/icons/dashboard_icon.png" alt="Dashboard Icon" class="sidebar-icon">
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#exchanges">
+                        <a href="#exchanges" data-content="exchanges-content">
                             <img src="../static/icons/exchanges_icon.png" alt="Exchanges Icon" class="sidebar-icon">
                             <span>Exchanges</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#analytics">
+                        <a href="#analytics" data-content="analytics-content">
                             <img src="../static/icons/analytics_icon.png" alt="Analytics Icon" class="sidebar-icon">
                             <span>Analytics</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#positions">
+                        <a href="#positions" data-content="positions-content">
                             <img src="../static/icons/positions_icon.png" alt="Positions Icon" class="sidebar-icon">
                             <span>Positions</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#copy-trading">
+                        <a href="#copy-trading" data-content="copy-trading-content">
                             <img src="../static/icons/copy_trading_icon.png" alt="Copy Trading Icon" class="sidebar-icon">
                             <span>Copy-Trading</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#help-center">
+                        <a href="#help-center" data-content="help-center-content">
                             <img src="../static/icons/help_icon.png" alt="Help Icon" class="sidebar-icon">
                             <span>Help Center</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#donations">
+                        <a href="#donations" data-content="donations-content">
                             <img src="../static/icons/donations_icon.png" alt="Donations Icon" class="sidebar-icon">
                             <span>Donations</span>
                         </a>
@@ -76,11 +76,11 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="main-content">
+        <main class="main-content" id="main-content">
             <header class="content-header">
-                <h1>Dashboard</h1>
+                <h2>Dashboard</h2>
                 <div class="user-menu">
-                    <h4>User</h4>
+                    <h3>User</h3>
                     <select>
                         <option><a href="#profile">Profile</a></option>
                         <option><a href="#settings">Settings</a></option>
@@ -89,7 +89,7 @@
                 </div>
             </header>
             <div class="content-body">
-                <section class="section">
+                <section id="dashboard-content" class="content-section">
                     <h2>Dashboard</h2>
                     <div class="cards">
                         <div class="card">
@@ -122,6 +122,9 @@
                             </div>
                         </div>
                     </div>
+                </section>
+                <section id="exchanges-content" class="content-section" style="display: none;">
+                
                 </section>
             </div>
         </main>

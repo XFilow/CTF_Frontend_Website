@@ -40,7 +40,7 @@ document.getElementById('register-email-form').addEventListener('submit', async 
         }
     } catch (error) {
         console.error('Error during registration:', error);
-        formMessageContainer.textContent = 'An error occurred please try again';
+        formMessageContainer.textContent = data.message;
         formMessageContainer.style.color = 'red';
         formMessageContainer.style.borderColor = 'red';
         formMessageContainer.style.display = 'block';
@@ -77,7 +77,7 @@ document.getElementById('register-code-form').addEventListener('submit', async f
         }
     } catch (error) {
         console.error('Error during code verification:', error);
-        codeMessageContainer.textContent = 'An error occurred please try again';
+        codeMessageContainer.textContent = data.message;
         codeMessageContainer.style.color = 'red';
         codeMessageContainer.style.borderColor = 'red';
         codeMessageContainer.style.display = 'block';

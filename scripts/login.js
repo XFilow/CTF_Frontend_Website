@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check for the query parameter and display the message if present
     if (urlParams.has('message')) {
         const message = urlParams.get('message');
-        if (message === 'password_reset_success') {
+        if (message === 'success') {
             loginMessageContainer.textContent = 'Your password has been updated';
             loginMessageContainer.style.color = 'lime';
             loginMessageContainer.style.borderColor = 'lime';
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Error during login:', error);
-            loginMessageContainer.textContent = 'An error occurred please try again.';
+            loginMessageContainer.textContent = data.message;
             loginMessageContainer.style.color = 'red';
             loginMessageContainer.style.borderColor = 'red';
             loginMessageContainer.style.display = 'block';

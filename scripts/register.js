@@ -4,11 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const formMessageContainer = document.getElementById('register-form-message');
     const codeMessageContainer = document.getElementById('register-code-message');
 
+    let registerEmail = '';
+
     if (registerEmailForm) {
         registerEmailForm.addEventListener('submit', async function(event) {
             event.preventDefault(); // Prevent the default form submission
 
-            let registerEmail = document.getElementById('email').value;
+            registerEmail = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const newRegisterForm = document.getElementById('register-form-container');
             const verifyCodeForm = document.getElementById('code-form-container');

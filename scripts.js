@@ -41,15 +41,16 @@ document.addEventListener('DOMContentLoaded', function() {
 document.getElementById('register-email-form').addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent the default form submission
 
-    const email = document.getElementById('email').value;
+    let email = document.getElementById('email').value;
+
     const password = document.getElementById('password').value;
     const newRegisterForm = document.getElementById('register-form-container');
     const verifyCodeForm = document.getElementById('code-form-container');
-    const registerMessageContainer = document.getElementById('register-message');
+    const formMessageContainer = document.getElementById('register-form-message');
     const codeMessageContainer = document.getElementById('register-code-message');
 
     // Clear previous messages
-    registerMessageContainer.textContent = '';
+    formMessageContainer.textContent = '';
     codeMessageContainer.textContent = '';
     
     try {
@@ -72,17 +73,17 @@ document.getElementById('register-email-form').addEventListener('submit', async 
             codeMessageContainer.style.borderColor = 'lime';
             codeMessageContainer.style.display = 'block';
         } else {
-            registerMessageContainer.textContent = data.message;
-            registerMessageContainer.style.color = 'red';
-            registerMessageContainer.style.borderColor = 'red';
-            registerMessageContainer.style.display = 'block';
+            formMessageContainer.textContent = data.message;
+            formMessageContainer.style.color = 'red';
+            formMessageContainer.style.borderColor = 'red';
+            formMessageContainer.style.display = 'block';
         }
     } catch (error) {
         console.error('Error during registration:', error);
-        registerMessageContainer.textContent = 'An error occurred. Please try again.';
-        registerMessageContainer.style.color = 'red';
-        registerMessageContainer.style.borderColor = 'red';
-        registerMessageContainer.style.display = 'block';
+        formMessageContainer.textContent = 'An error occurred please try again';
+        formMessageContainer.style.color = 'red';
+        formMessageContainer.style.borderColor = 'red';
+        formMessageContainer.style.display = 'block';
     }
 });
 
@@ -96,12 +97,12 @@ document.getElementById('register-code-form').addEventListener('submit', async f
     codeMessageContainer.textContent = '';
 
     try {
-        const response = await fetch('http://localhost:5000/register', { //https://cryptotradingflow/verify-code
+        const response = await fetch('http://localhost:5000/verify-code', { //https://cryptotradingflow/verify-code
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ code, context: 'registration' })
+            body: JSON.stringify({ email, code, context: 'registration' })
         });
 
         const data = await response.json();
@@ -116,10 +117,192 @@ document.getElementById('register-code-form').addEventListener('submit', async f
         }
     } catch (error) {
         console.error('Error during code verification:', error);
-        codeMessageContainer.textContent = 'An error occurred. Please try again.';
+        codeMessageContainer.textContent = 'An error occurred please try again';
         codeMessageContainer.style.color = 'red';
         codeMessageContainer.style.borderColor = 'red';
         codeMessageContainer.style.display = 'block';
     }
 });
 
+// Login
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const loginMessageContainer = document.getElementById('login-message');
+
+    // Check for the query parameter and display the message if present
+    if (urlParams.has('message')) {
+        const message = urlParams.get('message');
+        if (message === 'password_reset_success') {
+            loginMessageContainer.textContent = 'Your password has been updated';
+            loginMessageContainer.style.color = 'lime';
+            loginMessageContainer.style.borderColor = 'lime';
+            loginMessageContainer.style.display = 'block';
+        }
+    }
+
+    // Handle the login form submission
+    document.getElementById('login-form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        try {
+            const response = await fetch('http://localhost:5000/login', { //https://cryptotradingflow/login
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                window.location.href = '/trader'; // Ensure this URL is correct
+            } else {
+                loginMessageContainer.textContent = data.message;
+                loginMessageContainer.style.color = 'red';
+                loginMessageContainer.style.borderColor = 'red';
+                loginMessageContainer.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            loginMessageContainer.textContent = 'An error occurred please try again.';
+            loginMessageContainer.style.color = 'red';
+            loginMessageContainer.style.borderColor = 'red';
+            loginMessageContainer.style.display = 'block';
+        }
+    });
+});
+
+// Reset-password
+document.addEventListener('DOMContentLoaded', function() {
+    const requestCodeForm = document.getElementById('request-code-form');
+    const verifyCodeForm = document.getElementById('verify-code-form');
+    const newPasswordForm = document.getElementById('new-password-form');
+    const enterEmailForm = document.getElementById('enter-email-form');
+    const enterCodeForm = document.getElementById('enter-code-form');
+    const resetPasswordForm = document.getElementById('reset-password-form');
+    const emailMessageContainer = document.getElementById('email-message-container');
+    const codeMessageContainer = document.getElementById('code-message-container');
+    const passwordMessageContainer = document.getElementById('password-message-container');
+
+    requestCodeForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        emailMessageContainer.textContent = '';
+        codeMessageContainer.textContent = '';
+
+        let email = document.getElementById('email').value;
+
+        try {
+            const response = await fetch('http://localhost:5000/reset-password', { //https://cryptotradingflow.com/reset-password
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                enterEmailForm.classList.remove('active');
+                enterCodeForm.classList.add('active');
+
+                codeMessageContainer.textContent = data.message;
+                codeMessageContainer.style.color = 'lime';
+                codeMessageContainer.style.borderColor = 'lime';
+                codeMessageContainer.style.display = 'block';
+            } else {
+                emailMessageContainer.textContent = data.message;
+                emailMessageContainer.style.color = 'red';
+                emailMessageContainer.style.borderColor = 'red';
+                emailMessageContainer.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            emailMessageContainer.textContent = 'An error occurred please try again';
+            emailMessageContainer.style.color = 'red';
+            emailMessageContainer.style.borderColor = 'red';
+            emailMessageContainer.style.display = 'block';
+        }
+    });
+
+    verifyCodeForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const code = document.getElementById('code').value;
+
+        codeMessageContainer.textContent = '';
+        passwordMessageContainer.textContent = '';
+
+        try {
+            const response = await fetch('http://localhost:5000/verify-code', { //https://cryptotradingflow.com/verify-code
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, code, context: 'password-reset' })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                enterCodeForm.classList.remove('active');
+                resetPasswordForm.classList.add('active');
+
+                passwordMessageContainer.textContent = 'Code verified successfully for password reset';
+                passwordMessageContainer.style.color = 'lime';
+                passwordMessageContainer.style.borderColor = 'lime';
+            } else {
+                codeMessageContainer.textContent = data.message;
+                codeMessageContainer.style.color = 'red';
+                codeMessageContainer.style.borderColor = 'red';
+                codeMessageContainer.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            codeMessageContainer.textContent = 'An error occurred please try again';
+            codeMessageContainer.style.color = 'red';
+            codeMessageContainer.style.borderColor = 'red';
+            codeMessageContainer.style.display = 'block';
+        }
+    });
+
+    newPasswordForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+    
+        const newPassword = document.getElementById('new-password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+
+        passwordMessageContainer.textContent = '';
+    
+        try {
+            const response = await fetch('http://localhost:5000/new-password', { //https://cryptotradingflow.com/new-password
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, newPassword, confirmPassword })
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                window.location.href = 'login?message=password_reset_success';
+            } else {
+                passwordMessageContainer.textContent = data.message;
+                passwordMessageContainer.style.color = 'red';
+                passwordMessageContainer.style.borderColor = 'red';
+                passwordMessageContainer.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            passwordMessageContainer.textContent = 'An error occurred please try again';
+            passwordMessageContainer.style.color = 'red';
+            passwordMessageContainer.style.borderColor = 'red';
+            passwordMessageContainer.style.display = 'block';
+        }
+    });
+});

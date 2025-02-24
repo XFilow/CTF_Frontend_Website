@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Error during login:', error);
-            loginMessageContainer.textContent = data.message;
+            loginMessageContainer.textContent = 'An error occurred please try again';
             loginMessageContainer.style.color = 'red';
             loginMessageContainer.style.borderColor = 'red';
             loginMessageContainer.style.display = 'block';

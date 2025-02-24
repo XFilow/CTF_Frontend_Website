@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.getElementById('register-email-form').addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent the default form submission
 
-    let email = document.getElementById('email').value;
+    let registerEmail = document.getElementById('email').value;
 
     const password = document.getElementById('password').value;
     const newRegisterForm = document.getElementById('register-form-container');
@@ -59,7 +59,7 @@ document.getElementById('register-email-form').addEventListener('submit', async 
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email: registerEmail, password })
         });
 
         const data = await response.json();
@@ -102,7 +102,7 @@ document.getElementById('register-code-form').addEventListener('submit', async f
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, code, context: 'registration' })
+            body: JSON.stringify({ email: registerEmail, code, context: 'registration' })
         });
 
         const data = await response.json();
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
         emailMessageContainer.textContent = '';
         codeMessageContainer.textContent = '';
 
-        let email = document.getElementById('email').value;
+        let resetEmail = document.getElementById('email').value;
 
         try {
             const response = await fetch('http://localhost:5000/reset-password', { //https://cryptotradingflow.com/reset-password
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email })
+                body: JSON.stringify({ email: resetEmail })
             });
 
             const data = await response.json();
@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email, code, context: 'password-reset' })
+                body: JSON.stringify({ email: resetEmail, code, context: 'password-reset' })
             });
 
             const data = await response.json();
@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email, newPassword, confirmPassword })
+                body: JSON.stringify({ email: resetEmail, newPassword, confirmPassword })
             });
     
             const data = await response.json();

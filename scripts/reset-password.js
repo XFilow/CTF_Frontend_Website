@@ -1,9 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const requestCodeForm = document.getElementById('request-code-form');
-    const verifyCodeForm = document.getElementById('verify-code-form');
-    const newPasswordForm = document.getElementById('new-password-form');
-    const enterEmailForm = document.getElementById('enter-email-form');
-    const enterCodeForm = document.getElementById('enter-code-form');
+    const resetEmailForm = document.getElementById('reset-email-form');
+    const resetCodeForm = document.getElementById('reset-code-form');
     const resetPasswordForm = document.getElementById('reset-password-form');
     const emailMessageContainer = document.getElementById('email-message-container');
     const codeMessageContainer = document.getElementById('code-message-container');
@@ -29,18 +26,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
 
             if (response.ok) {
-                enterEmailForm.classList.remove('active');
-                enterCodeForm.classList.add('active');
+                resetEmailForm.classList.remove('active');
+                resetCodeForm.classList.add('active');
 
                 codeMessageContainer.textContent = data.message;
                 codeMessageContainer.style.color = 'lime';
                 codeMessageContainer.style.borderColor = 'lime';
                 codeMessageContainer.style.display = 'block';
             } else {
-                emailMessageContainer.textContent = data.message;
-                emailMessageContainer.style.color = 'red';
-                emailMessageContainer.style.borderColor = 'red';
-                emailMessageContainer.style.display = 'block';
+                resetEmailForm.textContent = data.message;
+                resetEmailForm.style.color = 'red';
+                resetEmailForm.style.borderColor = 'red';
+                resetEmailForm.style.display = 'block';
             }
         } catch (error) {
             console.error('Error:', error);
@@ -71,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
 
             if (response.ok) {
-                enterCodeForm.classList.remove('active');
+                resetCodeForm.classList.remove('active');
                 resetPasswordForm.classList.add('active');
 
                 passwordMessageContainer.textContent = 'Code verified successfully for password reset';

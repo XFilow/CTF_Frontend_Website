@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
             emailMessageContainer.textContent = '';
             codeMessageContainer.textContent = '';
 
-            emailMessageContainer.style.border = 'none';
-            codeMessageContainer.style.border = 'none';
+            //emailMessageContainer.style.border = 'none';
+            //codeMessageContainer.style.border = 'none';
 
             let resetEmail = document.getElementById('email').value;
 
@@ -37,15 +37,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     codeMessageContainer.textContent = data.message;
                     codeMessageContainer.style.color = 'lime';
                     codeMessageContainer.style.borderColor = 'lime';
-                    codeMessageContainer.style.borderStyle = 'solid';
-                    codeMessageContainer.style.borderWidth = '1px';
+                    //codeMessageContainer.style.borderStyle = 'solid';
+                    //codeMessageContainer.style.borderWidth = '1px';
                     codeMessageContainer.style.display = 'block';
                 } else {
                     emailMessageContainer.textContent = data.message;
                     emailMessageContainer.style.color = 'red';
                     emailMessageContainer.style.borderColor = 'red';
-                    emailMessageContainer.style.borderStyle = 'solid';
-                    emailMessageContainer.style.borderWidth = '1px';
+                    //emailMessageContainer.style.borderStyle = 'solid';
+                    //emailMessageContainer.style.borderWidth = '1px';
                     emailMessageContainer.style.display = 'block';
                 }
             } catch (error) {
@@ -53,8 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 emailMessageContainer.textContent = 'An error occurred please try again';
                 emailMessageContainer.style.color = 'red';
                 emailMessageContainer.style.borderColor = 'red';
-                emailMessageContainer.style.borderStyle = 'solid';
-                emailMessageContainer.style.borderWidth = '1px';
+                //emailMessageContainer.style.borderStyle = 'solid';
+                //emailMessageContainer.style.borderWidth = '1px';
                 emailMessageContainer.style.display = 'block';
             }
         });
@@ -87,15 +87,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     passwordMessageContainer.textContent = data.message;
                     passwordMessageContainer.style.color = 'lime';
                     passwordMessageContainer.style.borderColor = 'lime';
-                    passwordMessageContainer.style.borderStyle = 'solid';
-                    passwordMessageContainer.style.borderWidth = '1px';
+                    //passwordMessageContainer.style.borderStyle = 'solid';
+                    //passwordMessageContainer.style.borderWidth = '1px';
                     passwordMessageContainer.style.display = 'block';
                 } else {
                     codeMessageContainer.textContent = data.message;
                     codeMessageContainer.style.color = 'red';
                     codeMessageContainer.style.borderColor = 'red';
-                    codeMessageContainer.style.borderStyle = 'solid';
-                    codeMessageContainer.style.borderWidth = '1px';
+                    //codeMessageContainer.style.borderStyle = 'solid';
+                    //codeMessageContainer.style.borderWidth = '1px';
                     codeMessageContainer.style.display = 'block';
                 }
             } catch (error) {
@@ -103,8 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 codeMessageContainer.textContent = 'An error occurred please try again';
                 codeMessageContainer.style.color = 'red';
                 codeMessageContainer.style.borderColor = 'red';
-                codeMessageContainer.style.borderStyle = 'solid';
-                codeMessageContainer.style.borderWidth = '1px';
+                //codeMessageContainer.style.borderStyle = 'solid';
+                //codeMessageContainer.style.borderWidth = '1px';
                 codeMessageContainer.style.display = 'block';
             }
         });
@@ -136,8 +136,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     passwordMessageContainer.textContent = data.message;
                     passwordMessageContainer.style.color = 'red';
                     passwordMessageContainer.style.borderColor = 'red';
-                    passwordMessageContainer.style.borderStyle = 'solid';
-                    passwordMessageContainer.style.borderWidth = '1px';
+                    //passwordMessageContainer.style.borderStyle = 'solid';
+                    //passwordMessageContainer.style.borderWidth = '1px';
                     passwordMessageContainer.style.display = 'block';
                 }
             } catch (error) {
@@ -145,8 +145,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 passwordMessageContainer.textContent = 'An error occurred please try again';
                 passwordMessageContainer.style.color = 'red';
                 passwordMessageContainer.style.borderColor = 'red';
-                passwordMessageContainer.style.borderStyle = 'solid';
-                passwordMessageContainer.style.borderWidth = '1px';
+                //passwordMessageContainer.style.borderStyle = 'solid';
+                //passwordMessageContainer.style.borderWidth = '1px';
                 passwordMessageContainer.style.display = 'block';
             }
         });

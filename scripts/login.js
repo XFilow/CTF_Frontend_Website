@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = document.getElementById('login-password').value;
 
         try {
-            const response = await fetch('http://localhost:3000/login', { //https://cryptotradingflow/login
+            const response = await fetch('http://localhost:5000/login', { //https://cryptotradingflow/login
                 method: 'POST',
                 credentials: 'include', // Required for cookies
                 headers: {

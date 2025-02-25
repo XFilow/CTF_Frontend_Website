@@ -7,6 +7,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebarTitle = document.querySelector('.sidebar-title');
     const navLinks = document.querySelectorAll('.sidebar-menu ul li a');
 
+    // Check JWT Token
+    fetch('http://localhost:5000/trader', {
+        method: 'GET',
+        credentials: 'include', // Include cookies in the request
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+
     // Function to update the header title and main content based on the clicked link
     function updateHeaderAndContent(event) {
         event.preventDefault(); // Prevent the default navigation behavior

@@ -36,7 +36,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 loginMessageContainer.style.color = 'lime';
                 loginMessageContainer.style.borderColor = 'lime';
                 loginMessageContainer.style.display = 'block';
+                
                 //window.location.href = '/trader'; // Ensure this URL is correct
+
+                // Check JWT Token
+                fetch('http://localhost:5000/trader', {
+                    method: 'GET',
+                    credentials: 'include', // Include cookies in the request
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
+
             } else {
                 loginMessageContainer.textContent = data.message;
                 loginMessageContainer.style.color = 'red';

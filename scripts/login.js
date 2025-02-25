@@ -32,7 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
 
             if (response.ok) {
-                window.location.href = '/trader'; // Ensure this URL is correct
+                loginMessageContainer.textContent = data.message;
+                loginMessageContainer.style.color = 'lime';
+                loginMessageContainer.style.borderColor = 'lime';
+                loginMessageContainer.style.display = 'block';
+                //window.location.href = '/trader'; // Ensure this URL is correct
             } else {
                 loginMessageContainer.textContent = data.message;
                 loginMessageContainer.style.color = 'red';

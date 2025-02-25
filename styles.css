@@ -323,7 +323,7 @@ footer {
 
 .footer-icons {
     background: transparent;
-    height: 1.25em;
+    height: 1.5em;
 }
 
 /* Media queries for tablets */
@@ -386,7 +386,7 @@ footer {
     }
 
     .footer-icons {
-        height: 1.2em;
+        height: 1.25em;
     }
 }
 

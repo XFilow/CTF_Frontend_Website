@@ -7,6 +7,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebarTitle = document.querySelector('.sidebar-title');
     const navLinks = document.querySelectorAll('.sidebar-menu ul li a');
 
+    fetchTraderInfo();
+
+    // Check JWT Token
+    async function fetchTraderInfo() {
+        const token = localStorage.getItem('token');  // Get token
+    
+        if (!token) {
+            console.log('User is not logged in');
+            return;
+        }
+    
+        const response = await fetch('http://localhost:5000/trader/info', {
+            headers: { 'Authorization': `Bearer ${token}` }  // Attach token
+        });
+    
+        if (response.ok) {
+            const traderInfo = await response.json();
+            console.log('Trader Info:', traderInfo);
+        } else {
+            console.log('Not authenticated');
+        }
+    }
+
     // Function to update the header title and main content based on the clicked link
     function updateHeaderAndContent(event) {
         event.preventDefault(); // Prevent the default navigation behavior
@@ -44,4 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
             text.style.display = text.style.display === 'none' ? 'inline' : 'none';
         });
     });
+
+    function logout() {
+        localStorage.removeItem('token');  // Delete JWT token
+        console.log('Logged out');
+    }
 });

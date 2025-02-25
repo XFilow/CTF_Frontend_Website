@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
 
                 if (response.ok) {
-                    window.location.href = 'login?message=success';
+                    window.location.href = 'login?message=reset';
                 } else {
                     passwordMessageContainer.textContent = data.message;
                     passwordMessageContainer.style.color = 'red';

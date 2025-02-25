@@ -79,12 +79,14 @@
             <header class="content-header">
                 <h2>Dashboard</h2>
                 <div class="user-menu">
-                    <h2>User</h2>
-                    <select>
-                        <option><a href="#profile">Profile</a></option>
-                        <option><a href="#settings">Settings</a></option>
-                        <option><a href="#logout">Log Out</a></option>
-                    </select>
+                    <div class="dropdown">
+                        <button class="dropdown-toggle" id="user-menu-toggle">User</button>
+                        <ul class="dropdown-menu" id="user-menu-dropdown">
+                            <li data-content="profile-section">Profile</li>
+                            <li data-content="settings-section">Settings</li>
+                            <li data-content="logout-section">Log Out</li>
+                        </ul>
+                    </div>
                 </div>
             </header>
             <div class="content-body">

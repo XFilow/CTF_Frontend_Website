@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
             loginMessageContainer.style.borderColor = 'lime';
             loginMessageContainer.style.display = 'block';
         }
+        else if(message === 'logout') {
+            loginMessageContainer.textContent = 'Successfully loged out';
+            loginMessageContainer.style.color = 'lime';
+            loginMessageContainer.style.borderColor = 'lime';
+            loginMessageContainer.style.display = 'block';
+        }
     }
 
     // Handle the login form submission

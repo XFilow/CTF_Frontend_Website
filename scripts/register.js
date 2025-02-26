@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ email: registerEmail, code, context: 'registration' })
+                    body: JSON.stringify({ email: registerEmail, code, context: 'register' })
                 });
 
                 const data = await response.json();

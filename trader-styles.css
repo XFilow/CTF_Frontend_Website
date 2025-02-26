@@ -164,6 +164,14 @@ body.icons-only .footer-icon-links {
     align-items: center;
 }
 
+.user-icon {
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 0.25em;
+    width: 60px;
+    height: 60px;
+}
+
 .dropdown {
     position: relative;
     display: inline-block;
@@ -172,7 +180,6 @@ body.icons-only .footer-icon-links {
 .dropdown-toggle {
     color: white;
     background-color: transparent;
-    font-weight: bold;
     cursor: pointer;
     border: 1px solid white;
     border-radius: 5px;
@@ -219,11 +226,94 @@ body.icons-only .footer-icon-links {
 
 .card h3 {
     font-size: 1.5em;
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
 }
 
-.card-content .summary p,
-.card-content .portfolio p,
-.card-content .portfolio-details p {
-    margin: 0.2em 0;
+.profile-info {
+    margin-bottom: 4em;
 }
+
+.profile-info p {
+    font-size: 1em;
+    margin: 1em 0;
+}
+
+.form-group {
+    align-items: center;
+    max-width: 400px;
+    margin-bottom: 1em;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    text-align: left;
+    margin: 3em auto 0.5em auto;
+    font-size: 1.25em;
+}
+
+.form-group input {
+    color: white;
+    background-color: transparent;
+    border: none; /* Remove all borders */
+    border-bottom: 1px solid white; /* Add only the bottom border */
+    border-radius: 0; /* Remove border radius */
+    font-size: 1em;
+    width: 100%;
+    padding: 0.5em 0; /* Adjust padding to remove side padding */
+}
+
+.form-group input:focus {
+    outline: none; /* Remove default focus outline */
+    margin-bottom: 0;
+}
+
+.file-input::file-selector-button {
+    color: black;
+    cursor: pointer;
+    border: 1px solid black;
+    background-color: rgb(255, 255, 255, 0.7);
+    padding: 0.25em 0.5em;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.file-input:hover::file-selector-button {
+    background-color: white;
+}
+
+.button-description {
+    color: white;
+    font-weight: bold;
+    font-size: 1.25em;
+    margin: 2.5em auto 0.5em auto;
+}
+
+.button {
+    display: flex;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0.4em 0.6em;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.save-profile-button{
+    background-color: rgba(0, 230, 100, 0.7);
+}
+
+.save-profile-button:hover {
+    background-color: rgba(0, 230, 100);
+}
+
+.terminate-profile-button{
+    background-color: rgba(230, 0, 0, 0.7);
+}
+
+.terminate-profile-button:hover{
+    background-color: rgba(230, 0, 0);
+}
+

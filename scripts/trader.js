@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebarToggle = document.getElementById('sidebar-toggle');
     const mainContent = document.getElementById('main-content');
     const sidebar = document.querySelector('.sidebar');
-    const headerTitle = document.querySelector('.content-header h2');
+    const headerTitle = document.querySelector('.content-header h1');
     const menuTexts = document.querySelectorAll('.sidebar-menu a span');
     const sidebarTitle = document.querySelector('.sidebar-title');
     const navLinks = document.querySelectorAll('.sidebar-menu ul li a');

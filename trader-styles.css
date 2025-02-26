@@ -73,6 +73,7 @@ body {
 .sidebar-menu a {
     color: white;
     display: flex;
+    white-space: nowrap;
     align-items: center;
     text-decoration: none;
     padding: 0.5em 1em;

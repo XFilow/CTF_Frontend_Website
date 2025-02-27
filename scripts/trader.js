@@ -27,6 +27,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    async function fetchTraderInfo() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return null; // Return null if the user is not logged in
+        }
+    
+        try {
+            const response = await fetch('http://localhost:5000/trader/info', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+    
+            if (response.ok) {
+                const traderInfo = await response.json();
+                return traderInfo; // Return the user info
+            } else {
+                console.log('Not authenticated or error fetching data');
+                return null; // Return null if there's an error
+            }
+        } catch (error) {
+            console.error('Error fetching trader info:', error);
+            return null; // Return null in case of an exception
+        }
+    }
+
     function updateHeaderAndContent(event, contentId) {
         event.preventDefault();
     
@@ -100,32 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    async function fetchTraderInfo() {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            console.log('User is not logged in');
-            return null; // Return null if the user is not logged in
-        }
-    
-        try {
-            const response = await fetch('http://localhost:5000/trader/info', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-    
-            if (response.ok) {
-                const traderInfo = await response.json();
-                return traderInfo; // Return the user info
-            } else {
-                console.log('Not authenticated or error fetching data');
-                return null; // Return null if there's an error
-            }
-        } catch (error) {
-            console.error('Error fetching trader info:', error);
-            return null; // Return null in case of an exception
-        }
-    }
-
-    // Handle the profile form submission
+    // Handle the profile changes
     document.getElementById('save-profile-button').addEventListener('click', async function() {
         try {
             const username = document.getElementById('change-name').value;
@@ -178,6 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Terminate Account
     document.getElementById('terminate-profile-button').addEventListener('click', async function() {
         const confirmed = confirm('Are you sure you want to terminate your account? This action cannot be undone.');
     
@@ -206,5 +207,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('An error occurred while terminating your account.');
             }
         }
+    });
+
+    // Change password button
+    document.getElementById('change-password-button').addEventListener('click', function() {
+        localStorage.removeItem('token');
+        console.log('Logged out');
+        window.location.href = '/reset-password';
     });
 });

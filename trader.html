@@ -95,31 +95,27 @@
                     <div class="cards">
                         <div class="card">
                             <h3>Profit and Loss</h3>
-                            <div class="card-content">
-                                <div class="summary">
-                                    <p>7 days P/L: $0</p>
-                                    <p>30 days P/L: $0</p>
-                                    <p>Overall: $45.62</p>
-                                </div>
+                            <div class="summary">
+                                <p>7 days P/L: $0</p>
+                                <p>30 days P/L: $0</p>
+                                <p>Overall: $45.62</p>
                             </div>
                         </div>
                         <div class="card">
                             <h3>Assets</h3>
-                            <div class="card-content">
-                                <div class="portfolio">
-                                    <h4>Portfolio value</h4>
-                                    <p>$4.21</p>
-                                    <p>BTC 0.00069809</p>
-                                    <p>ETH 0.00108574</p>
-                                </div>
-                                <div class="portfolio-details">
-                                    <h4>By Coin</h4>
-                                    <p>BNFCR 100% $4.21</p>
-                                    <h4>By Exchange</h4>
-                                    <p>4.21456544 $4.21</p>
-                                    <h4>By API</h4>
-                                    <p>$4.21</p>
-                                </div>
+                            <div class="portfolio">
+                                <h4>Portfolio value</h4>
+                                <p>$4.21</p>
+                                <p>BTC 0.00069809</p>
+                                <p>ETH 0.00108574</p>
+                            </div>
+                            <div class="portfolio-details">
+                                <h4>By Coin</h4>
+                                <p>BNFCR 100% $4.21</p>
+                                <h4>By Exchange</h4>
+                                <p>4.21456544 $4.21</p>
+                                <h4>By API</h4>
+                                <p>$4.21</p>
                             </div>
                         </div>
                     </div>
@@ -128,10 +124,8 @@
                     <div class="cards">
                         <div class="card">
                             <h3>Exchanges</h3>
-                            <div class="card-content">
-                                <div class="summary">
-                                    <p>Binance</p>
-                                </div>
+                            <div class="summary">
+                                <p>Binance</p>
                             </div>
                         </div>
                     </div>
@@ -144,7 +138,7 @@
                                 <p><strong>Email:</strong> <span class="profile-email">Email</span></p>
                                 <p><strong>Member since:</strong> <span class="profile-registration">Registration Date</span></p>
                             </div>
-                            <div class="profile-group">
+                            <div class="profile-changes">
                                 <label for="change-name">Change Name</label>
                                 <input type="text" id="change-name" name="change-name" placeholder="Enter your profile name">
                                 <p id="name-taken-error" class="error-message"></p>
@@ -153,11 +147,22 @@
                                 <input type="file" id="change-picture" name="change-picture" class="file-input">
                                 <p id="file-size-error" class="error-message"></p>
 
-                                <p class="button-description">Save changes</p>
-                                <button type="submit" id="save-profile-button" class="button save-profile-button">Save</button>
+                                <p class="button-description">Save Changes</p>
+                                <button type="button" id="save-profile-button" class="button save-profile-button">Save</button>
                                 
-                                <p class="button-description">Remove my account</p>
+                                <p class="button-description">Terminate account</p>
                                 <button type="button" id="terminate-profile-button" class="button terminate-profile-button">Terminate</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="settings-content" class="content-section" style="display: none;">
+                    <div class="cards">
+                        <div class="card">
+                            <div id="settings-changes" class="settings-changes">
+                                <p class="button-description">Change Password</p>
+                                Pressing change will redirect you to the reset password page. 
+                                <button type="button" id="change-password-button" class="button change-password-button">Change</button>
                             </div>
                         </div>
                     </div>

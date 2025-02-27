@@ -238,13 +238,13 @@ body.icons-only .footer-icon-links {
     margin: 1em 0;
 }
 
-.profile-group {
+.profile-changes {
     align-items: center;
     max-width: 400px;
     margin-bottom: 1em;
 }
 
-.profile-group label {
+.profile-changes label {
     display: block;
     font-weight: bold;
     text-align: left;
@@ -252,7 +252,7 @@ body.icons-only .footer-icon-links {
     font-size: 1.25em;
 }
 
-.profile-group input {
+.profile-changes input {
     color: white;
     background-color: transparent;
     border: none; /* Remove all borders */
@@ -261,11 +261,11 @@ body.icons-only .footer-icon-links {
     font-size: 1em;
     width: 100%;
     padding: 0.5em 0; /* Adjust padding to remove side padding */
+    margin-bottom: 1em;
 }
 
-.profile-group input:focus {
+.profile-changes input:focus {
     outline: none; /* Remove default focus outline */
-    margin-bottom: 0;
 }
 
 .file-input::file-selector-button {
@@ -283,13 +283,6 @@ body.icons-only .footer-icon-links {
     background-color: white;
 }
 
-.button-description {
-    color: white;
-    font-weight: bold;
-    font-size: 1.25em;
-    margin: 2.5em auto 0.5em auto;
-}
-
 .button {
     display: flex;
     text-decoration: none;
@@ -301,8 +294,16 @@ body.icons-only .footer-icon-links {
     transition: background-color 0.3s;
 }
 
+.button-description {
+    color: white;
+    font-weight: bold;
+    font-size: 1.25em;
+    margin-bottom: 0.5em;
+}
+
 .save-profile-button{
     background-color: rgba(0, 255, 70, 0.7);
+    margin-bottom: 3em;    
 }
 
 .save-profile-button:hover {
@@ -311,6 +312,7 @@ body.icons-only .footer-icon-links {
 
 .terminate-profile-button{
     background-color: rgba(255, 70, 70, 0.7);
+    margin-bottom: 1em;    
 }
 
 .terminate-profile-button:hover{
@@ -319,4 +321,13 @@ body.icons-only .footer-icon-links {
 
 .error-message{
     color: red;
+}
+
+.change-password-button{
+    background-color: rgba(255, 255, 255, 0.7);
+    margin: 1em 0;    
+}
+
+.change-password-button:hover{
+    background-color: white;
 }

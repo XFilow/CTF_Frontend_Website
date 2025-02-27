@@ -37,10 +37,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
 
             if (response.ok) {
-                loginMessageContainer.textContent = data.message;
-                loginMessageContainer.style.color = 'lime';
-                loginMessageContainer.style.borderColor = 'lime';
-                loginMessageContainer.style.display = 'block';
+                //loginMessageContainer.textContent = data.message;
+                //loginMessageContainer.style.color = 'lime';
+                //loginMessageContainer.style.borderColor = 'lime';
+                //loginMessageContainer.style.display = 'block';
                 
                 localStorage.setItem('token', data.token);
                 console.log('Login successful');

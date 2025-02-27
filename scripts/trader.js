@@ -52,6 +52,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function updateProfile() {
+        document.querySelector('.profile-username').textContent = traderInfo.username;
+        document.querySelector('.profile-email').textContent = traderInfo.email;
+        document.querySelector('.profile-registration').textContent = new Date(traderInfo.register_date).toLocaleString('default', { month: 'long', year: 'numeric' });
+    }
+
+    function updateDashboard() {
+
+    }
+
     function updateHeaderAndContent(event, contentId) {
         event.preventDefault();
     
@@ -71,10 +81,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     
         if (contentId === 'profile-content') {
-            //fetchProfileInfo();
-            document.querySelector('.profile-username').textContent = traderInfo.username;
-            document.querySelector('.profile-email').textContent = traderInfo.email;
-            document.querySelector('.profile-registration').textContent = new Date(traderInfo.register_date).toLocaleString('default', { month: 'long', year: 'numeric' });
+            updateProfile()
+        }
+        else if (contentId === 'dashboard-content') {
+            updateDashboard()
         }
     }
 
@@ -128,12 +138,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle the profile changes
     document.getElementById('save-profile-button').addEventListener('click', async function() {
         try {
-            const username = document.getElementById('change-name').value;
+            const newUsername = document.getElementById('change-name').value;
             const pictureInput = document.getElementById('change-picture');
             const newPicture = pictureInput.files.length > 0 ? pictureInput.files[0] : null;
     
             // Change username
-            if (username) {
+            if (newUsername) {
                 const token = localStorage.getItem('token');
                 const response = await fetch('http://localhost:5000/trader/username', {
                     method: 'POST',
@@ -141,13 +151,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ username })
+                    body: JSON.stringify({ newUsername })
                 });
     
                 if (response.ok) {
                     nameTakenError.textContent = ''; // Clear any previous error message
-                    dropdownToggle.textContent = username;
-                    document.querySelector('.profile-username').textContent = username;
+                    dropdownToggle.textContent = newUsername;
+                    document.querySelector('.profile-username').textContent = newUsername;
                     console.log('Profile has been updated.');
                 } else {
                     const errorData = await response.json();

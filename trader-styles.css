@@ -167,9 +167,11 @@ body.icons-only .footer-icon-links {
 .user-icon {
     cursor: pointer;
     vertical-align: middle;
-    margin-left: 0.25em;
-    width: 60px;
-    height: 60px;
+    object-fit: cover; /* Ensure the image covers the circular area */
+    border-radius: 50%; /* Make the image circular */
+    margin-left: 0.5em;
+    width: 70px;
+    height: 70px;
 }
 
 .dropdown {
@@ -224,8 +226,13 @@ body.icons-only .footer-icon-links {
     flex: 1;
 }
 
-.card h3 {
+.card h2 {
     font-size: 1.5em;
+    margin-bottom: 1em;
+}
+
+.card h3 {
+    font-size: 1.25em;
     margin-bottom: 1em;
 }
 
@@ -324,7 +331,7 @@ body.icons-only .footer-icon-links {
 }
 
 .change-password-button{
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.85);
     margin: 1em 0;    
 }
 

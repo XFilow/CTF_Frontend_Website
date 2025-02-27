@@ -81,7 +81,7 @@
                 <div class="user-menu">
                     <div class="dropdown">
                         <button class="dropdown-toggle" id="user-menu-toggle">User</button>
-                        <img src="../static/icons/user_icon.webp" alt="User Icon" class="user-icon" id="user-icon-img">
+                        <img src="../static/icons/user_icon.webp" alt="User Icon" class="user-icon" id="user-icon">
                         <ul class="dropdown-menu" id="user-menu-dropdown">
                             <li data-content="profile-content">Profile</li>
                             <li data-content="settings-content">Settings</li>
@@ -140,25 +140,25 @@
                     <div class="cards">
                         <div class="card">
                             <div class="profile-info">
-                                <p><strong>Name:</strong> <span class="profile-name">Name</span></p>
+                                <p><strong>Name:</strong> <span class="profile-username">Name</span></p>
                                 <p><strong>Email:</strong> <span class="profile-email">Email</span></p>
                                 <p><strong>Member since:</strong> <span class="profile-registration">Registration Date</span></p>
                             </div>
-                            <form id="profile-form">
-                                <div class="form-group">
-                                    <label for="change-name">Change Name</label>
-                                    <input type="text" id="change-name" name="change-name" placeholder="Enter your profile name">
+                            <div class="profile-group">
+                                <label for="change-name">Change Name</label>
+                                <input type="text" id="change-name" name="change-name" placeholder="Enter your profile name">
+                                <p id="name-taken-error" class="error-message"></p>
 
-                                    <label for="change-picture">Select Image (max size 300Kb)</label>
-                                    <input type="file" id="change-picture" name="change-picture" class="file-input">
-                                    
-                                    <p class="button-description">Save changes</p>
-                                    <button type="submit" class="button save-profile-button">Save</button>
-                            
-                                    <p class="button-description">Remove my account</p>
-                                    <button type="button" class="button terminate-profile-button">Terminate</button>
-                                </div>
-                            </form>
+                                <label for="change-picture">Select Image (max size 300Kb)</label>
+                                <input type="file" id="change-picture" name="change-picture" class="file-input">
+                                <p id="file-size-error" class="error-message"></p>
+
+                                <p class="button-description">Save changes</p>
+                                <button type="submit" id="save-profile-button" class="button save-profile-button">Save</button>
+                                
+                                <p class="button-description">Remove my account</p>
+                                <button type="button" id="terminate-profile-button" class="button terminate-profile-button">Terminate</button>
+                            </div>
                         </div>
                     </div>
                 </section>

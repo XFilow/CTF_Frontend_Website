@@ -238,13 +238,13 @@ body.icons-only .footer-icon-links {
     margin: 1em 0;
 }
 
-.form-group {
+.profile-group {
     align-items: center;
     max-width: 400px;
     margin-bottom: 1em;
 }
 
-.form-group label {
+.profile-group label {
     display: block;
     font-weight: bold;
     text-align: left;
@@ -252,7 +252,7 @@ body.icons-only .footer-icon-links {
     font-size: 1.25em;
 }
 
-.form-group input {
+.profile-group input {
     color: white;
     background-color: transparent;
     border: none; /* Remove all borders */
@@ -263,7 +263,7 @@ body.icons-only .footer-icon-links {
     padding: 0.5em 0; /* Adjust padding to remove side padding */
 }
 
-.form-group input:focus {
+.profile-group input:focus {
     outline: none; /* Remove default focus outline */
     margin-bottom: 0;
 }
@@ -302,18 +302,21 @@ body.icons-only .footer-icon-links {
 }
 
 .save-profile-button{
-    background-color: rgba(0, 230, 100, 0.7);
+    background-color: rgba(0, 255, 70, 0.7);
 }
 
 .save-profile-button:hover {
-    background-color: rgba(0, 230, 100);
+    background-color: lime;
 }
 
 .terminate-profile-button{
-    background-color: rgba(230, 0, 0, 0.7);
+    background-color: rgba(255, 70, 70, 0.7);
 }
 
 .terminate-profile-button:hover{
-    background-color: rgba(230, 0, 0);
+    background-color: red;
 }
 
+.error-message{
+    color: red;
+}

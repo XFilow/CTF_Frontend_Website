@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="trader-styles.css">
 </head>
 <body>
-    <div class="container">
+    <div class="body-container">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header" id="sidebar-toggle">
@@ -79,10 +79,10 @@
             <header class="content-header">
                 <h1>Dashboard</h1>
                 <div class="user-menu">
-                    <div class="dropdown">
-                        <button class="dropdown-toggle" id="user-menu-toggle">User</button>
+                    <div class="user-dropdown">
+                        <button class="user-dropdown-toggle" id="user-dropdown-toggle">User</button>
                         <img src="../static/icons/user_icon.webp" alt="User Icon" class="user-icon" id="user-icon">
-                        <ul class="dropdown-menu" id="user-menu-dropdown">
+                        <ul class="user-dropdown-menu" id="user-dropdown-menu">
                             <li data-content="profile-content">Profile</li>
                             <li data-content="settings-content">Settings</li>
                             <li id="logout">Log Out</li>
@@ -124,9 +124,58 @@
                 <section id="exchanges-content" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <h2>Exchanges</h2>
-                            <div class="summary">
-                                <p>Binance</p>
+                            <div class="binance-exchange">
+                                <div class="table-container">
+                                    <div class="table-container">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Exchange</th>
+                                                    <th>Account Name</th>
+                                                    <th>API</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td id="exchange">Binance</td>
+                                                    <td>Binance-starter</td>
+                                                    <td id="exchange-api-key">97af0b8ea79109f70f5067a7ec52fccf28140bb625364aab4f8bcc969a864728</td>
+                                                    <td>
+                                                        <button class="exchange-edit-button">Edit</button>
+                                                        <button class="exchange-delete-button">Delete</button>
+                                                    </td>
+                                                </tr>
+                                                <!-- Add more rows as needed -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="add-exchange-container" class="exchanges-container active">
+                                    <button type="button" id="add-exchange-button" class="button add-exchange-button">+ Add Exchange</button>
+                                </div>
+                                
+                                <div id="new-exchange-container" class="exchanges-container">
+                                    <form id="new-api-exchange">
+                                        <label for="new-exchange">Exchange</label>
+                                        <select id="new-exchange" name="new-exchange" class="dropdown-menu">
+                                            <option value="" disabled selected>Select an exchange</option>
+                                            <option value="binance">Binance</option>
+                                            <!-- Add more options as needed -->
+                                        </select>
+                                
+                                        <label for="new-exchange-account-name">Account Name</label>
+                                        <input type="text" id="new-exchange-account-name" name="new-exchange-account-name" placeholder="Enter account name">
+                                
+                                        <label for="new-exchange-api-key">API Key</label>
+                                        <input type="text" id="new-exchange-api-key" name="new-exchange-api-key" placeholder="Enter API key">
+                                
+                                        <label for="new-exchange-api-secret">API Secret</label>
+                                        <input type="text" id="new-exchange-api-secret" name="new-exchange-api-secret" placeholder="Enter API secret">
+                                
+                                        <button type="submit" id="new-exchange-button" class="button new-exchange-button">New API</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -144,7 +193,7 @@
                                 <input type="text" id="change-name" name="change-name" placeholder="Enter your profile name">
                                 <p id="name-taken-error" class="error-message"></p>
 
-                                <label for="change-picture">Select Image (max size 300Kb)</label>
+                                <label for="change-picture">Select Image</label>
                                 <input type="file" id="change-picture" name="change-picture" class="file-input">
                                 <p id="file-size-error" class="error-message"></p>
 

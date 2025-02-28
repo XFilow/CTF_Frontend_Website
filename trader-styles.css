@@ -12,7 +12,7 @@ body {
     padding: 0;
 }
 
-.container {
+.body-container {
     display: flex;
     width: 100%;
     height: 100%;
@@ -174,12 +174,12 @@ body.icons-only .footer-icon-links {
     height: 70px;
 }
 
-.dropdown {
+.user-dropdown {
     position: relative;
     display: inline-block;
 }
 
-.dropdown-toggle {
+.user-dropdown-toggle {
     color: white;
     background-color: transparent;
     cursor: pointer;
@@ -189,7 +189,7 @@ body.icons-only .footer-icon-links {
     font-size: 1em;
 }
 
-.dropdown-menu {
+.user-dropdown-menu {
     display: none;
     font-weight: bold;
     position: absolute;
@@ -203,12 +203,12 @@ body.icons-only .footer-icon-links {
     right: 0;
 }
 
-.dropdown-menu li {
+.user-dropdown-menu li {
     cursor: pointer;
     padding: 0.5em;
 }
 
-.dropdown-menu li:hover {
+.user-dropdown-menu li:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -237,7 +237,7 @@ body.icons-only .footer-icon-links {
 }
 
 .profile-info {
-    margin-bottom: 4em;
+    margin-bottom: 3em;
 }
 
 .profile-info p {
@@ -245,30 +245,27 @@ body.icons-only .footer-icon-links {
     margin: 1em 0;
 }
 
-.profile-changes {
-    align-items: center;
-    max-width: 400px;
-    margin-bottom: 1em;
-}
-
-.profile-changes label {
+.profile-changes label,
+.binance-exchange label {
     display: block;
     font-weight: bold;
     text-align: left;
-    margin: 3em auto 0.5em auto;
+    margin: 2em auto 0.5em auto;
     font-size: 1.25em;
 }
 
-.profile-changes input {
+.profile-changes input,
+.binance-exchange input {
     color: white;
     background-color: transparent;
     border: none; /* Remove all borders */
     border-bottom: 1px solid white; /* Add only the bottom border */
     border-radius: 0; /* Remove border radius */
     font-size: 1em;
+    max-width: 400px;
     width: 100%;
-    padding: 0.5em 0; /* Adjust padding to remove side padding */
     margin-bottom: 1em;
+    padding: 0.5em 0; /* Adjust padding to remove side padding */
 }
 
 .profile-changes input:focus {
@@ -279,7 +276,7 @@ body.icons-only .footer-icon-links {
     color: black;
     cursor: pointer;
     border: 1px solid black;
-    background-color: rgb(255, 255, 255, 0.7);
+    background-color: rgb(255, 255, 255, 0.8);
     padding: 0.25em 0.5em;
     border-radius: 4px;
     font-size: 1em;
@@ -313,7 +310,9 @@ body.icons-only .footer-icon-links {
     margin-bottom: 3em;    
 }
 
+.exchange-edit-button:hover, 
 .save-profile-button:hover {
+    color: white;
     background-color: lime;
 }
 
@@ -322,7 +321,9 @@ body.icons-only .footer-icon-links {
     margin-bottom: 1em;    
 }
 
+.exchange-delete-button:hover,
 .terminate-profile-button:hover{
+    color: white;
     background-color: red;
 }
 
@@ -330,11 +331,96 @@ body.icons-only .footer-icon-links {
     color: red;
 }
 
-.change-password-button{
-    background-color: rgba(255, 255, 255, 0.85);
+.change-password-button,
+.add-exchange-button,
+.new-exchange-button {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.8);
     margin: 1em 0;    
 }
 
-.change-password-button:hover{
+.change-password-button:hover,
+.add-exchange-button:hover,
+.new-exchange-button:hover {
     background-color: white;
+}
+
+/* General table styles */
+.table-container {
+    overflow-x: auto;
+    margin: 1em auto;
+    width: 90%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    vertical-align: middle; /* Ensure vertical alignment */
+    border-bottom: 1px solid grey;
+    padding: 12px 15px;
+}
+
+th {
+    background-color: rgba(75, 75, 75, 0.75);;
+    font-weight: bold;
+}
+
+.exchange-edit-button,
+.exchange-delete-button {
+    color: black;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin: 2px;
+}
+
+.exchange-edit-button{
+    background-color: rgba(0, 255, 70, 0.7);
+}
+
+.exchange-delete-button {
+    background-color: rgba(255, 70, 70, 0.7);
+}
+
+td:nth-child(3) {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Show '...' when content overflows */
+    max-width: 300px; /* Adjust width as needed */
+}
+
+.exchanges-container{
+    display: none;
+}
+
+.exchanges-container.active {
+    display: block; /* Show when active */
+}
+
+.dropdown-menu {
+    color: white;
+    position: relative; /* Changed to relative for better positioning */
+    list-style-type: none;
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    align-self: left;
+    display: block;
+}
+
+.dropdown-menu:hover {
+    background-color: black;
+    outline: none; /* Remove default outline */
+}
+
+.dropdown-menu:focus {
+    background-color: black;
+    outline: none; /* Remove default outline */
 }

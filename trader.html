@@ -124,58 +124,55 @@
                 <section id="exchanges-content" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <div class="binance-exchange">
+                            <div class="table-container">
                                 <div class="table-container">
-                                    <div class="table-container">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Exchange</th>
-                                                    <th>Account Name</th>
-                                                    <th>API</th>
-                                                    <th>Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td id="exchange">Binance</td>
-                                                    <td>Binance-starter</td>
-                                                    <td id="exchange-api-key">97af0b8ea79109f70f5067a7ec52fccf28140bb625364aab4f8bcc969a864728</td>
-                                                    <td>
-                                                        <button class="exchange-edit-button">Edit</button>
-                                                        <button class="exchange-delete-button">Delete</button>
-                                                    </td>
-                                                </tr>
-                                                <!-- Add more rows as needed -->
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Exchange</th>
+                                                <th>Account Name</th>
+                                                <th>API</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td id="exchange">Binance</td>
+                                                <td>Binance-starter</td>
+                                                <td id="exchange-api-key">97af0b8ea79109f70f5067a7ec52fccf28140bb625364aab4f8bcc969a864728</td>
+                                                <td>
+                                                    <button class="exchange-edit-button">Edit</button>
+                                                    <button class="exchange-delete-button">Delete</button>
+                                                </td>
+                                            </tr>
+                                            <!-- Add more rows as needed -->
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div id="add-exchange-container" class="exchanges-container active">
-                                    <button type="button" id="add-exchange-button" class="button add-exchange-button">+ Add Exchange</button>
-                                </div>
-                                
-                                <div id="new-exchange-container" class="exchanges-container">
-                                    <form id="new-api-exchange">
-                                        <label for="new-exchange">Exchange</label>
-                                        <select id="new-exchange" name="new-exchange" class="dropdown-menu">
-                                            <option value="" disabled selected>Select an exchange</option>
-                                            <option value="binance">Binance</option>
-                                            <!-- Add more options as needed -->
-                                        </select>
-                                
-                                        <label for="new-exchange-account-name">Account Name</label>
-                                        <input type="text" id="new-exchange-account-name" name="new-exchange-account-name" placeholder="Enter account name">
-                                
-                                        <label for="new-exchange-api-key">API Key</label>
-                                        <input type="text" id="new-exchange-api-key" name="new-exchange-api-key" placeholder="Enter API key">
-                                
-                                        <label for="new-exchange-api-secret">API Secret</label>
-                                        <input type="text" id="new-exchange-api-secret" name="new-exchange-api-secret" placeholder="Enter API secret">
-                                
-                                        <button type="submit" id="new-exchange-button" class="button new-exchange-button">New API</button>
-                                    </form>
-                                </div>
+                            </div>
+                            <div id="add-exchange-container" class="exchanges-container active">
+                                <button type="button" id="add-exchange-button" class="button add-exchange-button">+ Add Exchange</button>
+                            </div>
+                            <div id="new-exchange-container" class="exchanges-container">
+                                <form id="new-api-exchange">
+                                    <label for="new-exchange">Exchange</label>
+                                    <select id="new-exchange" name="new-exchange" class="dropdown-menu">
+                                        <option value="" disabled selected>Select an exchange</option>
+                                        <option value="binance">Binance</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
+                            
+                                    <label for="new-exchange-account-name">Account Name</label>
+                                    <input type="text" id="new-exchange-account-name" name="new-exchange-account-name" placeholder="Enter account name">
+                            
+                                    <label for="new-exchange-api-key">API Key</label>
+                                    <input type="text" id="new-exchange-api-key" name="new-exchange-api-key" placeholder="Enter API key">
+                            
+                                    <label for="new-exchange-api-secret">API Secret</label>
+                                    <input type="text" id="new-exchange-api-secret" name="new-exchange-api-secret" placeholder="Enter API secret">
+                            
+                                    <button type="submit" id="new-exchange-button" class="button new-exchange-button">New API</button>
+                                </form>
                             </div>
                         </div>
                     </div>

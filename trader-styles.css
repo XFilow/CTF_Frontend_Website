@@ -246,7 +246,7 @@ body.icons-only .footer-icon-links {
 }
 
 .profile-changes label,
-.binance-exchange label {
+.exchanges-container label {
     display: block;
     font-weight: bold;
     text-align: left;
@@ -255,7 +255,7 @@ body.icons-only .footer-icon-links {
 }
 
 .profile-changes input,
-.binance-exchange input {
+.exchanges-container input {
     color: white;
     background-color: transparent;
     border: none; /* Remove all borders */
@@ -268,7 +268,8 @@ body.icons-only .footer-icon-links {
     padding: 0.5em 0; /* Adjust padding to remove side padding */
 }
 
-.profile-changes input:focus {
+.profile-changes input:focus,
+.exchanges-container input:focus {
     outline: none; /* Remove default focus outline */
 }
 

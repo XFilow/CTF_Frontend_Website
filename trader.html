@@ -124,35 +124,25 @@
                 <section id="exchanges-content" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <div class="table-container">
-                                <div class="table-container">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Exchange</th>
-                                                <th>Account Name</th>
-                                                <th>API</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td id="exchange">Binance</td>
-                                                <td>Binance-starter</td>
-                                                <td id="exchange-api-key">97af0b8ea79109f70f5067a7ec52fccf28140bb625364aab4f8bcc969a864728</td>
-                                                <td>
-                                                    <button class="exchange-edit-button">Edit</button>
-                                                    <button class="exchange-delete-button">Delete</button>
-                                                </td>
-                                            </tr>
-                                            <!-- Add more rows as needed -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
                             <div id="add-exchange-container" class="exchanges-container active">
                                 <button type="button" id="add-exchange-button" class="button add-exchange-button">+ Add Exchange</button>
                             </div>
+                            <div class="exchanges-table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Exchange</th>
+                                            <th>Account Name</th>
+                                            <th>API Key</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="exchanges-tbody">
+                                        <!-- Rows will be dynamically added here -->
+                                    </tbody>
+                                </table>
+                            </div>
+
                             <div id="new-exchange-container" class="exchanges-container">
                                 <form id="new-api-exchange">
                                     <label for="new-exchange">Exchange</label>
@@ -171,8 +161,8 @@
                                     <label for="new-exchange-api-secret">API Secret</label>
                                     <input type="text" id="new-exchange-api-secret" name="new-exchange-api-secret" placeholder="Enter API secret">
                             
-                                    <div class="new-exchange-submit">
-                                        <button type="submit" id="new-exchange-button" class="button new-exchange-button">New API</button>
+                                    <div class="new-exchange-submit" active>
+                                        <button type="submit" id="new-exchange-button" class="button new-exchange-button">Save API</button>
                                         <div id="exchange-message" class="status-message"></div>
                                     </div>     
                                 </form>

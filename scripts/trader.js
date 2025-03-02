@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateDashboard() {
 
     }
-    function updateExchanges() {
+    async function updateExchanges() {
         document.getElementById('new-exchange-container').classList.remove('active');
         document.getElementById('add-exchange-container').classList.add('active');
         document.getElementById('new-exchange').value = '';
@@ -101,6 +101,65 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('new-exchange-api-secret').value = '';
         document.getElementById('exchange-message').textContent = '';
         //exchangeMessageContainer.classList.add('no-border');
+
+        // Update the table with the received data
+        const tableBody = document.getElementById("exchanges-tbody");
+        // List of exchanges to fetch
+        const exchanges = ['binance', 'coinbase'];
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return null; // Return null if the user is not logged in
+        }
+
+        try {
+            const response = await fetch(`http://localhost:5000/trader/exchanges?exchanges=${exchanges.join(',')}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                console.error('Failed to fetch exchange data:', response.statusText);
+                return;
+            }
+
+            const data = await response.json();
+            console.log('Exchange Data:', data);
+
+            // Clear existing table rows
+            tableBody.innerHTML = "";
+        
+            // Iterate over the object keys
+            for (const exchange in data) {
+                if (data.hasOwnProperty(exchange)) {
+                    const exchangeData = data[exchange];
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${exchange.charAt(0).toUpperCase() + exchange.slice(1)}</td>
+                        <td>${exchangeData.account_name}</td>
+                        <td>${exchangeData.api_key}</td>
+                        <td>
+                            <button class="exchange-edit-button" onclick="editExchange('${exchange}')">Edit</button>
+                            <button class="exchange-delete-button" onclick="deleteExchange('${exchange}')">Delete</button>
+                        </td>
+                    `;
+
+                    tableBody.appendChild(row);
+                    if (tableBody.children.length > 0) {
+                        tableBody.classList.add('has-data'); // Make tbody visible
+                    } else {
+                        tableBody.classList.remove('has-data'); // Keep it hidden if empty
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching exchange data:', error);
+        }
     }
 
     function logout() {
@@ -254,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('new-exchange-container').classList.add('active');
     });
 
-    // New API form submission
+    // New Exchange API form submission
     document.getElementById('new-api-exchange').addEventListener('submit', async function(event) {
         // Prevent the default form submission
         event.preventDefault();
@@ -280,39 +339,142 @@ document.addEventListener('DOMContentLoaded', function() {
             const token = localStorage.getItem('token');
             if (!token) {
                 console.log('User is not logged in');
-                return null; // Return null if the user is not logged in
+                return null;
             }
 
-            const response = await fetch('http://localhost:5000/trader/new-api', {
+            const getResponse = await fetch(`http://localhost:5000/trader/exchanges?exchanges=${exchange}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (getResponse.ok) {
+                // Confirm before deleting
+                const confirmEdit = confirm(`Are you sure you want to edit the current ${exchange} API?`);
+                if (!confirmEdit) return;
+            }
+
+            const postResponse = await fetch('http://localhost:5000/trader/exchanges', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
-                }      
+                },
+                body: JSON.stringify({
+                    exchange,
+                    accountName,
+                    apiKey,
+                    apiSecret
+                })
             });
 
-            //exchangeMessageContainer.textContent = 'New API created';
-            //exchangeMessageContainer.style.color = 'lime';
-            //exchangeMessageContainer.style.borderColor = 'red';
-            //exchangeMessageContainer.style.display = 'block';
+            const data = await postResponse.json();
+            if (!postResponse.ok) {
+                throw new Error(data.error || 'Failed to save API credentials');
+            }
         
             updateExchanges();
         }
-        // If all fields are filled, you can proceed with form submission
-        //console.log('Form submitted successfully');
-
-        // Optionally, you can submit the form data to the server here
-        // fetch('/api/new-exchange', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ exchange, accountName, apiKey, apiSecret })
-        // })
-        // .then(response => response.json())
-        // .then(data => console.log('Success:', data))
         catch(error) {
             console.error('Error:', error);
+            exchangeMessageContainer.textContent = error.message;
+            exchangeMessageContainer.style.color = 'red';
+            exchangeMessageContainer.style.display = 'block';
         }
     });
+
+    // Edit API button
+    window.editExchange = async function(exchange) {
+        document.getElementById('add-exchange-container').classList.remove('active');
+        document.getElementById('new-exchange-container').classList.add('active');
+    
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return null;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:5000/trader/exchanges?exchanges=${exchange}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                console.error('Failed to fetch exchange data:', response.statusText);
+                return;
+            }
+
+            const exchangeData = await response.json();
+            //console.log('Exchange Data:', exchangeData);
+        
+            if (exchangeData) {
+                // Pre-fill the form with the current data
+                document.getElementById('new-exchange').value = exchange;
+                document.getElementById('new-exchange-account-name').value = exchangeData[exchange].account_name.charAt(0).toUpperCase() + exchangeData[exchange].account_name.slice(1);
+                document.getElementById('new-exchange-api-key').value = exchangeData[exchange].api_key;
+                document.getElementById('new-exchange-api-secret').value = exchangeData[exchange].api_secret;
+            }
+        } catch (error) {
+            console.error('Error fetching exchange data:', error);
+        }
+    }
+
+    // Delete API button
+    window.deleteExchange = async function(exchange) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return;
+        }
+
+        // Confirm before deleting
+        const confirmDelete = confirm(`Are you sure you want to delete the ${exchange.charAt(0).toUpperCase() + exchange.slice(1)} API?`);
+        if (!confirmDelete) return;
+
+        try {
+            const response = await fetch(`http://localhost:5000/trader/exchanges`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ exchange })
+            });
+
+            if (!response.ok) {
+                console.error('Failed to delete exchange data:', response.statusText);
+                return;
+            }
+
+            console.log(`${exchange} API key deleted successfully!`);
+            
+            // Remove the deleted exchange row from the table
+            const tableBody = document.getElementById("exchanges-tbody");
+            const rows = tableBody.getElementsByTagName("tr");
+
+            for (let i = 0; i < rows.length; i++) {
+                const rowExchange = rows[i].children[0].textContent.trim().toLowerCase();
+                if (rowExchange === exchange.toLowerCase()) {
+                    tableBody.removeChild(rows[i]);
+                    break;
+                }
+            }
+
+            // Hide table if no data is left
+            if (tableBody.children.length === 0) {
+                tableBody.classList.remove("has-data");
+            }
+            
+            //updateExchanges();
+
+        } catch (error) {
+            console.error('Error deleting exchange data:', error);
+        }
+    }
 });

@@ -95,6 +95,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateExchanges() {
         document.getElementById('new-exchange-container').classList.remove('active');
         document.getElementById('add-exchange-container').classList.add('active');
+        document.getElementById('new-exchange').value = '';
+        document.getElementById('new-exchange-account-name').value = '';
+        document.getElementById('new-exchange-api-key').value = '';
+        document.getElementById('new-exchange-api-secret').value = '';
+        document.getElementById('exchange-message').textContent = '';
+        //exchangeMessageContainer.classList.add('no-border');
     }
 
     function logout() {
@@ -249,24 +255,51 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // New API form submission
-    document.getElementById('new-api-exchange').addEventListener('submit', function(event) {
+    document.getElementById('new-api-exchange').addEventListener('submit', async function(event) {
         // Prevent the default form submission
         event.preventDefault();
 
         // Get the form elements
+        const exchangeMessageContainer = document.getElementById('exchange-message');
         const exchange = document.getElementById('new-exchange').value;
         const accountName = document.getElementById('new-exchange-account-name').value;
         const apiKey = document.getElementById('new-exchange-api-key').value;
         const apiSecret = document.getElementById('new-exchange-api-secret').value;
 
-        // Validate the form fields
-        if (!exchange || !accountName || !apiKey || !apiSecret) {
-            alert('All fields are required to create a new API.');
-            return;
-        }
+        try {
+            // Validate the form fields
+            if (!exchange || !accountName || !apiKey || !apiSecret) {
+                exchangeMessageContainer.textContent = 'All fields are required to create a new API';
+                exchangeMessageContainer.style.color = 'red';
+                //exchangeMessageContainer.style.borderColor = 'red';
+                exchangeMessageContainer.style.display = 'block';
+                //alert('All fields are required to create a new API.');
+                return;
+            }
 
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.log('User is not logged in');
+                return null; // Return null if the user is not logged in
+            }
+
+            const response = await fetch('http://localhost:5000/trader/new-api', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }      
+            });
+
+            //exchangeMessageContainer.textContent = 'New API created';
+            //exchangeMessageContainer.style.color = 'lime';
+            //exchangeMessageContainer.style.borderColor = 'red';
+            //exchangeMessageContainer.style.display = 'block';
+        
+            updateExchanges();
+        }
         // If all fields are filled, you can proceed with form submission
-        console.log('Form submitted successfully');
+        //console.log('Form submitted successfully');
 
         // Optionally, you can submit the form data to the server here
         // fetch('/api/new-exchange', {
@@ -278,8 +311,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // })
         // .then(response => response.json())
         // .then(data => console.log('Success:', data))
-        // .catch(error => console.error('Error:', error));
-
-        updateExchanges();
+        catch(error) {
+            console.error('Error:', error);
+        }
     });
 });

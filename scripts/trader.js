@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const data = await response.json();
-            console.log('Exchange Data:', data);
+            console.log('Updated Exchange Data:', data); // Debugging
 
             // Clear existing table rows
             tableBody.innerHTML = "";
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const row = document.createElement("tr");
 
                     row.innerHTML = `
-                        <td>${exchange.charAt(0).toUpperCase() + exchange.slice(1)}</td>
+                        <td>${exchangeData.exchange_name}</td>
                         <td>${exchangeData.account_name}</td>
                         <td>${exchangeData.api_key}</td>
                         <td>
@@ -351,9 +351,15 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (getResponse.ok) {
-                // Confirm before deleting
-                const confirmEdit = confirm(`Are you sure you want to edit the current ${exchange} API?`);
-                if (!confirmEdit) return;
+                const exchangeData = await getResponse.json();
+            
+                if (exchangeData[exchange] && exchangeData[exchange].exchange_name) {
+                    if (exchange === exchangeData[exchange].exchange_name.toLowerCase()) {
+                        // Confirm before deleting
+                        const confirmEdit = confirm(`Are you sure you want to edit the current ${exchangeData[exchange].exchange_name} API?`);
+                        if (!confirmEdit) return;
+                    }
+                }
             }
 
             const postResponse = await fetch('http://localhost:5000/trader/exchanges', {
@@ -416,7 +422,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (exchangeData) {
                 // Pre-fill the form with the current data
                 document.getElementById('new-exchange').value = exchange;
-                document.getElementById('new-exchange-account-name').value = exchangeData[exchange].account_name.charAt(0).toUpperCase() + exchangeData[exchange].account_name.slice(1);
+                document.getElementById('new-exchange-account-name').value = exchangeData[exchange].account_name;
                 document.getElementById('new-exchange-api-key').value = exchangeData[exchange].api_key;
                 document.getElementById('new-exchange-api-secret').value = exchangeData[exchange].api_secret;
             }
@@ -471,7 +477,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 tableBody.classList.remove("has-data");
             }
             
-            //updateExchanges();
+            updateExchanges();
 
         } catch (error) {
             console.error('Error deleting exchange data:', error);

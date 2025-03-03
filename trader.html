@@ -94,27 +94,37 @@
                 <section id="dashboard-content" class="content-section">
                     <div class="cards">
                         <div class="card">
-                            <h2>Portfolio Value</h2>
-                            <div class="binance-portfolio">
+                            <h2 class="card-title">Portfolio Value</h2>
+                                <div id="binance-portfolio" class="card-content">
                                 <h3>Binance</h3>
-                                <p id="binance-bnfcr"> $4.21 BNFCR</p>
-                                <p id="binance-btc"> 0.00069809 BTC</p>
-                                <p id="binance-eth">0.00108574 ETH</p>
-                                <p id="binance-bnb">0.005322 BNB</p>
+                                <div class="balances-container">
+                                    <div class="balance-section">
+                                        <h4><u>Spot Wallet</u></h4>
+                                        <div id="binance-spot-balance" class="inside-balance-section">
+                                            <!-- Spot balances will be injected here -->
+                                        </div>
+                                    </div>
+                                    <div class="balance-section">
+                                        <h4><u>Futures Wallet</u></h4>
+                                        <div id="binance-futures-balance" class="inside-balance-section">
+                                            <!-- Futures balances will be injected here -->
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card">
-                            <h2>Profit and Loss</h2>
-                            <div class="binance-profit-loss">
+                            <h2 class="card-title">Profit and Loss</h2>
+                            <div id="binance-profit-loss" class="card-content">
                                 <h3>Binance</h3>
-                                <p id="binance-7d">7 days P/L: $10</p>
-                                <p id="binance-30d">30 days P/L: $70</p>
-                                <p id="binance-overall">Overall: $255.62</p>
+                                <p id="binance-7d">Weekly P/L</p>
+                                <p id="binance-30d">Monthly P/L</p>
+                                <p id="binance-overall">Overall P/L</p>
                             </div>
                         </div>
                         <div class="card">
-                            <h2>Active Bots</h2>
-                              <div class="binance-active-bots">
+                            <h2 class="card-title">Active Bots</h2>
+                              <div id="binance-active-bots" class="card-content">
                                 <h3>Binance</h3>
                                 <p id="binance-btcusdt-bot">BTCUSDT - Futures</p>
                             </div>
@@ -168,6 +178,56 @@
                             </div>
                         </div>
                     </div>
+                </section>
+                <section id="analytics-content" class="content-section" style="display: none;">
+                    <div class="cards">
+                        <div class="card">
+
+                        </div>
+                    </div> 
+                </section>
+                <section id="positions-content" class="content-section" style="display: none;">
+                    <div class="cards">
+                        <div class="card">
+
+                        </div>
+                    </div> 
+                </section>
+                <section id="copy-trading-content" class="content-section" style="display: none;">
+                    <div class="cards">
+                        <div class="card">
+
+                        </div>
+                    </div> 
+                </section>
+                <section id="help-center-content" class="content-section" style="display: none;">
+                    <div class="cards">
+                        <div class="card">
+                            <h3>What is Crypto Trading Flow?</h3>
+                            <p>Crypto Trading Flow is a community focused on leveraging automated bots to trade cryptocurrencies. We offer a variety of trading bots, ranging from free to paid options, with different cryptocurrency pairs.</p>
+                            <br><h3>How can I contact support?</h3>
+                            <p>You can ask for support on the discord channel or you can send an email to support@cryptotradingflow.com</p>
+                            <br><h3>What do I need in order to start running a CTF bot?</h3>
+                            <p>Using our spot trading bots doesn't have any requirement. To use our futures trading bots however, you'll need a KYC-verified Binance Futures account.</p>
+                            <br><h3>How do I start using a CTF bot?</h3>
+                            <p>Click the Getting Started button in the sidebar and follow the setup guide.</p>
+                            <br><h3>What exchanges are supported?</h3>
+                            <p>Currently, we only work with the Binance exchange. However, more exchanges will be added in the future.</p>
+                            <br><h3>What's the minimum amount I need to have in my account?</h3>
+                            <p>You'll only need to have a minimum amount, according to the pair, if you're using the futures trading bot.</p>
+                            <br><h3>Is there a risk I could lose all my money?</h3>
+                            <p>Yes, although unlikely, it can always happen as the markets are constantly changing, and the bots past performance doesn't guarantee future results.</p>
+                            <br><h3>How do I get the Flow Whale role in Discord?</h3>
+                            <p>If you've made a donation to one of the CTF wallet addresses you can paste the transaction ID on the whale-role discord channel and wait for verification.</p>
+                        </div>
+                    </div>      
+                </section>
+                <section id="donations-content" class="content-section" style="display: none;">
+                    <div class="cards">
+                        <div class="card">
+
+                        </div>
+                    </div> 
                 </section>
                 <section id="profile-content" class="content-section" style="display: none;">
                     <div class="cards">

@@ -213,7 +213,7 @@ body.icons-only .footer-icon-links {
 }
 
 .cards {
-    display: flex;
+    display: block;
     gap: 1em;
     margin-top: 2em; /* Add space between the cards and the header */
 }
@@ -222,7 +222,8 @@ body.icons-only .footer-icon-links {
     border: 1px solid white;
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
-    padding: 1em;
+    padding-left: 1em;
+    margin-bottom: 1em; /* Add margin between cards */
     flex: 1;
 }
 
@@ -388,6 +389,13 @@ th {
     background-color: rgba(255, 70, 70, 0.7);
 }
 
+td:nth-child(2) {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Show '...' when content overflows */
+    max-width: 150px; /* Adjust width as needed */
+}
+
 td:nth-child(3) {
     white-space: nowrap; /* Prevent text from wrapping */
     overflow: hidden; /* Hide overflowing content */
@@ -454,4 +462,56 @@ td:nth-child(3) {
     /*border-radius: 5px;
     padding: 0.5em 0.5em;*/
     max-width: 300px;
+}
+
+.card-content {
+    border: 1px solid white; /* Adds a white border */
+    border-radius: 10px; /* Optional: Adds rounded corners */
+    padding-left: 1em; /* Optional: Adds padding inside the border */
+    margin: auto auto 1.5em 0.5em; /* Centers the container and adds vertical margin */
+    max-width: 450px; /* Sets a maximum width for the container */
+    width: 100%; /* Ensures the container adjusts to smaller screen sizes */
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+}
+
+.card-content.collapsed {
+    max-height: 0;
+    padding: 0;
+    border: none;
+}
+
+.card-title {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.card-title.collapsed {
+    margin-bottom: 0;
+}
+
+.card-title::before {
+    content: '\25BD'; /* Right arrow */
+    margin-right: 0.5em;
+    transition: transform 0.3s;
+}
+
+.card-title.collapsed::before {
+    transform: rotate(-90deg);
+}
+.balances-container {
+    display: flex; /* Use Flexbox for horizontal alignment */
+    justify-content: space-between; /* Distributes space between items */
+    gap: 2em; /* Adds space between the balance sections */
+}
+
+.balance-section {
+    flex: 1; /* Allows sections to grow and shrink equally */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.inside-balance-section{
+    padding-bottom: 1em;
 }

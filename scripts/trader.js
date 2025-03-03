@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Call the function to fetch and store the data
     fetchAndStoreTraderInfo();
-
+    updateDashboard();
+    
     navLinks.forEach(link => {
         link.addEventListener('click', function(event) {
             const contentId = event.currentTarget.getAttribute('data-content');
@@ -89,9 +90,64 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.profile-email').textContent = traderInfo.email;
         document.querySelector('.profile-registration').textContent = new Date(traderInfo.register_date).toLocaleString('default', { month: 'long', year: 'numeric' });
     }
-    function updateDashboard() {
 
+    async function updateDashboard() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return null; // Return null if the user is not logged in
+        }
+    
+        const exchanges = ['binance']; // Add more exchanges when implemented
+    
+        try {
+            const response = await fetch(`http://localhost:5000/trader/balance?exchange=${exchanges.join(',')}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (!response.ok) {
+                console.error('Failed to fetch exchange data:', response.statusText);
+                return;
+            }
+    
+            const data = await response.json();
+            console.log('Updated Dashboard Data:', data); // Debugging
+    
+            // Iterate over the object keys (exchange names)
+            for (const exchange in data) {
+                if (data.hasOwnProperty(exchange) && data[exchange].message !== 'No exchange data' && Object.keys(data[exchange]).length > 0) {
+                    const exchangeData = data[exchange];
+    
+                    // Find the corresponding container dynamically
+                    const exchangeFuturesBalance = document.getElementById(`${exchange}-futures-balance`);
+                    
+                    if (!exchangeFuturesBalance) {
+                        console.log(`No container found for exchange: ${exchange}`);
+                        continue; // Skip if the container doesn't exist
+                    }
+    
+                    // Clear existing balances for this exchange
+                    exchangeFuturesBalance.innerHTML = ''; 
+    
+                    // Create a paragraph for each coin with a balance greater than 0
+                    for (const asset in exchangeData) {
+                        if (exchangeData.hasOwnProperty(asset) && parseFloat(exchangeData[asset]) > 0) {
+                            const p = document.createElement('p');
+                            p.textContent = `${exchangeData[asset]} ${asset.toUpperCase()}`;
+                            exchangeFuturesBalance.appendChild(p);
+                        }
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching exchange data:', error);
+        }
     }
+
     async function updateExchanges() {
         document.getElementById('new-exchange-container').classList.remove('active');
         document.getElementById('add-exchange-container').classList.add('active');
@@ -105,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update the table with the received data
         const tableBody = document.getElementById("exchanges-tbody");
         // List of exchanges to fetch
-        const exchanges = ['binance', 'coinbase'];
+        const exchanges = ['binance']; //, 'coinbase'
 
         const token = localStorage.getItem('token');
         if (!token) {
@@ -114,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/trader/exchanges?exchanges=${exchanges.join(',')}`, {
+            const response = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchanges.join(',')}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -128,14 +184,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const data = await response.json();
-            console.log('Updated Exchange Data:', data); // Debugging
+            //console.log('Updated Exchange Data:', data); // Debugging
 
             // Clear existing table rows
             tableBody.innerHTML = "";
         
             // Iterate over the object keys
             for (const exchange in data) {
-                if (data.hasOwnProperty(exchange)) {
+                if (data.hasOwnProperty(exchange) && data[exchange].message !== 'No exchange data' && Object.keys(data[exchange]).length > 0) {
                     const exchangeData = data[exchange];
                     const row = document.createElement("tr");
 
@@ -307,6 +363,20 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = '/reset-password';
     });
 
+    // Dashboard titles toggle
+    document.querySelectorAll('.card-title').forEach(title => {
+        title.addEventListener('click', function() {
+            const content = this.nextElementSibling;
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                this.classList.remove('collapsed');
+            } else {
+                content.classList.add('collapsed');
+                this.classList.add('collapsed');
+            }
+        });
+    });
+
     // Add exchange button
     document.getElementById('add-exchange-button').addEventListener('click', function () {
         document.getElementById('add-exchange-container').classList.remove('active');
@@ -342,7 +412,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return null;
             }
 
-            const getResponse = await fetch(`http://localhost:5000/trader/exchanges?exchanges=${exchange}`, {
+            const getResponse = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchange}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -362,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-            const postResponse = await fetch('http://localhost:5000/trader/exchanges', {
+            const postResponse = await fetch('http://localhost:5000/trader/exchange', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -403,7 +473,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/trader/exchanges?exchanges=${exchange}`, {
+            const response = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchange}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -444,7 +514,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!confirmDelete) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/trader/exchanges`, {
+            const response = await fetch(`http://localhost:5000/trader/exchange`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

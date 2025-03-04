@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = '/reset-password';
     });
 
-    // Dashboard titles toggle
+    // Titles toggle
     document.querySelectorAll('.card-title').forEach(title => {
         title.addEventListener('click', function() {
             const content = this.nextElementSibling;

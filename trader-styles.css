@@ -220,7 +220,7 @@ body.icons-only .footer-icon-links {
 
 .card {
     border: 1px solid white;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.75);
     border-radius: 10px;
     padding-left: 1em;
     margin-bottom: 1em; /* Add margin between cards */
@@ -278,7 +278,7 @@ body.icons-only .footer-icon-links {
     color: black;
     cursor: pointer;
     border: 1px solid black;
-    background-color: rgb(255, 255, 255, 0.8);
+    background-color: rgb(255, 255, 255, 0.75);
     padding: 0.25em 0.5em;
     border-radius: 4px;
     font-size: 1em;
@@ -308,7 +308,7 @@ body.icons-only .footer-icon-links {
 }
 
 .save-profile-button{
-    background-color: rgba(0, 255, 70, 0.7);
+    background-color: rgba(0, 255, 70, 0.75);
     margin-bottom: 3em;    
 }
 
@@ -319,7 +319,7 @@ body.icons-only .footer-icon-links {
 }
 
 .terminate-profile-button{
-    background-color: rgba(255, 70, 70, 0.7);
+    background-color: rgba(255, 70, 70, 0.75);
     margin-bottom: 1em;    
 }
 
@@ -337,7 +337,7 @@ body.icons-only .footer-icon-links {
 .add-exchange-button,
 .new-exchange-button {
     cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.75);
     margin: 1em 0;    
 }
 
@@ -382,11 +382,11 @@ th {
 }
 
 .exchange-edit-button{
-    background-color: rgba(0, 255, 70, 0.7);
+    background-color: rgba(0, 255, 70, 0.75);
 }
 
 .exchange-delete-button {
-    background-color: rgba(255, 70, 70, 0.7);
+    background-color: rgba(255, 70, 70, 0.75);
 }
 
 td:nth-child(2) {
@@ -464,7 +464,8 @@ td:nth-child(3) {
     max-width: 300px;
 }
 
-.card-content {
+.card-content,
+.getting-started-content {
     border: 1px solid white; /* Adds a white border */
     border-radius: 10px; /* Optional: Adds rounded corners */
     padding-left: 1em; /* Optional: Adds padding inside the border */
@@ -474,9 +475,17 @@ td:nth-child(3) {
     box-sizing: border-box; /* Ensures padding and border are included in the width */
     transition: max-height 0.3s ease;
     overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
-.card-content.collapsed {
+.getting-started-content {
+    border: none;
+    background-color: transparent;
+    max-width: 100%; /* Sets a maximum width for the container */
+}
+
+.card-content.collapsed,
+.getting-started-content.collapsed {
     max-height: 0;
     padding: 0;
     border: none;
@@ -501,6 +510,7 @@ td:nth-child(3) {
 .card-title.collapsed::before {
     transform: rotate(-90deg);
 }
+
 .balances-container {
     display: flex; /* Use Flexbox for horizontal alignment */
     justify-content: space-between; /* Distributes space between items */
@@ -514,4 +524,8 @@ td:nth-child(3) {
 
 .inside-balance-section{
     padding-bottom: 1em;
+}
+
+.getting-started-image {
+    max-width: 1000px;
 }

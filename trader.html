@@ -101,15 +101,9 @@
                     <div class="cards">
                         <div class="card">
                             <h2 class="card-title">Portfolio Value</h2>
-                                <div id="binance-portfolio" class="card-content">
+                            <div id="binance-portfolio" class="card-content">
                                 <h3>Binance</h3>
                                 <div class="balances-container">
-                                    <div class="balance-section">
-                                        <h4>Spot Wallet</h4>
-                                        <div id="binance-spot-balance" class="inside-balance-section">
-                                            <!-- Spot balances will be injected here -->
-                                        </div>
-                                    </div>
                                     <div class="balance-section">
                                         <h4>Futures Wallet</h4>
                                         <div id="binance-futures-balance" class="inside-balance-section">
@@ -130,7 +124,7 @@
                         </div>
                         <div class="card">
                             <h2 class="card-title">Active Bots</h2>
-                              <div id="binance-active-bots" class="card-content">
+                            <div id="binance-active-bots" class="card-content">
                                 <h3>Binance</h3>
                                 <p id="binance-btcusdt-bot">BTCUSDT - Futures</p>
                             </div>
@@ -143,8 +137,8 @@
                             <div id="add-exchange-container" class="exchanges-container active">
                                 <button type="button" id="add-exchange-button" class="button add-exchange-button">+ Add Exchange</button>
                             </div>
-                            <div class="exchanges-table-container">
-                                <table>
+                            <div class="table-container">
+                                <table id=exchanges-table>
                                     <thead>
                                         <tr>
                                             <th>Exchange</th>
@@ -176,7 +170,7 @@
                                     <label for="new-exchange-api-secret">API Secret</label>
                                     <input type="text" id="new-exchange-api-secret" name="new-exchange-api-secret" placeholder="Enter API secret">
                             
-                                    <div class="new-exchange-submit" active>
+                                    <div class="new-exchange-form-submit" active>
                                         <button type="submit" id="new-exchange-button" class="button new-exchange-button">Save API</button>
                                         <div id="exchange-message" class="status-message"></div>
                                     </div>     
@@ -195,7 +189,26 @@
                 <section id="positions-content" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-
+                            <div class="table-container">
+                                <table id="positions-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Exchange</th>
+                                            <th>Symbol</th>
+                                            <th>Position</th>
+                                            <th>Leverage</th>
+                                            <th>Size</th>
+                                            <th>Entry Price</th>
+                                            <th>Mark Price</th>
+                                            <th>PNL</th>
+                                            <th>ROI</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Live position updates will be added here -->
+                                    </tbody>
+                                </table>
+                            </div>      
                         </div>
                     </div> 
                 </section>
@@ -212,26 +225,26 @@
                             <h2 class="card-title">Binance</h2>
                             <div id="binance-getting-started" class="getting-started-content">
                                 <h3>Create a Binance account</h3>
-                                <p><a href="https://www.binance.com">https://www.binance.com</a></p>
-                                <p>If you need guidance follow Binance Beginners Guide to help you start your account:</p>
-                                <p><a href="https://academy.binance.com/articles/binance-beginner-s-guide">https://academy.binance.com/articles/binance-beginner-s-guide</a></p>
+                                <p><a href="https://www.binance.com" class="getting-started-link">https://www.binance.com</a></p>
+                                <br><p>If you need guidance follow Binance Beginners Guide to help you start your account:</p>
+                                <p><a href="https://academy.binance.com/articles/binance-beginner-s-guide" class="getting-started-link">Binance Beguinners Guide</a></p>
                                 <br><h3>Open a Futures account</h3>
                                 <p>You will need KYC verification to open your futures account on Binance:</p>
-                                <p><a href="https://www.binance.com/futures">https://www.binance.com/futures</a></p>
+                                <p><a href="https://www.binance.com/futures" class="getting-started-link">https://www.binance.com/futures</a></p>
                                 <br><h3>Create an API for your Binance account</h3>
                                 <img src="../static/images/binance1.webp" alt="Image" class="getting-started-image">
                                 <p>Go to your account page and select the API Management tab.</p>
                                 <p>Click on the yellow button that says “Create API”.</p>
-                                <img src="../static/images/binance2.webp" alt="Image" class="getting-started-image">
+                                <br><br><img src="../static/images/binance2.webp" alt="Image" class="getting-started-image">
                                 <p>On the Choose API Key type menu select the System generated option.</p>
-                                <img src="../static/images/binance3.webp" alt="Image" class="getting-started-image">
+                                <br><br><img src="../static/images/binance3.webp" alt="Image" class="getting-started-image">
                                 <p>Set a label to your Binance API.</p>
                                 <p>Complete your 2-step verification to finalize API creation.</p>
-                                <img src="../static/images/binance4.webp" alt="Image" class="getting-started-image">
+                                <br><br><img src="../static/images/binance4.webp" alt="Image" class="getting-started-image">
                                 <p>The API screen will have all boxes unchecked except Enable Reading.</p>
                                 <p><b>Save your API Key and your Secret Key</b>, you'll need them later.</p>
                                 <p>Click on Edit restrictions.</p>
-                                <img src="../static/images/binance5.webp" alt="Image" class="getting-started-image">
+                                <br><br><img src="../static/images/binance9.webp" alt="Image" class="getting-started-image">
                                 <p>Select the option “Restrict access to trusted IPs only (Recommended)”.</p>
                                 <p>Type the following IP address: <b>1234567</b></p>
                                 <p>Check the box that says “Enable Futures”.</p>
@@ -239,28 +252,36 @@
                                 <br><h3>Connecting to the Binance API</h3>
                                 <img src="../static/images/ctf1.webp" alt="Image" class="getting-started-image">
                                 <p>Login to your Crypto Trading Flow account:</p>
-                                <p><a href="https://www.cryptotradingflow.com/login">https://www.cryptotradingflow.com/login</a></p>
+                                <p><a href="https://www.cryptotradingflow.com/login" class="getting-started-link">https://www.cryptotradingflow.com/login</a></p>
                                 <p>Select the Exchanges sidebar tab.</p>
                                 <p>Click the + Add Exchange button.</p>
-                                <img src="../static/images/ctf2.webp" alt="Image" class="getting-started-image">
+                                <br><br><img src="../static/images/ctf2.webp" alt="Image" class="getting-started-image">
                                 <p>Fill the exchange API form with your Binance API keys and click the Save API button.</p>
-                                <img src="../static/images/ctf3.webp" alt="Image" class="getting-started-image">
+                                <br><img src="../static/images/ctf3.webp" alt="Image" class="getting-started-image">
                                 <p>You're Binance API will be displayed in the table if added successfully.</p>
-                                <p>To verify the exchange connection select the Dashboard sidebar tab and see if you're Portfolio Value matches your Binance account.</p>
-                                <img src="../static/images/ctf4.webp" alt="Image" class="getting-started-image">
+                                <p>To verify the exchange connection, select the Dashboard sidebar tab and check if your Portfolio Value matches your Binance account.</p>
+                                <br><br><img src="../static/images/ctf9.webp" alt="Image" class="getting-started-image">
                                 <p>All that's left is to select a trading bot to copy-trade.</p>
                                 <p>Select the Copy-Trading sidebar tab.</p>
                                 <p>Choose one of the CTF trading bots and start copy-trading.</p>
+                                <br><h3>Configuring Binance Futures account settings for BTC/USDT</h3>
+                                <img src="../static/images/binance5.webp" alt="Image" class="getting-started-image">
+                                <p>Under the Trade tab select USDⓈ-M Futures.</p>
+                                <br><br><img src="../static/images/binance6.webp" alt="Image" class="getting-started-image">
+                                <p>In the Futures screen select the BTC/USDT pair highlighted by the orange box.</p>
+                                <p>Change your settings to match the settings highlighted by the yellow box. It should be Cross Margin Mode and 100x leverage.</p>
+                                <p>Click on the settings button highlighted by the red box.</p>
+                                <br><br><img src="../static/images/binance7.webp" alt="Image" class="getting-started-image">
+                                <p>Select the tab Position Mode.</p>
+                                <br><br><img src="../static/images/binance8.webp" alt="Image" class="getting-started-image">
+                                <p>Choose the option One-Way Mode if it's not already selected.</p>
                                 <p>Everything is set up it's time to let the bot do the trading for you.</p>
-                                <p>You can check your account's trading history in the Analytics sidebar tab and any open trading positions in the Positions tab.</p>
+                                <p>Don't forget you'll have to transfer funds from your Spot wallet to your Futures wallet.</p>
+                                <p>If you need help setting up your Futures account you can check th following guide:</p>
+                                <p><a href="https://www.binance.com/en/blog/futures/the-ultimate-guide-to-trading-on-binance-futures-8534557745009080271" class="getting-started-link">The Ultimate Guide to Trading on Binance Futures</a></p>
                             </div>
                         </div>
                     </div> 
-                    <div class="cards">
-                        <div class="card">
-                            <h2 class="card-title">Coinbase</h2>
-                        </div>
-                    </div>
                 </section>
                 <section id="help-center-content" class="content-section" style="display: none;">
                     <div class="cards">

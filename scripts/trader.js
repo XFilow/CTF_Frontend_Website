@@ -200,8 +200,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <td>${exchangeData.account_name}</td>
                         <td>${exchangeData.api_key}</td>
                         <td>
-                            <button class="exchange-edit-button" onclick="editExchange('${exchange}')">Edit</button>
-                            <button class="exchange-delete-button" onclick="deleteExchange('${exchange}')">Delete</button>
+                            <button class="table-edit-button" onclick="editExchange('${exchange}')">Edit</button>
+                            <button class="table-delete-button" onclick="deleteExchange('${exchange}')">Delete</button>
                         </td>
                     `;
 

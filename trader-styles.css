@@ -29,7 +29,7 @@ body {
     width: 250px;
     transition: width 0.3s;
     background-color: rgba(0, 0, 0, 0.9);
-    padding: 1.5em 0.5em 1em 0.5em;
+    padding: 0 0.5em 1em 0.5em;
 }
 
 .sidebar-header {
@@ -137,7 +137,7 @@ body.icons-only .footer-icon-links {
     border-left: 1px solid white;
     transition: width 0.3s;
     flex-grow: 1;
-    padding: 2em;
+    padding: 0 2em 2em 2em;
 }
 
 .content-header {
@@ -148,9 +148,8 @@ body.icons-only .footer-icon-links {
     align-items: center;
     box-sizing: border-box;
     border-bottom: 1px solid white;
-    background-color: rgba(0, 0, 0, 0.9);
-    padding: 1em;
-    z-index: 1000;
+    background-color: black;
+    padding: 1em 1em 0.5em 1em; /* Adjust padding as needed */    z-index: 1000;
     width: 100%;
     top: 0;
 }
@@ -216,6 +215,7 @@ body.icons-only .footer-icon-links {
     display: block;
     gap: 1em;
     margin-top: 2em; /* Add space between the cards and the header */
+    flex-grow: 1;
 }
 
 .card {
@@ -225,6 +225,8 @@ body.icons-only .footer-icon-links {
     padding-left: 1em;
     margin-bottom: 1em; /* Add margin between cards */
     flex: 1;
+    overflow-y: auto; /* Enables scrolling for content */
+    overflow-x: hidden; /* Enables scrolling for content */
 }
 
 .card h2 {
@@ -312,7 +314,7 @@ body.icons-only .footer-icon-links {
     margin-bottom: 3em;    
 }
 
-.exchange-edit-button:hover, 
+.table-edit-button:hover, 
 .save-profile-button:hover {
     color: white;
     background-color: lime;
@@ -323,7 +325,7 @@ body.icons-only .footer-icon-links {
     margin-bottom: 1em;    
 }
 
-.exchange-delete-button:hover,
+.table-delete-button:hover,
 .terminate-profile-button:hover{
     color: white;
     background-color: red;
@@ -348,10 +350,10 @@ body.icons-only .footer-icon-links {
 }
 
 /* General table styles */
-.exchanges-table-container {
+.table-container {
     overflow-x: auto;
-    margin: 1.5em auto;
-    width: 90%;
+    margin: 2em auto;
+    width: 80%;
 }
 
 table {
@@ -371,8 +373,8 @@ th {
     font-weight: bold;
 }
 
-.exchange-edit-button,
-.exchange-delete-button {
+.table-edit-button,
+.table-delete-button {
     color: black;
     border: none;
     cursor: pointer;
@@ -381,11 +383,11 @@ th {
     margin: 2px;
 }
 
-.exchange-edit-button{
+.table-edit-button{
     background-color: rgba(0, 255, 70, 0.75);
 }
 
-.exchange-delete-button {
+.table-delete-button {
     background-color: rgba(255, 70, 70, 0.75);
 }
 
@@ -403,7 +405,7 @@ td:nth-child(3) {
     max-width: 300px; /* Adjust width as needed */
 }
 
-.new-exchange-submit {
+.new-exchange-form-submit {
     display: flex;
     align-items: center;
     justify-content: flex-start; /* Align items to the left */
@@ -527,5 +529,14 @@ td:nth-child(3) {
 }
 
 .getting-started-image {
-    max-width: 1000px;
+    max-width: 1200px;
+}
+
+.getting-started-link {
+    color: white;
+    font-weight: bold;
+}
+
+.getting-started-link:hover {
+    color: grey;
 }

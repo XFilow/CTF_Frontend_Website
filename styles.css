@@ -80,7 +80,6 @@ header {
 .login-button:hover {
     color: black;
     background-color: white;
-    border: 2px solid black;
 }
 
 .register-button {
@@ -92,7 +91,6 @@ header {
 .register-button:hover {
     color: black;
     background-color: white;
-    border: 2px solid black;
 }
 
 main {

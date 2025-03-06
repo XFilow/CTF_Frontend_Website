@@ -158,7 +158,8 @@ body.icons-only .footer-icon-links {
     width: 100%;
 }
 
-.exchange-logo {
+.exchange-logo,
+.coin-logo {
     display: inline;
     vertical-align: middle; /* Aligns elements vertically in the middle */
     width: 2em; /* Fixed width for the logo */
@@ -328,6 +329,10 @@ body.icons-only .footer-icon-links {
     margin-bottom: 3em;    
 }
 
+.copy-trading-button{
+    display: inline;
+}
+
 .table-edit-button:hover, 
 .save-profile-button:hover {
     color: white;
@@ -362,6 +367,8 @@ body.icons-only .footer-icon-links {
 .new-exchange-button:hover {
     background-color: white;
 }
+
+
 
 /* General table styles */
 .table-container {
@@ -487,7 +494,7 @@ td:nth-child(3) {
     border-radius: 10px; /* Optional: Adds rounded corners */
     padding-left: 1em; /* Optional: Adds padding inside the border */
     padding-top: 1em; /* Optional: Adds padding inside the border */
-    margin: auto auto 1.5em 0.5em; /* Centers the container and adds vertical margin */
+    margin: auto 1em 1.5em 0.5em; /* Centers the container and adds vertical margin */
     max-width: 450px; /* Sets a maximum width for the container */
     width: 100%; /* Ensures the container adjusts to smaller screen sizes */
     box-sizing: border-box; /* Ensures padding and border are included in the width */
@@ -516,6 +523,10 @@ td:nth-child(3) {
     max-height: 0;
     padding: 0;
     border: none;
+}
+
+.copy-trading-content:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .card-title {

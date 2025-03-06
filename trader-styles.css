@@ -158,6 +158,20 @@ body.icons-only .footer-icon-links {
     width: 100%;
 }
 
+.exchange-logo {
+    display: inline;
+    vertical-align: middle; /* Aligns elements vertically in the middle */
+    width: 2em; /* Fixed width for the logo */
+    height: 2em; /* Fixed height for the logo */
+    margin-right: 0.1em;
+}
+
+.inline-title{
+    display: inline;
+    vertical-align: middle; /* Aligns elements vertically in the middle */
+
+}
+
 .user-menu {
     display: flex;
     align-items: center;
@@ -467,10 +481,12 @@ td:nth-child(3) {
 }
 
 .card-content,
-.getting-started-content {
+.copy-trading-content {
+    display: inline-block;
     border: 1px solid white; /* Adds a white border */
     border-radius: 10px; /* Optional: Adds rounded corners */
     padding-left: 1em; /* Optional: Adds padding inside the border */
+    padding-top: 1em; /* Optional: Adds padding inside the border */
     margin: auto auto 1.5em 0.5em; /* Centers the container and adds vertical margin */
     max-width: 450px; /* Sets a maximum width for the container */
     width: 100%; /* Ensures the container adjusts to smaller screen sizes */
@@ -481,13 +497,22 @@ td:nth-child(3) {
 }
 
 .getting-started-content {
+    display: block;
+    border-radius: 10px; /* Optional: Adds rounded corners */
+    padding-left: 1em; /* Optional: Adds padding inside the border */
+    margin: auto auto 1.5em 0.5em; /* Centers the container and adds vertical margin */
+    width: 100%; /* Ensures the container adjusts to smaller screen sizes */
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+    transition: max-height 0.3s ease;
+    overflow: hidden;
     border: none;
     background-color: transparent;
     max-width: 100%; /* Sets a maximum width for the container */
 }
 
 .card-content.collapsed,
-.getting-started-content.collapsed {
+.getting-started-content.collapsed,
+.copy-trading-content.collapsed {
     max-height: 0;
     padding: 0;
     border: none;
@@ -525,7 +550,7 @@ td:nth-child(3) {
 }
 
 .inside-balance-section{
-    padding-bottom: 1em;
+    padding-bottom: 0.5em;
 }
 
 .getting-started-image {

@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             emailMessageContainer.textContent = '';
             codeMessageContainer.textContent = '';
 
-            resetEmail = document.getElementById('email').value;
+            resetEmail = document.getElementById('email').value.trim();
 
             try {
                 const response = await fetch('http://localhost:5000/reset-password', {
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         resetCodeForm.addEventListener('submit', async function(event) {
             event.preventDefault();
 
-            const code = document.getElementById('code').value;
+            const code = document.getElementById('code').value.trim();
 
             codeMessageContainer.textContent = '';
             passwordMessageContainer.textContent = '';
@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', function() {
         resetPasswordForm.addEventListener('submit', async function(event) {
             event.preventDefault();
 
-            const newPassword = document.getElementById('new-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
+            const newPassword = document.getElementById('new-password').value.trim();
+            const confirmPassword = document.getElementById('confirm-password').value.trim();
 
             passwordMessageContainer.textContent = '';
 

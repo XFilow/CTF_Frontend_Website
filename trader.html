@@ -105,9 +105,9 @@
                     <div class="cards">
                         <div class="card">
                             <div class="profile-info">
-                                <p><strong>Name:</strong> <span class="profile-username">Name</span></p>
-                                <p><strong>Email:</strong> <span class="profile-email">Email</span></p>
-                                <p><strong>Member since:</strong> <span class="profile-registration">Registration Date</span></p>
+                                <p><b>Name:</b> <span class="profile-username">Name</span></p>
+                                <p><b>Email:</b> <span class="profile-email">Email</span></p>
+                                <p><b>Member since:</b> <span class="profile-registration">Registration Date</span></p>
                             </div>
                             <div class="profile-changes">
                                 <label for="change-name">Change Name</label>
@@ -130,16 +130,33 @@
                 <section id="settings-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <div id="settings-changes" class="settings-changes">
-                                <p class="input-label">Change Password</p>
-                                Pressing change will redirect you to the reset password page. 
+                            <h2 class="input-label">Change Password</h2>
+                            <div id="change-password" class="form-container active">
                                 <button type="button" id="change-password-button" class="button white-button">Change</button>
+                            </div>
+                            <div id="change-password-form" class="form-container">
+                                <label for="current-password">Current Password</label>
+                                <input type="text" id="current-password" name="current-password" placeholder="Enter your current password">
+                                
+                                <label for="new-password">New Password</label>
+                                <input type="text" id="new-password" name="new-password" placeholder="Enter your new password">
+
+                                <label for="confirm-new-password">Confirm New Password</label>
+                                <input type="text" id="confirm-new-password" name="confirm-new-password" placeholder="Confirm your new password">
+                                <div class="password-change-action">
+                                    <button type="button" id="save-password-button" class="button white-button">Save</button>
+                                    <div id="change-password-message" class="status-message"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
                 <section id="dashboard-section" class="content-section">
                     <div class="cards">
+                        <div id="getting-started-card" class="card">
+                            <b><h3>Connect Exchange</h3></b>
+                            <p>To start copy-trading a CTF bot, you'll need to connect an exchange API to your CTF account. You can do this in the Exchanges sidebar tab. If you need further assistance, check the Getting Started sidebar tab.</p>
+                        </div>
                         <div class="card">
                             <h2 class="card-title">Portfolio Value</h2>
                             <div id="binance-portfolio" class="card-content">
@@ -185,10 +202,10 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div id="add-exchange-container" class="exchanges-container active">
+                            <div id="add-exchange-container" class="form-container active">
                                 <button type="button" id="add-exchange-button" class="button white-button">+ Add Exchange</button>
                             </div>
-                            <div id="new-exchange-container" class="exchanges-container">
+                            <div id="new-exchange-container" class="form-container">
                                 <form id="new-api-exchange">
                                     <label for="new-exchange">Exchange</label>
                                     <select id="new-exchange" name="new-exchange" class="dropdown-menu">
@@ -206,8 +223,8 @@
                                     <label for="new-exchange-api-secret">API Secret</label>
                                     <input type="text" id="new-exchange-api-secret" name="new-exchange-api-secret" placeholder="Enter API secret">
                             
-                                    <div class="new-exchange-form-submit" active>
-                                        <button type="submit" id="new-exchange-button" class="button white-button">Save API</button>
+                                    <div class="new-exchange-form-submit">
+                                        <button type="submit" id="new-exchange-button" class="button white-button">Save</button>
                                         <div id="exchange-message" class="status-message"></div>
                                     </div>     
                                 </form>

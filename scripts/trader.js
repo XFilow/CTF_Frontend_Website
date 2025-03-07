@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             document.getElementById('user-menu-logged').style.display = 'flex';
             document.getElementById('user-menu-not-logged').style.display = 'none';
-
+            
             console.log('Trader Info:', traderInfo);
         } else {
             document.getElementById('user-menu-not-logged').style.display = 'flex';
@@ -82,6 +82,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (contentId === 'profile-section') {
             updateProfile()
         }
+        else if (contentId === 'settings-section') {
+            updateSettings()
+        }        
         else if (contentId === 'dashboard-section') {
             updateDashboard()
         }
@@ -96,7 +99,14 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.profile-registration').textContent = new Date(traderInfo.register_date).toLocaleString('default', { month: 'long', year: 'numeric' });
     }
 
+    function updateSettings() {
+        document.getElementById('change-password-form').classList.remove('active');
+        document.getElementById('change-password').classList.add('active');
+    }
+
     async function updateDashboard() {
+        document.getElementById('getting-started-card').style.display = 'none';
+
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
@@ -104,7 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     
         const exchanges = ['binance']; // Add more exchanges when implemented
-    
+        let validExchangeFound = false; // Flag to track if at least one exchange has valid data
+
         try {
             const response = await fetch(`http://localhost:5000/trader/balance?exchange=${exchanges.join(',')}`, {
                 method: 'GET',
@@ -125,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Iterate over the object keys (exchange names)
             for (const exchange in data) {
                 if (data.hasOwnProperty(exchange) && data[exchange].message !== 'No exchange data' && Object.keys(data[exchange]).length > 0) {
+                    validExchangeFound = true;
                     const exchangeData = data[exchange];
     
                     // Find the corresponding container dynamically
@@ -147,6 +159,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 }
+            }
+
+            // If no valid exchange was found show getting starter message
+            if (!validExchangeFound) {
+                console.log("No exchange data available.");
+                document.getElementById('getting-started-card').style.display = 'block';
             }
         } catch (error) {
             console.error('Error fetching exchange data:', error);
@@ -277,16 +295,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle the profile changes
     document.getElementById('save-profile-button').addEventListener('click', async function() {
+        const newUsername = document.getElementById('change-name').value.trim();
+        const nameTakenError = document.getElementById('name-taken-error');
+        const pictureInput = document.getElementById('change-picture');
+        const fileSizeError = document.getElementById('file-size-error');
+        const newPicture = pictureInput.files.length > 0 ? pictureInput.files[0] : null;
+        
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return null; // Return null if the user is not logged in
+        }
+        
         try {
-            const newUsername = document.getElementById('change-name').value;
-            const nameTakenError = document.getElementById('name-taken-error');
-            const pictureInput = document.getElementById('change-picture');
-            const fileSizeError = document.getElementById('file-size-error');
-            const newPicture = pictureInput.files.length > 0 ? pictureInput.files[0] : null;
-
             // Change username
             if (newUsername) {
-                const token = localStorage.getItem('token');
                 const response = await fetch('http://localhost:5000/trader/username', {
                     method: 'POST',
                     headers: {
@@ -334,9 +357,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('terminate-profile-button').addEventListener('click', async function() {
         const confirmed = confirm('Are you sure you want to terminate your account? This action cannot be undone.');
 
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return null; // Return null if the user is not logged in
+        }
+        
         if (confirmed) {
             try {
-                const token = localStorage.getItem('token');
                 const response = await fetch('http://localhost:5000/trader/terminate-account', {
                     method: 'POST',
                     headers: {
@@ -363,10 +391,69 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Change password button
     document.getElementById('change-password-button').addEventListener('click', function() {
-        localStorage.removeItem('token');
-        console.log('Logged out');
-        window.location.href = '/reset-password';
+        document.getElementById('change-password').classList.remove('active');
+        document.getElementById('change-password-form').classList.add('active');
     });
+
+    // Save new password button
+    document.getElementById('save-password-button').addEventListener('click', async function() {
+        const currentPassword = document.getElementById('current-password').value.trim();
+        const newPassword = document.getElementById('new-password').value.trim();
+        const confirmNewPassword = document.getElementById('confirm-new-password').value.trim();
+        const statusMessage = document.getElementById('change-password-message');
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return null; // Return null if the user is not logged in
+        }
+
+        // Reset message
+        statusMessage.textContent = '';
+        statusMessage.style.display = 'flex'
+        statusMessage.style.color = 'red';
+
+        try {
+            // Basic validation
+            if (!currentPassword || !newPassword || !confirmNewPassword) {
+                statusMessage.textContent = 'All fields are required';
+                return;
+            }
+
+            if (newPassword !== confirmNewPassword) {
+                statusMessage.textContent = 'New passwords do not match';
+                return;
+            }
+
+            if (newPassword.length < 7) {
+                statusMessage.textContent = 'Password must have at least 7 characters';
+                return;
+            }
+
+            /* const response = await fetch('http://localhost:5000/trader/update-password', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const result = await response.json();
+            if (!response.ok) {
+                statusMessage.textContent = result.message || 'Failed to update password.';
+                return;
+            }
+            */
+    
+            statusMessage.style.color = 'green';
+            statusMessage.textContent = 'Password updated successfully';
+        
+        } catch (error) {
+            console.error('Error updating password:', error);
+            statusMessage.textContent = 'An error occurred please try again';
+        }
+    });
+    
 
     // Titles toggle
     document.querySelectorAll('.card-title').forEach(title => {
@@ -395,10 +482,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Get the form elements
         const exchangeMessageContainer = document.getElementById('exchange-message');
-        const exchange = document.getElementById('new-exchange').value;
-        const accountName = document.getElementById('new-exchange-account-name').value;
-        const apiKey = document.getElementById('new-exchange-api-key').value;
-        const apiSecret = document.getElementById('new-exchange-api-secret').value;
+        const exchange = document.getElementById('new-exchange').value.trim();
+        const accountName = document.getElementById('new-exchange-account-name').value.trim();
+        const apiKey = document.getElementById('new-exchange-api-key').value.trim();
+        const apiSecret = document.getElementById('new-exchange-api-secret').value.trim();
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return null;
+        }
 
         try {
             // Validate the form fields
@@ -409,12 +502,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 exchangeMessageContainer.style.display = 'block';
                 //alert('All fields are required to create a new API.');
                 return;
-            }
-
-            const token = localStorage.getItem('token');
-            if (!token) {
-                console.log('User is not logged in');
-                return null;
             }
 
             const getResponse = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchange}`, {

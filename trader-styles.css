@@ -171,7 +171,7 @@ body.icons-only .footer-icon-links {
     vertical-align: middle; /* Aligns elements vertically in the middle */
     width: 3em; /* Fixed width for the logo */
     height: 3em; /* Fixed height for the logo */
-    margin-right: 0.5em;
+    margin-right: 0.3em;
 }
 
 .inline-title{
@@ -261,6 +261,13 @@ body.icons-only .footer-icon-links {
     margin-bottom: 1em;
 }
 
+#getting-started-card {
+    display: none;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 1.25em;
+}
+
 .input-label {
     color: white;
     font-weight: bold;
@@ -278,7 +285,7 @@ body.icons-only .footer-icon-links {
 }
 
 .profile-changes label,
-.exchanges-container label {
+.form-container label {
     display: block;
     font-weight: bold;
     text-align: left;
@@ -287,7 +294,7 @@ body.icons-only .footer-icon-links {
 }
 
 .profile-changes input,
-.exchanges-container input {
+.form-container input {
     color: white;
     background-color: transparent;
     border: none; /* Remove all borders */
@@ -301,7 +308,7 @@ body.icons-only .footer-icon-links {
 }
 
 .profile-changes input:focus,
-.exchanges-container input:focus {
+.form-container input:focus {
     outline: none; /* Remove default focus outline */
 }
 
@@ -314,6 +321,12 @@ body.icons-only .footer-icon-links {
     border-radius: 4px;
     font-size: 1em;
     transition: background-color 0.3s;
+}
+
+.password-change-action {
+    display: flex;
+    align-items: center; /* Align vertically */
+    justify-content: flex-start; /* Align items to the left */
 }
 
 .button {
@@ -367,8 +380,14 @@ body.icons-only .footer-icon-links {
     background-color: red;
 }
 
+
 #terminate-profile-button {
     margin-bottom: 1em;    
+}
+
+#save-password-button {
+    margin-bottom: 1em;    
+    margin-top: 1em;
 }
 
 .error-message{
@@ -410,17 +429,18 @@ th {
     color: black;
     border: none;
     cursor: pointer;
+    font-weight: bold;
     padding: 5px 10px;
     border-radius: 3px;
     margin: 2px;
 }
 
 .table-edit-button{
-    background-color: rgba(0, 255, 70, 0.75);
+    background-color: white;
 }
 
 .table-delete-button {
-    background-color: rgba(255, 70, 70, 0.75);
+    background-color: red;
 }
 
 td:nth-child(2) {
@@ -444,11 +464,11 @@ td:nth-child(3) {
     gap: 10px; /* Adjust the gap as needed */
 }
 
-.exchanges-container{
+.form-container{
     display: none;
 }
 
-.exchanges-container.active {
+.form-container.active {
     display: block; /* Show when active */
 }
 
@@ -490,9 +510,10 @@ td:nth-child(3) {
     width: fit-content;
     font-weight: normal;
     text-align: left;
+    white-space: nowrap; /* Prevents text from wrapping */
     /*border: 1px solid white;*/
     margin: 10px;
-    font-size: 0.75em;
+    font-size: 1em;
     /*border-radius: 5px;
     padding: 0.5em 0.5em;*/
     max-width: 300px;
@@ -564,11 +585,6 @@ td:nth-child(3) {
 .balance-section {
     flex: 1; /* Allows sections to grow and shrink equally */
     white-space: nowrap; /* Prevent text from wrapping */
-    padding-bottom: 0.5em;
-}
-
-.inside-balance-section{
-    padding-bottom: 0.5em;
 }
 
 .getting-started-image {

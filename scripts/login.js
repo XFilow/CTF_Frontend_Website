@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle the login form submission
     document.getElementById('login-form').addEventListener('submit', async function(event) {
         event.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value.trim();
 
         try {
             const response = await fetch('http://localhost:5000/login', { //https://cryptotradingflow/login

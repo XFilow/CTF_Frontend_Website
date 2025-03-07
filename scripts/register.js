@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
         registerEmailForm.addEventListener('submit', async function(event) {
             event.preventDefault(); // Prevent the default form submission
 
-            registerEmail = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            registerEmail = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
             const newRegisterForm = document.getElementById('register-form-container');
             const verifyCodeForm = document.getElementById('code-form-container');
 
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         registerCodeForm.addEventListener('submit', async function(event) {
             event.preventDefault(); // Prevent the default form submission
 
-            const code = document.getElementById('code').value;
+            const code = document.getElementById('code').value.trim();
 
             // Clear previous messages
             codeMessageContainer.textContent = '';

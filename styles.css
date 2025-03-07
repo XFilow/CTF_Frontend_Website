@@ -81,6 +81,10 @@ header {
     background-color: white;
 }
 
+#login-button {
+    margin-right: 1em;
+}
+
 main {
     color: white;
     font-weight: normal;

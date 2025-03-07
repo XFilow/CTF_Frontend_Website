@@ -17,49 +17,49 @@
             <nav class="sidebar-menu">
                 <ul>
                     <li>
-                        <a href="#dashboard" data-content="dashboard-content">
+                        <a href="#dashboard" data-section="dashboard-section">
                             <img src="../static/icons/dashboard_icon.webp" alt="Dashboard Icon" class="sidebar-icon">
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#exchanges" data-content="exchanges-content">
+                        <a href="#exchanges" data-section="exchanges-section">
                             <img src="../static/icons/exchanges_icon.webp" alt="Exchanges Icon" class="sidebar-icon">
                             <span>Exchanges</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#analytics" data-content="analytics-content">
+                        <a href="#analytics" data-section="analytics-section">
                             <img src="../static/icons/analytics_icon.webp" alt="Analytics Icon" class="sidebar-icon">
                             <span>Analytics</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#positions" data-content="positions-content">
+                        <a href="#positions" data-section="positions-section">
                             <img src="../static/icons/positions_icon.webp" alt="Positions Icon" class="sidebar-icon">
                             <span>Positions</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#copy-trading" data-content="copy-trading-content">
+                        <a href="#copy-trading" data-section="copy-trading-section">
                             <img src="../static/icons/copy_trading_icon.webp" alt="Copy Trading Icon" class="sidebar-icon">
                             <span>Copy-Trading</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#getting-started" data-content="getting-started-content">
+                        <a href="#getting-started" data-section="getting-started-section">
                             <img src="../static/icons/start_icon.webp" alt="Getting Start Icon" class="sidebar-icon">
                             <span>Getting Started</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#help-center" data-content="help-center-content">
+                        <a href="#help-center" data-section="help-center-section">
                             <img src="../static/icons/help_icon.webp" alt="Help Center Icon" class="sidebar-icon">
                             <span>Help Center</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#donations" data-content="donations-content">
+                        <a href="#donations" data-section="donations-section">
                             <img src="../static/icons/donations_icon.webp" alt="Donations Icon" class="sidebar-icon">
                             <span>Donations</span>
                         </a>
@@ -81,23 +81,64 @@
             </footer>
         </aside>
         <!-- Main Content -->
-        <main class="main-content" id="main-content">
+        <main id="main-content" class="main-content">
             <header class="content-header">
                 <h1>Dashboard</h1>
-                <div class="user-menu">
+                <div id="user-menu-not-logged" class="user-menu">
+                    <a href="/login" class="button header-button">Log In</a>
+                    <a href="/register" class="button header-button">Sign Up</a>
+                </div>
+                <div id="user-menu-logged" class="user-menu">
                     <div class="user-dropdown">
                         <button class="user-dropdown-toggle" id="user-dropdown-toggle">User</button>
                         <img src="../static/icons/user_icon.webp" alt="User Icon" class="user-icon" id="user-icon">
                         <ul class="user-dropdown-menu" id="user-dropdown-menu">
-                            <li data-content="profile-content">Profile</li>
-                            <li data-content="settings-content">Settings</li>
-                            <li id="logout">Log Out</li>
+                            <li data-section="profile-section">Profile</li>
+                            <li data-section="settings-section">Settings</li>
+                            <li id="logout-option">Log Out</li>
                         </ul>
                     </div>
                 </div>
             </header>
             <div class="content-body">
-                <section id="dashboard-content" class="content-section">
+                <section id="profile-section" class="content-section" style="display: none;">
+                    <div class="cards">
+                        <div class="card">
+                            <div class="profile-info">
+                                <p><strong>Name:</strong> <span class="profile-username">Name</span></p>
+                                <p><strong>Email:</strong> <span class="profile-email">Email</span></p>
+                                <p><strong>Member since:</strong> <span class="profile-registration">Registration Date</span></p>
+                            </div>
+                            <div class="profile-changes">
+                                <label for="change-name">Change Name</label>
+                                <input type="text" id="change-name" name="change-name" placeholder="Enter your profile name">
+                                <p id="name-taken-error" class="error-message"></p>
+
+                                <label for="change-picture">Select Image</label>
+                                <input type="file" id="change-picture" name="change-picture" class="file-input">
+                                <p id="file-size-error" class="error-message"></p>
+
+                                <p class="input-label">Save Changes</p>
+                                <button type="button" id="save-profile-button" class="button white-button">Save</button>
+                                
+                                <p class="input-label">Terminate account</p>
+                                <button type="button" id="terminate-profile-button" class="button red-button">Terminate</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="settings-section" class="content-section" style="display: none;">
+                    <div class="cards">
+                        <div class="card">
+                            <div id="settings-changes" class="settings-changes">
+                                <p class="input-label">Change Password</p>
+                                Pressing change will redirect you to the reset password page. 
+                                <button type="button" id="change-password-button" class="button white-button">Change</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="dashboard-section" class="content-section">
                     <div class="cards">
                         <div class="card">
                             <h2 class="card-title">Portfolio Value</h2>
@@ -124,22 +165,11 @@
                                 <h4 id="binance-overall">Overall P/L</h4>
                             </div>
                         </div>
-                        <div class="card">
-                            <h2 class="card-title">Active Bots</h2>
-                            <div id="binance-active-bots" class="card-content">
-                                <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
-                                <h3 class="inline-title">Binance</h3>
-                                <p id="binance-btcusdt-bot">BTCUSDT - Futures</p>
-                            </div>
-                        </div>
                     </div>
                 </section>
-                <section id="exchanges-content" class="content-section" style="display: none;">
+                <section id="exchanges-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <div id="add-exchange-container" class="exchanges-container active">
-                                <button type="button" id="add-exchange-button" class="button add-exchange-button">+ Add Exchange</button>
-                            </div>
                             <div class="table-container">
                                 <table id=exchanges-table>
                                     <thead>
@@ -154,6 +184,9 @@
                                         <!-- Rows will be dynamically added here -->
                                     </tbody>
                                 </table>
+                            </div>
+                            <div id="add-exchange-container" class="exchanges-container active">
+                                <button type="button" id="add-exchange-button" class="button white-button">+ Add Exchange</button>
                             </div>
                             <div id="new-exchange-container" class="exchanges-container">
                                 <form id="new-api-exchange">
@@ -174,7 +207,7 @@
                                     <input type="text" id="new-exchange-api-secret" name="new-exchange-api-secret" placeholder="Enter API secret">
                             
                                     <div class="new-exchange-form-submit" active>
-                                        <button type="submit" id="new-exchange-button" class="button new-exchange-button">Save API</button>
+                                        <button type="submit" id="new-exchange-button" class="button white-button">Save API</button>
                                         <div id="exchange-message" class="status-message"></div>
                                     </div>     
                                 </form>
@@ -182,14 +215,14 @@
                         </div>
                     </div>
                 </section>
-                <section id="analytics-content" class="content-section" style="display: none;">
+                <section id="analytics-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
 
                         </div>
                     </div> 
                 </section>
-                <section id="positions-content" class="content-section" style="display: none;">
+                <section id="positions-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
                             <div class="table-container">
@@ -215,27 +248,34 @@
                         </div>
                     </div> 
                 </section>
-                <section id="copy-trading-content" class="content-section" style="display: none;">
+                <section id="copy-trading-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
                             <h2 class="card-title">Binance</h2>
-                            <div id="binance-copy-trading" class="copy-trading-content">
+                            <div id="bitcoin-copy-trading" class="card-content">
                                 <img src="../static/logos/bitcoin_logo.webp" alt="Logo" class="coin-logo">
                                 <h3 class="inline-title">BTCUSDT</h3>
-                                <button type="button" id="bitcoin-copy-button" class="button copy-trading-button">Copy Trade</button>
-                                <p>Leverage: 100x</p>
+                                <button type="button" id="bitcoin-copy-button" class="button copy-trading-button">Copy-Trade</button>
+                                <br><br><p class="inline-title">Leverage: 100x | Position Size: 1% | One-Way Mode</p>
                             </div>
-                            <div id="binance-copy-trading" class="copy-trading-content">
+                            <div id="ethereum-copy-trading" class="card-content">
                                 <img src="../static/logos/ethereum_logo.webp" alt="Logo" class="coin-logo">
                                 <h3 class="inline-title">ETHUSDT</h3>
-                                <button type="button" id="ethereum-copy-button" class="button copy-trading-button">Copy Trade</button>
-                                <p>Leverage: 50x</p>
-
+                                <button type="button" id="ethereum-copy-button" class="button copy-trading-button">Copy-Trade</button>
+                                <br><br><p class="inline-title">Leverage: 50x | Position Size: 1% | One-Way Mode</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h2 class="card-title">Active Bots</h2>
+                            <div id="active-bots" class="card-content">
+                                <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
+                                <h3 id="binance-bots" class="inline-title">Binance - BTCUSDT</h3>
+                                <button type="button" id="cancel-binance-bot" class="button cancel-trading-button">Cancel</button>
                             </div>
                         </div>
                     </div> 
                 </section>
-                <section id="getting-started-content" class="content-section" style="display: none;">
+                <section id="getting-started-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
                             <h2 class="card-title">Binance</h2>
@@ -299,7 +339,7 @@
                         </div>
                     </div> 
                 </section>
-                <section id="help-center-content" class="content-section" style="display: none;">
+                <section id="help-center-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
                             <h3>How can I contact support?</h3>
@@ -321,7 +361,7 @@
                         </div>
                     </div>      
                 </section>
-                <section id="donations-content" class="content-section" style="display: none;">
+                <section id="donations-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
                             <h3>BTC Address on Bitcoin Network</h3>
@@ -338,43 +378,6 @@
                             <p>addr1qy8phhj5x3sd25ghh42td0ny2qqxl7mr3ev9w42repvzngcwr009gdrq64g30025k6lxg5qqdlak8rjc2a258jzc9x3sywyqye</p>
                         </div>
                     </div> 
-                </section>
-                <section id="profile-content" class="content-section" style="display: none;">
-                    <div class="cards">
-                        <div class="card">
-                            <div class="profile-info">
-                                <p><strong>Name:</strong> <span class="profile-username">Name</span></p>
-                                <p><strong>Email:</strong> <span class="profile-email">Email</span></p>
-                                <p><strong>Member since:</strong> <span class="profile-registration">Registration Date</span></p>
-                            </div>
-                            <div class="profile-changes">
-                                <label for="change-name">Change Name</label>
-                                <input type="text" id="change-name" name="change-name" placeholder="Enter your profile name">
-                                <p id="name-taken-error" class="error-message"></p>
-
-                                <label for="change-picture">Select Image</label>
-                                <input type="file" id="change-picture" name="change-picture" class="file-input">
-                                <p id="file-size-error" class="error-message"></p>
-
-                                <p class="button-description">Save Changes</p>
-                                <button type="button" id="save-profile-button" class="button save-profile-button">Save</button>
-                                
-                                <p class="button-description">Terminate account</p>
-                                <button type="button" id="terminate-profile-button" class="button terminate-profile-button">Terminate</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section id="settings-content" class="content-section" style="display: none;">
-                    <div class="cards">
-                        <div class="card">
-                            <div id="settings-changes" class="settings-changes">
-                                <p class="button-description">Change Password</p>
-                                Pressing change will redirect you to the reset password page. 
-                                <button type="button" id="change-password-button" class="button change-password-button">Change</button>
-                            </div>
-                        </div>
-                    </div>
                 </section>
             </div>
         </main>

@@ -70,25 +70,14 @@ header {
     font-size: 1.25em;
 }
 
-.login-button {
+.header-button {
     color: white;
     background-color: black;
     border: 2px solid white;
     margin-right: 1em;
 }
 
-.login-button:hover {
-    color: black;
-    background-color: white;
-}
-
-.register-button {
-    color: white;
-    background-color: black;
-    border: 2px solid white;
-}
-
-.register-button:hover {
+.header-button:hover {
     color: black;
     background-color: white;
 }

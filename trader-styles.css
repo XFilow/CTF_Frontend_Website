@@ -158,23 +158,29 @@ body.icons-only .footer-icon-links {
     width: 100%;
 }
 
-.exchange-logo,
-.coin-logo {
+.exchange-logo {
     display: inline;
     vertical-align: middle; /* Aligns elements vertically in the middle */
     width: 2em; /* Fixed width for the logo */
     height: 2em; /* Fixed height for the logo */
-    margin-right: 0.1em;
+    margin-right: 0.2em;
+}
+
+.coin-logo {
+    display: inline;
+    vertical-align: middle; /* Aligns elements vertically in the middle */
+    width: 3em; /* Fixed width for the logo */
+    height: 3em; /* Fixed height for the logo */
+    margin-right: 0.5em;
 }
 
 .inline-title{
     display: inline;
     vertical-align: middle; /* Aligns elements vertically in the middle */
-
 }
 
 .user-menu {
-    display: flex;
+    display: none;
     align-items: center;
 }
 
@@ -212,7 +218,8 @@ body.icons-only .footer-icon-links {
     background-color: rgba(0, 0, 0, 0.9);
     border-radius: 5px;
     padding: 0.5em;
-    margin-top: 0.5em;
+    margin-right: 1em;
+    margin-top: -1em;
     z-index: 1000;
     right: 0;
 }
@@ -252,6 +259,13 @@ body.icons-only .footer-icon-links {
 .card h3 {
     font-size: 1.25em;
     margin-bottom: 1em;
+}
+
+.input-label {
+    color: white;
+    font-weight: bold;
+    font-size: 1.25em;
+    margin-bottom: 0.5em;
 }
 
 .profile-info {
@@ -302,10 +316,6 @@ body.icons-only .footer-icon-links {
     transition: background-color 0.3s;
 }
 
-.file-input:hover::file-selector-button {
-    background-color: white;
-}
-
 .button {
     display: flex;
     text-decoration: none;
@@ -317,58 +327,59 @@ body.icons-only .footer-icon-links {
     transition: background-color 0.3s;
 }
 
-.button-description {
+.header-button {
     color: white;
-    font-weight: bold;
+    background-color: black;
+    border: 2px solid white;
     font-size: 1.25em;
-    margin-bottom: 0.5em;
+    margin-right: 1em;
 }
 
-.save-profile-button{
-    background-color: rgba(0, 255, 70, 0.75);
+.header-button:hover {
+    color: black;
+    background-color: white;
+}
+
+.white-button{
+    cursor: pointer;
+    background-color: white;
+}
+
+#save-profile-button {
     margin-bottom: 3em;    
 }
 
 .copy-trading-button{
+    cursor: pointer;
     display: inline;
+    float: right;
+    margin-top: 0.5em;
+    margin-right: 0.5em;
 }
 
-.table-edit-button:hover, 
-.save-profile-button:hover {
-    color: white;
-    background-color: lime;
+.cancel-trading-button{
+    display: inline;
+    float: right;
 }
 
-.terminate-profile-button{
-    background-color: rgba(255, 70, 70, 0.75);
-    margin-bottom: 1em;    
-}
-
-.table-delete-button:hover,
-.terminate-profile-button:hover{
-    color: white;
+.red-button{
+    cursor: pointer;
     background-color: red;
+}
+
+#terminate-profile-button {
+    margin-bottom: 1em;    
 }
 
 .error-message{
     color: red;
 }
 
-.change-password-button,
-.add-exchange-button,
-.new-exchange-button {
-    cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.75);
+#change-password-button,
+#add-exchange-button,
+#new-exchange-button {
     margin: 1em 0;    
 }
-
-.change-password-button:hover,
-.add-exchange-button:hover,
-.new-exchange-button:hover {
-    background-color: white;
-}
-
-
 
 /* General table styles */
 .table-container {
@@ -487,15 +498,13 @@ td:nth-child(3) {
     max-width: 300px;
 }
 
-.card-content,
-.copy-trading-content {
+.card-content {
     display: inline-block;
     border: 1px solid white; /* Adds a white border */
     border-radius: 10px; /* Optional: Adds rounded corners */
-    padding-left: 1em; /* Optional: Adds padding inside the border */
-    padding-top: 1em; /* Optional: Adds padding inside the border */
+    padding: 1em; /* Optional: Adds padding inside the border */
     margin: auto 1em 1.5em 0.5em; /* Centers the container and adds vertical margin */
-    max-width: 450px; /* Sets a maximum width for the container */
+    max-width: 415px; /* Sets a maximum width for the container */
     width: 100%; /* Ensures the container adjusts to smaller screen sizes */
     box-sizing: border-box; /* Ensures padding and border are included in the width */
     transition: max-height 0.3s ease;
@@ -503,11 +512,12 @@ td:nth-child(3) {
     background-color: rgba(0, 0, 0, 0.75);
 }
 
+.copy-trading-content,
 .getting-started-content {
     display: block;
     border-radius: 10px; /* Optional: Adds rounded corners */
     padding-left: 1em; /* Optional: Adds padding inside the border */
-    margin: auto auto 1.5em 0.5em; /* Centers the container and adds vertical margin */
+    margin: auto 1em 1.5em 0.5em; /* Centers the container and adds vertical margin */
     width: 100%; /* Ensures the container adjusts to smaller screen sizes */
     box-sizing: border-box; /* Ensures padding and border are included in the width */
     transition: max-height 0.3s ease;
@@ -523,10 +533,6 @@ td:nth-child(3) {
     max-height: 0;
     padding: 0;
     border: none;
-}
-
-.copy-trading-content:hover {
-    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .card-title {
@@ -558,6 +564,7 @@ td:nth-child(3) {
 .balance-section {
     flex: 1; /* Allows sections to grow and shrink equally */
     white-space: nowrap; /* Prevent text from wrapping */
+    padding-bottom: 0.5em;
 }
 
 .inside-balance-section{

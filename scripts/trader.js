@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     navLinks.forEach(link => {
         link.addEventListener('click', function(event) {
-            const contentId = event.currentTarget.getAttribute('data-content');
+            const contentId = event.currentTarget.getAttribute('data-section');
             updateHeaderAndContent(event, contentId);
         });
     });
@@ -23,9 +23,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if(traderInfo) {
             const displayName = traderInfo.username || traderInfo.email;
             userDropdownToggle.textContent = displayName;
+            
+            document.getElementById('user-menu-logged').style.display = 'flex';
+            document.getElementById('user-menu-not-logged').style.display = 'none';
+
             console.log('Trader Info:', traderInfo);
         } else {
-            logout();
+            document.getElementById('user-menu-not-logged').style.display = 'flex';
+            document.getElementById('user-menu-logged').style.display = 'none';
         }
     }
 
@@ -74,13 +79,13 @@ document.addEventListener('DOMContentLoaded', function() {
             sectionToShow.style.display = 'block';
         }
 
-        if (contentId === 'profile-content') {
+        if (contentId === 'profile-section') {
             updateProfile()
         }
-        else if (contentId === 'dashboard-content') {
+        else if (contentId === 'dashboard-section') {
             updateDashboard()
         }
-        else if (contentId === 'exchanges-content') {
+        else if (contentId === 'exchanges-section') {
             updateExchanges()
         }
     }
@@ -115,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
     
             const data = await response.json();
-            console.log('Updated Dashboard Data:', data); // Debugging
+            //console.log('Updated Dashboard Data:', data); // Debugging
     
             // Iterate over the object keys (exchange names)
             for (const exchange in data) {
@@ -251,10 +256,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     userDropdownMenu.querySelectorAll('li').forEach(item => {
         item.addEventListener('click', function(event) {
-            const contentId = event.currentTarget.getAttribute('data-content');
-            const logout = document.getElementById('logout');
+            const contentId = event.currentTarget.getAttribute('data-section');
+            const logoutOption = document.getElementById('logout-option');
 
-            if (event.currentTarget === logout) {
+            if (event.currentTarget === logoutOption) {
                 logout();
             } else if (contentId) {
                 updateHeaderAndContent(event, contentId);
@@ -366,14 +371,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Titles toggle
     document.querySelectorAll('.card-title').forEach(title => {
         title.addEventListener('click', function() {
-            const content = this.nextElementSibling;
-            if (content.classList.contains('collapsed')) {
-                content.classList.remove('collapsed');
-                this.classList.remove('collapsed');
-            } else {
-                content.classList.add('collapsed');
-                this.classList.add('collapsed');
-            }
+            const card = this.closest('.card'); // Find the parent card
+            const contents = card.querySelectorAll('.card-content'); // Get all card contents inside
+    
+            contents.forEach(content => {
+                content.classList.toggle('collapsed');
+            });
+    
+            this.classList.toggle('collapsed');
         });
     });
 

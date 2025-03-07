@@ -95,6 +95,7 @@ main {
     font-size: 1.5em;
     padding: 2em;
     width: 100%;
+    flex: 1;
 }
 
 /* Index */
@@ -268,7 +269,7 @@ footer {
     background-color: black;
     text-align: center;
     display: flex;
-    position: fixed;
+    position: relative;
     align-items: center;
     box-sizing: border-box;
     justify-content: space-between;

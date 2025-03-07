@@ -241,12 +241,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function logout() {
-        localStorage.removeItem('token');
-        console.log('Logged out');
-        window.location.href = 'login?message=logout';
-    }
-
     // Sidebar expansion
     sidebarToggle.addEventListener('click', function() {
         const menuTexts = document.querySelectorAll('.sidebar-menu a span');
@@ -278,7 +272,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const logoutOption = document.getElementById('logout-option');
 
             if (event.currentTarget === logoutOption) {
-                logout();
+                localStorage.removeItem('token');
+                console.log('Logged out');
+                window.location.href = 'login?message=logout';
             } else if (contentId) {
                 updateHeaderAndContent(event, contentId);
             }

@@ -1,15 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
     const sidebarToggle = document.getElementById('sidebar-toggle');
     const navLinks = document.querySelectorAll('.sidebar-menu ul li a');
+    const userIcon = document.getElementById('user-icon');
+    const userMenuLogged = document.getElementById('user-menu-logged');
+    const userMenuNotLogged = document.getElementById('user-menu-not-logged');
     const userDropdownToggle = document.getElementById('user-dropdown-toggle');
     const userDropdownMenu = document.getElementById('user-dropdown-menu');
-    const userIcon = document.getElementById('user-icon');
 
     let traderInfo = null;
-
-    // Call the function to fetch and store the data
-    fetchAndStoreTraderInfo();
-    updateDashboard();
+    
+    // Check for token and update UI
+    checkUserStatus();
     
     navLinks.forEach(link => {
         link.addEventListener('click', function(event) {
@@ -18,24 +19,45 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    async function fetchAndStoreTraderInfo() {
-        traderInfo = await fetchTraderInfo();
-        if(traderInfo) {
-            const displayName = traderInfo.username || traderInfo.email;
-            userDropdownToggle.textContent = displayName;
-            
-            document.getElementById('user-menu-logged').style.display = 'flex';
-            document.getElementById('user-menu-not-logged').style.display = 'none';
-            
-            console.log('Trader Info:', traderInfo);
+    function checkUserStatus() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            showLoginMenu();
         } else {
-            document.getElementById('user-menu-not-logged').style.display = 'flex';
-            document.getElementById('user-menu-logged').style.display = 'none';
+            showLoadingState();
+            updateUserInfo(token);
+            updateDashboard();
         }
     }
 
-    async function fetchTraderInfo() {
-        const token = localStorage.getItem('token');
+    async function updateUserInfo(token) {
+        traderInfo = await fetchUserInfo(token);
+        if (traderInfo) {
+            updateUserMenu(traderInfo);
+        } else {
+            showLoginMenu();
+        }
+    }
+
+    function updateUserMenu(traderInfo) {
+        const displayName = traderInfo.username || traderInfo.email;
+        userDropdownToggle.textContent = displayName;
+        userMenuLogged.style.display = 'flex';
+        userMenuNotLogged.style.display = 'none';
+    }
+
+    function showLoginMenu() {
+        userMenuLogged.style.display = 'none';
+        userMenuNotLogged.style.display = 'flex';
+    }
+
+    function showLoadingState() {
+        userMenuLogged.style.display = 'none';
+        userMenuNotLogged.style.display = 'none';
+    }
+
+    async function fetchUserInfo(token) {
+        //const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
             return null; // Return null if the user is not logged in
@@ -90,6 +112,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         else if (contentId === 'exchanges-section') {
             updateExchanges()
+        }
+        //else if (contentId === 'exchanges-section') {
+        //    updateAnalytics()
+        //}
+        //else if (contentId === 'exchanges-section') {
+        //    updatePositions()
+        //}
+        else if (contentId === 'exchanges-section') {
+            updateCopyTrading()
         }
     }
 
@@ -239,6 +270,16 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error('Error fetching exchange data:', error);
         }
+    }
+/*
+    async function updateAnalytics() {
+    }
+    
+    async function updatePositions() {
+    }
+*/
+    async function updateCopyTrading() {
+
     }
 
     // Sidebar expansion
@@ -425,13 +466,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 statusMessage.textContent = 'Password must have at least 7 characters';
                 return;
             }
-
-            /* const response = await fetch('http://localhost:5000/trader/update-password', {
+       
+            // Send the password update request
+            const response = await fetch('http://localhost:5000/trader/password', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({
+                    currentPassword: currentPassword,
+                    newPassword: newPassword
+                })
             });
 
             const result = await response.json();
@@ -439,9 +485,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 statusMessage.textContent = result.message || 'Failed to update password.';
                 return;
             }
-            */
-    
-            statusMessage.style.color = 'green';
+            
+            statusMessage.style.color = 'lime';
             statusMessage.textContent = 'Password updated successfully';
         
         } catch (error) {
@@ -492,7 +537,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             // Validate the form fields
             if (!exchange || !accountName || !apiKey || !apiSecret) {
-                exchangeMessageContainer.textContent = 'All fields are required to create a new API';
+                exchangeMessageContainer.textContent = 'All fields are required';
                 exchangeMessageContainer.style.color = 'red';
                 //exchangeMessageContainer.style.borderColor = 'red';
                 exchangeMessageContainer.style.display = 'block';

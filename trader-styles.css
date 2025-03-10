@@ -245,6 +245,7 @@ body.icons-only .footer-icon-links {
     background-color: rgba(0, 0, 0, 0.75);
     border-radius: 10px;
     padding-left: 1em;
+    padding-right: 2em;
     margin-bottom: 1em; /* Add margin between cards */
     flex: 1;
     overflow-y: auto; /* Enables scrolling for content */
@@ -524,7 +525,7 @@ td:nth-child(3) {
     border: 1px solid white; /* Adds a white border */
     border-radius: 10px; /* Optional: Adds rounded corners */
     padding: 1em; /* Optional: Adds padding inside the border */
-    margin: auto 1em 1.5em 0.5em; /* Centers the container and adds vertical margin */
+    margin: auto 1em 1em 0.5em; /* Centers the container and adds vertical margin */
     max-width: 415px; /* Sets a maximum width for the container */
     width: 100%; /* Ensures the container adjusts to smaller screen sizes */
     box-sizing: border-box; /* Ensures padding and border are included in the width */

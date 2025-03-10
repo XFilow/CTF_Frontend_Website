@@ -281,14 +281,21 @@
                                 <button type="button" id="ethereum-copy-button" class="button copy-trading-button">Copy-Trade</button>
                                 <br><br><p class="inline-title">Leverage: 50x | Position Size: 1% | One-Way Mode</p>
                             </div>
+                                <!-- Add more coins here in the future -->
                         </div>
                         <div class="card">
                             <h2 class="card-title">Active Bots</h2>
-                            <div id="active-bots" class="card-content">
+                            <div id="btc-active-bot" class="card-content">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
-                                <h3 id="binance-bots" class="inline-title">Binance - BTCUSDT</h3>
-                                <button type="button" id="cancel-binance-bot" class="button cancel-trading-button">Cancel</button>
+                                <h3 class="inline-title">Binance - BTCUSDT</h3>
+                                <button type="button" id="cancel-binance-btc-bot" class="button cancel-trading-button">Cancel</button>
                             </div>
+                            <div id="eth-active-bot" class="card-content">
+                                <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
+                                <h3 class="inline-title">Binance - ETHUSDT</h3>
+                                <button type="button" id="cancel-binance-eth-bot" class="button cancel-trading-button">Cancel</button>
+                            </div>
+                                <!-- Add more coins here in the future -->
                         </div>
                     </div> 
                 </section>
@@ -337,11 +344,11 @@
                                 <p>All that's left is to select a trading bot to copy-trade.</p>
                                 <p>Select the Copy-Trading sidebar tab.</p>
                                 <p>Choose one of the CTF trading bots and start copy-trading.</p>
-                                <br><h3>Configuring Binance Futures account settings for BTC/USDT</h3>
+                                <br><h3>Configuring Binance Futures trading settings for BTC</h3>
                                 <img src="../static/images/binance5.webp" alt="Image" class="getting-started-image">
                                 <p>Under the Trade tab select USDⓈ-M Futures.</p>
                                 <br><br><img src="../static/images/binance6.webp" alt="Image" class="getting-started-image">
-                                <p>In the Futures screen select the BTC/USDT pair highlighted by the orange box.</p>
+                                <p>In the Futures screen select the BTCUSDT pair highlighted by the orange box.</p>
                                 <p>Change your settings to match the settings highlighted by the yellow box. It should be Cross Margin Mode and 100x leverage.</p>
                                 <p>Click on the settings button highlighted by the red box.</p>
                                 <br><br><img src="../static/images/binance7.webp" alt="Image" class="getting-started-image">
@@ -349,8 +356,9 @@
                                 <br><br><img src="../static/images/binance8.webp" alt="Image" class="getting-started-image">
                                 <p>Choose the option One-Way Mode if it's not already selected.</p>
                                 <p>Everything is set up it's time to let the bot do the trading for you.</p>
+                                <br><p>If you want to copy-trade other coins, just follow these same steps and adjust the leverage to match the corresponding CTF bot leverage.</p>
                                 <p>Don't forget you'll have to transfer funds from your Spot wallet to your Futures wallet.</p>
-                                <p>If you need help setting up your Futures account you can check th following guide:</p>
+                                <p>If you need help setting up your Futures account you can check the following guide:</p>
                                 <p><a href="https://www.binance.com/en/blog/futures/the-ultimate-guide-to-trading-on-binance-futures-8534557745009080271" class="getting-started-link">The Ultimate Guide to Trading on Binance Futures</a></p>
                             </div>
                         </div>

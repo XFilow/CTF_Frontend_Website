@@ -13,7 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let fetchTimeout = null
     let isFetching = false;
     let markPriceMap = {};
-    
+    let lastFetchTime = 0;
+    let lastAccountUpdate = 0;
+
     // Check for token and update UI
     checkUserStatus();
     
@@ -293,15 +295,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     
         try {
-            await fetchAndUpdatePositions();
+            document.getElementById('binance-positions-tbody').innerHTML = 
+                '<tr><td colspan="8" style="text-align:center;">Loading positions...</td></tr>';
     
-            // Ensure WebSockets are restarted
+            // Ensure WebSockets are running
             if (!binanceSocket || !accountSocket) {
                 startWebSockets();
             }
     
+            // Fetch positions from API
+            await fetchAndUpdatePositions();
+    
         } catch (error) {
-            console.error('Error setting up WebSockets:', error);
+            console.error('Error updating positions:', error);
         }
     }
     
@@ -318,18 +324,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('MarkPrice WebSocket error:', error);
                 binanceSocket.close();
             };
-
+    
             binanceSocket.onmessage = (event) => {
                 const parsedData = JSON.parse(event.data);
                 parsedData.forEach(update => {
                     markPriceMap[update.s] = parseFloat(update.p);
                 });
-            
-                // Clear the previous timeout and set a new one
+    
+                updateTablePrices();
+    
                 clearTimeout(fetchTimeout);
                 fetchTimeout = setTimeout(() => {
                     fetchAndUpdatePositions();
-                }, 1000); // 1-second delay to reduce requests
+                }, 5000);
             };
         }
     
@@ -352,8 +359,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({ exchange: 'binance' })
             });
     
+            if (!listenKeyResponse.ok) throw new Error('Failed to get listenKey');
+    
             const listenKeyData = await listenKeyResponse.json();
-            if (!listenKeyData.listenKey) throw new Error('Failed to get listenKey');
+            if (!listenKeyData.listenKey) throw new Error('No listenKey received');
     
             accountSocket = new WebSocket(`wss://stream.binancefuture.com/ws/${listenKeyData.listenKey}`);
     
@@ -366,42 +375,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Account WebSocket error:', error);
                 accountSocket.close();
             };
-
-            let lastAccountUpdate = 0;
+    
             accountSocket.onmessage = async (event) => {
                 const data = JSON.parse(event.data);
                 if (data.e === 'ACCOUNT_UPDATE') {
                     const now = Date.now();
-                    if (now - lastAccountUpdate > 5000) {  // Only update every 5 seconds
-                        console.log('Position update detected, refreshing...');
+                    if (now - lastAccountUpdate > 5000) {
                         lastAccountUpdate = now;
                         await fetchAndUpdatePositions();
-                    } else {
-                        console.log('Skipping frequent account updates');
                     }
                 }
             };
-
-            // Stops listening after 60 mins if not kept alive
-            //keepAliveListenKey();
-
+    
         } catch (error) {
             console.error('Error setting up Account WebSocket:', error);
         }
     }
-
-    // Fetch latest positions from server
+    
+    // Fetch latest positions from API
     async function fetchAndUpdatePositions() {
-        if (isFetching) {
+        const fetchCooldown = 5000;
+        const now = Date.now();
+    
+        if (isFetching || now - lastFetchTime < fetchCooldown) {
             console.log('Skipping fetch - Too many requests');
             return;
         }
-        
+    
         isFetching = true;
+        lastFetchTime = now;
+    
         try {
             const token = localStorage.getItem('token');
-            if (!token) return;
-        
+            if (!token) {
+                console.warn("No token found, user must log in.");
+                return;
+            }
+    
             const response = await fetch('http://localhost:5000/trader/positions?exchange=binance', {
                 method: 'GET',
                 headers: {
@@ -410,14 +420,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
     
-            if (!response.ok) {
-                console.error('Failed to fetch positions:', response.statusText);
-                return;
-            }
+            if (!response.ok) throw new Error(`Failed to fetch positions: ${response.statusText}`);
     
             const data = await response.json();
+            //console.log("Positions received:", data.positions);
             const openPositions = data.positions.filter(pos => parseFloat(pos.positionAmt) !== 0);
             updatePositionsTable(openPositions);
+    
         } catch (error) {
             console.error('Error fetching positions:', error);
         } finally {
@@ -425,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Update the table with latest positions & mark prices
+    // Updates table data
     function updatePositionsTable(positionData = []) {
         const positionsTable = document.getElementById('binance-positions-tbody');
     
@@ -436,27 +445,47 @@ document.addEventListener('DOMContentLoaded', function() {
     
         let rows = '';
         positionData.forEach(pos => {
+            const markPrice = markPriceMap[pos.symbol]?.toFixed(2) || "...";
             const pnl = parseFloat(pos.unrealizedProfit || "0");
             const margin = Math.abs(parseFloat(pos.positionAmt) * parseFloat(pos.entryPrice) / parseFloat(pos.leverage));
             const roi = margin !== 0 ? ((pnl / margin) * 100).toFixed(2) : '0.00';
     
-            const markPrice = markPriceMap[pos.symbol] ? parseFloat(markPriceMap[pos.symbol]).toFixed(4) : "Fetching...";
-
             rows += `
-                <tr>
+                <tr id="row-${pos.symbol}">
                     <td>${pos.symbol}</td>
                     <td>${parseFloat(pos.positionAmt) > 0 ? 'Long' : 'Short'}</td>
                     <td>${pos.leverage}x</td>
                     <td>${pos.positionAmt} ${pos.symbol.replace("USDT", "")}</td>
-                    <td>${parseFloat(pos.entryPrice).toFixed(4)}</td>
-                    <td>${markPrice}</td>
-                    <td>${pnl.toFixed(2)} USDT</td>
-                    <td>${roi}%</td>
+                    <td>${parseFloat(pos.entryPrice).toString()}</td>
+                    <td id="markPrice-${pos.symbol}">${markPrice}</td>
+                    <td id="pnl-${pos.symbol}">${pnl.toFixed(2)} USDT</td>
+                    <td id="roi-${pos.symbol}">${roi}%</td>
                 </tr>
             `;
         });
     
         positionsTable.innerHTML = rows;
+    }
+    
+    // Updates only the mark price, PNL, and ROI
+    function updateTablePrices() {
+        document.querySelectorAll('tr[id^="row-"]').forEach(row => {
+            const symbol = row.id.replace('row-', '');
+            if (!markPriceMap[symbol]) return;
+    
+            const markPrice = markPriceMap[symbol].toFixed(2);
+            const entryPrice = parseFloat(row.cells[4].textContent);
+            const positionAmt = parseFloat(row.cells[3].textContent);
+            const leverage = parseFloat(row.cells[2].textContent);
+    
+            const pnl = (markPrice - entryPrice) * positionAmt;
+            const margin = Math.abs(positionAmt * entryPrice / leverage);
+            const roi = margin !== 0 ? ((pnl / margin) * 100).toFixed(2) : '0.00';
+    
+            row.querySelector(`#markPrice-${symbol}`).textContent = markPrice;
+            row.querySelector(`#pnl-${symbol}`).textContent = pnl.toFixed(2) + " USDT";
+            row.querySelector(`#roi-${symbol}`).textContent = roi + "%";
+        });
     }
 /*    
     let listenKeyInterval = null; // Store the interval ID

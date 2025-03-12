@@ -482,14 +482,6 @@ td:nth-child(3) {
     display: block; /* Show when active */
 }
 
-#exchanges-tbody tr {
-    display: none; /* Hide all rows by default */
-}
-
-#exchanges-tbody.has-data tr {
-    display: table-row; /* Show rows only if the tbody has the class 'has-data' */
-}
-
 .dropdown-menu {
     color: white;
     position: relative; /* Changed to relative for better positioning */

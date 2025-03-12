@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const userDropdownMenu = document.getElementById('user-dropdown-menu');
 
     let traderInfo = null;
-    let binanceSocket = null;
+    let updateInterval = null;
 
     // Check for token and update UI
     checkUserStatus();
@@ -89,6 +89,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const headerTitle = document.querySelector('.content-header h1');
 
         if (!contentId) return;
+
+        stopPositionsPolling()
 
         const selectedText = event.currentTarget.textContent;
         headerTitle.textContent = selectedText;
@@ -242,13 +244,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
             // Clear existing table rows
             tableBody.innerHTML = "";
-    
+            let hasExchanges = false; // Flag to check if any exchanges exist
+
             // Iterate over each exchange response
             Object.entries(data).forEach(([exchange, exchangeData]) => {
                 if (exchangeData.message === 'No exchange data' || Object.keys(exchangeData).length === 0) {
                     return; // Skip if no data
                 }
     
+                hasExchanges = true;
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${exchangeData.exchange_name}</td>
@@ -263,13 +267,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 tableBody.appendChild(row);
             });
     
-            // Toggle visibility class based on data
-            if (tableBody.children.length > 0) {
-                tableBody.classList.add('has-data');
-            } else {
-                tableBody.classList.remove('has-data');
+            // Only show "No exchanges connected" if no exchanges were found
+            if (!hasExchanges) {
+                tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;">No exchanges connected</td></tr>';
             }
-    
+            
         } catch (error) {
             console.error('Error fetching exchange data:', error);
         }
@@ -280,125 +282,89 @@ document.addEventListener('DOMContentLoaded', function() {
     */
     
     async function updatePositions() {
-        if (binanceSocket) {
-            console.log('WebSocket already open');
-            return; 
-        }
-    
+
+        const exchange = 'binance'; // Add more when implemented
+
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
             return;
         }
     
-        try {
-            // Fetch the Binance listen key from the backend
-            const response = await fetch('http://localhost:5000/trader/listen-key?exchange=binance', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-    
-            if (!response.ok) {
-                console.error('Failed to fetch listen key:', response.statusText);
-                return;
-            }
-    
-            const data = await response.json();
-            const listenKey = data.listenKey;
-            
-            // Open Binance WebSocket connection
-            binanceSocket = new WebSocket(`wss://stream.binancefuture.com/ws/${listenKey}`); //wss://fstream.binance.com/ws/${listenKey} in tesnet needs change for prod
-    
-            binanceSocket.onopen = () => console.log('Binance WebSocket connected.');
-    
-            binanceSocket.onmessage = (event) => {
-                const parsedData = JSON.parse(event.data);
-            
-                if (parsedData.e === 'ACCOUNT_UPDATE' && parsedData.a && parsedData.a.P) {
-                    console.log("Updating Positions:", parsedData.a.P);
-                    updatePositionsTable(parsedData.a.P, 'binance');
-                }
-            };
-    
-            binanceSocket.onclose = () => {
-                console.log('Binance WebSocket closed.');
-                binanceSocket = null;
-            };
-    
-            binanceSocket.onerror = (error) => {
-                console.error('WebSocket error:', error);
-                binanceSocket.close();
-            };
-    
-        } catch (error) {
-            console.error('Error opening WebSocket:', error);
+        if (updateInterval) {
+            console.log('Polling already active');
+            return;
         }
-    }
 
-    function updatePositionsTable(positionData, exchange) {
-        const positionsTable = document.getElementById(`${exchange}-positions-tbody`);
+        document.getElementById(`${exchange}-positions-tbody`).innerHTML = '<tr><td colspan="8" style="text-align:center;">Loading positions...</td></tr>';
+        console.log("Start polling positions.");
+
+        updateInterval = setInterval(async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/trader/positions?exchange=${exchange}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
     
-        if (!positionData || positionData.length === 0) {
+                if (!response.ok) {
+                    console.error('Failed to fetch positions:', response.statusText);
+                    return;
+                }
+    
+                const positionData = await response.json();
+                updatePositionsTable(positionData.positions, 'binance');
+            } catch (error) {
+                console.error('Error fetching positions:', error);
+            }
+        }, 5000); // Poll every 5 seconds
+    }
+    
+    function updatePositionsTable(positionData, exchange) {
+        console.log("Received positionData:", positionData); // Debugging line
+    
+        const positionsTable = document.getElementById(`${exchange}-positions-tbody`);
+        positionsTable.innerHTML = ''; // Clear table before updating
+    
+        // Ensure positionData is an array
+        if (!Array.isArray(positionData) || positionData.length === 0) {
             positionsTable.innerHTML = '<tr><td colspan="8" style="text-align:center;">No open positions</td></tr>';
             return;
         }
     
-        const existingRows = {}; // Store existing positions for quick lookup
-        positionsTable.querySelectorAll("tr").forEach(row => {
-            const symbol = row.getAttribute("data-symbol");
-            if (symbol) existingRows[symbol] = row;
-        });
-    
         positionData.forEach(pos => {
-            if (pos.pa !== '0') { // Ignore closed positions
-                const symbol = pos.s;
-                const pnl = parseFloat(pos.up);
-                const margin = Math.abs(parseFloat(pos.pa) * parseFloat(pos.ep) / parseFloat(pos.l));
+            if (pos.positionAmt !== '0') { // Ignore empty positions
+                const pnl = parseFloat(pos.unrealizedProfit || "0"); // Ensure it's parsed
+                const margin = Math.abs(parseFloat(pos.positionAmt) * parseFloat(pos.entryPrice) / parseFloat(pos.leverage));
                 const roi = margin !== 0 ? ((pnl / margin) * 100).toFixed(2) : '0.00';
     
-                if (existingRows[symbol]) {
-                    // Update existing row
-                    const row = existingRows[symbol];
-                    row.innerHTML = `
-                        <td>${pos.s}</td>
-                        <td>${pos.ps}</td>
-                        <td>${pos.l}x</td>
-                        <td>${pos.pa}</td>
-                        <td>${pos.ep}</td>
-                        <td>${pos.mp}</td>
-                        <td>${pnl.toFixed(2)}</td>
-                        <td>${roi}%</td>
-                    `;
-                } else {
-                    // Insert new position if it doesn't exist
-                    const newRow = document.createElement("tr");
-                    newRow.setAttribute("data-symbol", symbol);
-                    newRow.innerHTML = `
-                        <td>${pos.s}</td>
-                        <td>${pos.ps}</td>
-                        <td>${pos.l}x</td>
-                        <td>${pos.pa}</td>
-                        <td>${pos.ep}</td>
-                        <td>${pos.mp}</td>
-                        <td>${pnl.toFixed(2)}</td>
-                        <td>${roi}%</td>
-                    `;
-                    positionsTable.appendChild(newRow);
-                }
-            }
-        });
-    
-        // Remove positions that no longer exist
-        Object.keys(existingRows).forEach(symbol => {
-            if (!positionData.some(pos => pos.s === symbol && pos.pa !== '0')) {
-                existingRows[symbol].remove();
+                const row = `
+                <tr>
+                    <td>${pos.symbol}</td>
+                    <td>${parseFloat(pos.positionAmt) > 0 ? 'Long' : 'Short'}</td>
+                    <td>${pos.leverage}x</td>
+                    <td>${pos.positionAmt} ${pos.symbol.replace("USDT", "")}</td>
+                    <td>${parseFloat(pos.entryPrice).toFixed(4)}</td>
+                    <td>${parseFloat(pos.markPrice).toFixed(4)}</td>
+                    <td>$${pnl.toFixed(2)}</td>
+                    <td>${roi}%</td>
+                </tr>
+                `;
+                positionsTable.innerHTML += row;
             }
         });
     }
-
+    
+    function stopPositionsPolling() {
+        if (updateInterval) {
+            clearInterval(updateInterval);
+            updateInterval = null;
+            console.log('Positions polling stopped');
+        }
+    } 
+    
     async function updateCopyTrading() {
         const binanceBTCBot = document.getElementById('binance-btc-bot');
         const binanceETHBot = document.getElementById('binance-eth-bot');
@@ -478,11 +444,12 @@ document.addEventListener('DOMContentLoaded', function() {
     userDropdownToggle.addEventListener('click', toggleDropdownMenu);
     userIcon.addEventListener('click', toggleDropdownMenu);
 
+    // Event content handler
     userDropdownMenu.querySelectorAll('li').forEach(item => {
         item.addEventListener('click', function(event) {
             const contentId = event.currentTarget.getAttribute('data-section');
             const logoutOption = document.getElementById('logout-option');
-
+            
             if (event.currentTarget === logoutOption) {
                 localStorage.removeItem('token');
                 console.log('Logged out');

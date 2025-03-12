@@ -8,8 +8,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const userDropdownMenu = document.getElementById('user-dropdown-menu');
 
     let traderInfo = null;
-    let updateInterval = null;
-
+    let binanceSocket = null;
+    let accountSocket = null;
+    let fetchTimeout = null
+    let isFetching = false;
+    let markPriceMap = {};
+    
     // Check for token and update UI
     checkUserStatus();
     
@@ -90,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!contentId) return;
 
-        stopPositionsPolling()
+        stopWebSockets()
 
         const selectedText = event.currentTarget.textContent;
         headerTitle.textContent = selectedText;
@@ -282,88 +286,224 @@ document.addEventListener('DOMContentLoaded', function() {
     */
     
     async function updatePositions() {
-
-        const exchange = 'binance'; // Add more when implemented
-
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
             return;
         }
     
-        if (updateInterval) {
-            console.log('Polling already active');
-            return;
-        }
-
-        document.getElementById(`${exchange}-positions-tbody`).innerHTML = '<tr><td colspan="8" style="text-align:center;">Loading positions...</td></tr>';
-        console.log("Start polling positions.");
-
-        updateInterval = setInterval(async () => {
-            try {
-                const response = await fetch(`http://localhost:5000/trader/positions?exchange=${exchange}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
+        try {
+            await fetchAndUpdatePositions();
     
-                if (!response.ok) {
-                    console.error('Failed to fetch positions:', response.statusText);
-                    return;
-                }
-    
-                const positionData = await response.json();
-                updatePositionsTable(positionData.positions, 'binance');
-            } catch (error) {
-                console.error('Error fetching positions:', error);
+            // Ensure WebSockets are restarted
+            if (!binanceSocket || !accountSocket) {
+                startWebSockets();
             }
-        }, 5000); // Poll every 5 seconds
+    
+        } catch (error) {
+            console.error('Error setting up WebSockets:', error);
+        }
     }
     
-    function updatePositionsTable(positionData, exchange) {
-        console.log("Received positionData:", positionData); // Debugging line
+    function startWebSockets() {
+        if (!binanceSocket) {
+            binanceSocket = new WebSocket('wss://stream.binancefuture.com/ws/!markPrice@arr');
     
-        const positionsTable = document.getElementById(`${exchange}-positions-tbody`);
-        positionsTable.innerHTML = ''; // Clear table before updating
+            binanceSocket.onopen = () => console.log('MarkPrice WebSocket connected');
+            binanceSocket.onclose = () => {
+                console.warn('MarkPrice WebSocket closed');
+                binanceSocket = null;
+            };
+            binanceSocket.onerror = (error) => {
+                console.error('MarkPrice WebSocket error:', error);
+                binanceSocket.close();
+            };
+
+            binanceSocket.onmessage = (event) => {
+                const parsedData = JSON.parse(event.data);
+                parsedData.forEach(update => {
+                    markPriceMap[update.s] = parseFloat(update.p);
+                });
+            
+                // Clear the previous timeout and set a new one
+                clearTimeout(fetchTimeout);
+                fetchTimeout = setTimeout(() => {
+                    fetchAndUpdatePositions();
+                }, 1000); // 1-second delay to reduce requests
+            };
+        }
     
-        // Ensure positionData is an array
-        if (!Array.isArray(positionData) || positionData.length === 0) {
+        if (!accountSocket) {
+            startAccountWebSocket();
+        }
+    }
+    
+    async function startAccountWebSocket() {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+    
+        try {
+            const listenKeyResponse = await fetch('http://localhost:5000/trader/listen-key', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ exchange: 'binance' })
+            });
+    
+            const listenKeyData = await listenKeyResponse.json();
+            if (!listenKeyData.listenKey) throw new Error('Failed to get listenKey');
+    
+            accountSocket = new WebSocket(`wss://stream.binancefuture.com/ws/${listenKeyData.listenKey}`);
+    
+            accountSocket.onopen = () => console.log('Account WebSocket connected');
+            accountSocket.onclose = () => {
+                console.warn('Account WebSocket closed');
+                accountSocket = null;
+            };
+            accountSocket.onerror = (error) => {
+                console.error('Account WebSocket error:', error);
+                accountSocket.close();
+            };
+
+            let lastAccountUpdate = 0;
+            accountSocket.onmessage = async (event) => {
+                const data = JSON.parse(event.data);
+                if (data.e === 'ACCOUNT_UPDATE') {
+                    const now = Date.now();
+                    if (now - lastAccountUpdate > 5000) {  // Only update every 5 seconds
+                        console.log('Position update detected, refreshing...');
+                        lastAccountUpdate = now;
+                        await fetchAndUpdatePositions();
+                    } else {
+                        console.log('Skipping frequent account updates');
+                    }
+                }
+            };
+
+            // Stops listening after 60 mins if not kept alive
+            //keepAliveListenKey();
+
+        } catch (error) {
+            console.error('Error setting up Account WebSocket:', error);
+        }
+    }
+
+    // Fetch latest positions from server
+    async function fetchAndUpdatePositions() {
+        if (isFetching) {
+            console.log('Skipping fetch - Too many requests');
+            return;
+        }
+        
+        isFetching = true;
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+        
+            const response = await fetch('http://localhost:5000/trader/positions?exchange=binance', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (!response.ok) {
+                console.error('Failed to fetch positions:', response.statusText);
+                return;
+            }
+    
+            const data = await response.json();
+            const openPositions = data.positions.filter(pos => parseFloat(pos.positionAmt) !== 0);
+            updatePositionsTable(openPositions);
+        } catch (error) {
+            console.error('Error fetching positions:', error);
+        } finally {
+            isFetching = false;
+        }
+    }
+    
+    // Update the table with latest positions & mark prices
+    function updatePositionsTable(positionData = []) {
+        const positionsTable = document.getElementById('binance-positions-tbody');
+    
+        if (!positionData.length) {
             positionsTable.innerHTML = '<tr><td colspan="8" style="text-align:center;">No open positions</td></tr>';
             return;
         }
     
+        let rows = '';
         positionData.forEach(pos => {
-            if (pos.positionAmt !== '0') { // Ignore empty positions
-                const pnl = parseFloat(pos.unrealizedProfit || "0"); // Ensure it's parsed
-                const margin = Math.abs(parseFloat(pos.positionAmt) * parseFloat(pos.entryPrice) / parseFloat(pos.leverage));
-                const roi = margin !== 0 ? ((pnl / margin) * 100).toFixed(2) : '0.00';
+            const pnl = parseFloat(pos.unrealizedProfit || "0");
+            const margin = Math.abs(parseFloat(pos.positionAmt) * parseFloat(pos.entryPrice) / parseFloat(pos.leverage));
+            const roi = margin !== 0 ? ((pnl / margin) * 100).toFixed(2) : '0.00';
     
-                const row = `
+            const markPrice = markPriceMap[pos.symbol] ? parseFloat(markPriceMap[pos.symbol]).toFixed(4) : "Fetching...";
+
+            rows += `
                 <tr>
                     <td>${pos.symbol}</td>
                     <td>${parseFloat(pos.positionAmt) > 0 ? 'Long' : 'Short'}</td>
                     <td>${pos.leverage}x</td>
                     <td>${pos.positionAmt} ${pos.symbol.replace("USDT", "")}</td>
                     <td>${parseFloat(pos.entryPrice).toFixed(4)}</td>
-                    <td>${parseFloat(pos.markPrice).toFixed(4)}</td>
-                    <td>$${pnl.toFixed(2)}</td>
+                    <td>${markPrice}</td>
+                    <td>${pnl.toFixed(2)} USDT</td>
                     <td>${roi}%</td>
                 </tr>
-                `;
-                positionsTable.innerHTML += row;
-            }
+            `;
         });
-    }
     
-    function stopPositionsPolling() {
-        if (updateInterval) {
-            clearInterval(updateInterval);
-            updateInterval = null;
-            console.log('Positions polling stopped');
+        positionsTable.innerHTML = rows;
+    }
+/*    
+    let listenKeyInterval = null; // Store the interval ID
+
+    function keepAliveListenKey() {
+        setInterval(async () => {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+    
+            try {
+                await fetch('http://localhost:5000/trader/listen-key', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ exchange: 'binance' })
+                });
+                console.log('Listen key refreshed');
+            } catch (error) {
+                console.error('Error refreshing listen key:', error);
+            }
+        }, 30 * 60 * 1000); // Every 30 minutes
+    }
+
+    // Call this function to stop refreshing the listen key
+    function stopListenKeyRefresh() {
+        if (listenKeyInterval) {
+            clearInterval(listenKeyInterval);
+            listenKeyInterval = null;
+            console.log('Stopped listen key refresh');
         }
-    } 
+    }
+*/
+    // Stop WebSockets when user leaves
+    function stopWebSockets() {
+        if (binanceSocket) {
+            binanceSocket.close();
+            binanceSocket = null;
+            console.log('Binance Socket closed');
+        }
+        if (accountSocket) {
+            accountSocket.close();
+            accountSocket = null;
+            console.log('Account Socket closed');
+        }
+    }
     
     async function updateCopyTrading() {
         const binanceBTCBot = document.getElementById('binance-btc-bot');

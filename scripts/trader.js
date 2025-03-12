@@ -10,9 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let traderInfo = null;
     let binanceSocket = null;
     let accountSocket = null;
-    let fetchTimeout = null
     let markPriceMap = {};
-    let lastAccountUpdate = 0;
 
     // Check for token and update UI
     checkUserStatus();
@@ -310,8 +308,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function startWebSockets() {
-        if (!binanceSocket) {
-            binanceSocket = new WebSocket('wss://stream.binancefuture.com/ws/!markPrice@arr'); // wss://fstream.binance.com/ws/!markPrice@arr
+        if (binanceSocket && binanceSocket.readyState === WebSocket.OPEN) {
+            console.warn('MarkPrice WebSocket already running.');
+        } else {
+            binanceSocket = new WebSocket('wss://stream.binancefuture.com/ws/!markPrice@arr'); //wss://fstream.binance.com/ws/!markPrice@arr
     
             binanceSocket.onopen = () => console.log('MarkPrice WebSocket connected');
             binanceSocket.onclose = () => {
@@ -320,7 +320,9 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             binanceSocket.onerror = (error) => {
                 console.error('MarkPrice WebSocket error:', error);
-                binanceSocket.close();
+                if (binanceSocket) {
+                    binanceSocket.close();
+                }
             };
     
             binanceSocket.onmessage = (event) => {
@@ -328,12 +330,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 parsedData.forEach(update => {
                     markPriceMap[update.s] = parseFloat(update.p);
                 });
-    
                 updateTablePrices();
             };
         }
     
-        if (!accountSocket) {
+        if (!accountSocket || accountSocket.readyState !== WebSocket.OPEN) {
             startAccountWebSocket();
         }
     }
@@ -366,18 +367,16 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             accountSocket.onerror = (error) => {
                 console.error('Account WebSocket error:', error);
-                accountSocket.close();
+                if (accountSocket) {
+                    accountSocket.close();
+                }
             };
     
             accountSocket.onmessage = async (event) => {
                 const data = JSON.parse(event.data);
                 if (data.e === 'ACCOUNT_UPDATE') {
                     console.log('Account WebSocket message received.');
-                    const now = Date.now();
-                    if (now - lastAccountUpdate > 5000) {
-                        lastAccountUpdate = now;
-                        await fetchAndUpdatePositions();
-                    }
+                    await fetchAndUpdatePositions();
                 }
             };
     

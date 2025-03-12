@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const userDropdownMenu = document.getElementById('user-dropdown-menu');
 
     let traderInfo = null;
-    
+    let binanceSocket = null;
+
     // Check for token and update UI
     checkUserStatus();
     
@@ -113,13 +114,13 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (contentId === 'exchanges-section') {
             updateExchanges()
         }
-        //else if (contentId === 'exchanges-section') {
+        //else if (contentId === 'analytics-section') {
         //    updateAnalytics()
         //}
-        //else if (contentId === 'exchanges-section') {
-        //    updatePositions()
-        //}
-        else if (contentId === 'exchanges-section') {
+        else if (contentId === 'positions-section') {
+            updatePositions()
+        }
+        else if (contentId === 'copy-trading-section') {
             updateCopyTrading()
         }
     }
@@ -210,10 +211,202 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('new-exchange-api-key').value = '';
         document.getElementById('new-exchange-api-secret').value = '';
         document.getElementById('exchange-message').textContent = '';
-        //exchangeMessageContainer.classList.add('no-border');
-
+    
         // Update the table with the received data
         const tableBody = document.getElementById("exchanges-tbody");
+    
+        // List of exchanges to fetch
+        const exchanges = ['binance']; // Add more if needed
+    
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return;
+        }
+    
+        try {
+            const response = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchanges.join(',')}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (!response.ok) {
+                console.error('Failed to fetch exchange data:', response.statusText);
+                return;
+            }
+    
+            const data = await response.json();
+    
+            // Clear existing table rows
+            tableBody.innerHTML = "";
+    
+            // Iterate over each exchange response
+            Object.entries(data).forEach(([exchange, exchangeData]) => {
+                if (exchangeData.message === 'No exchange data' || Object.keys(exchangeData).length === 0) {
+                    return; // Skip if no data
+                }
+    
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${exchangeData.exchange_name}</td>
+                    <td>${exchangeData.account_name}</td>
+                    <td>${exchangeData.api_key}</td>
+                    <td>
+                        <button class="table-edit-button" onclick="editExchange('${exchange}')">Edit</button>
+                        <button class="table-delete-button" onclick="deleteExchange('${exchange}')">Delete</button>
+                    </td>
+                `;
+    
+                tableBody.appendChild(row);
+            });
+    
+            // Toggle visibility class based on data
+            if (tableBody.children.length > 0) {
+                tableBody.classList.add('has-data');
+            } else {
+                tableBody.classList.remove('has-data');
+            }
+    
+        } catch (error) {
+            console.error('Error fetching exchange data:', error);
+        }
+    }
+/*
+    async function updateAnalytics() {
+    }
+    */
+    
+    async function updatePositions() {
+        if (binanceSocket) {
+            console.log('WebSocket already open');
+            return; 
+        }
+    
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return;
+        }
+    
+        try {
+            // Fetch the Binance listen key from the backend
+            const response = await fetch('http://localhost:5000/trader/listen-key?exchange=binance', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (!response.ok) {
+                console.error('Failed to fetch listen key:', response.statusText);
+                return;
+            }
+    
+            const data = await response.json();
+            const listenKey = data.listenKey;
+            
+            // Open Binance WebSocket connection
+            binanceSocket = new WebSocket(`wss://stream.binancefuture.com/ws/${listenKey}`); //wss://fstream.binance.com/ws/${listenKey} in tesnet needs change for prod
+    
+            binanceSocket.onopen = () => console.log('Binance WebSocket connected.');
+    
+            binanceSocket.onmessage = (event) => {
+                const parsedData = JSON.parse(event.data);
+            
+                if (parsedData.e === 'ACCOUNT_UPDATE' && parsedData.a && parsedData.a.P) {
+                    console.log("Updating Positions:", parsedData.a.P);
+                    updatePositionsTable(parsedData.a.P, 'binance');
+                }
+            };
+    
+            binanceSocket.onclose = () => {
+                console.log('Binance WebSocket closed.');
+                binanceSocket = null;
+            };
+    
+            binanceSocket.onerror = (error) => {
+                console.error('WebSocket error:', error);
+                binanceSocket.close();
+            };
+    
+        } catch (error) {
+            console.error('Error opening WebSocket:', error);
+        }
+    }
+
+    function updatePositionsTable(positionData, exchange) {
+        const positionsTable = document.getElementById(`${exchange}-positions-tbody`);
+    
+        if (!positionData || positionData.length === 0) {
+            positionsTable.innerHTML = '<tr><td colspan="8" style="text-align:center;">No open positions</td></tr>';
+            return;
+        }
+    
+        const existingRows = {}; // Store existing positions for quick lookup
+        positionsTable.querySelectorAll("tr").forEach(row => {
+            const symbol = row.getAttribute("data-symbol");
+            if (symbol) existingRows[symbol] = row;
+        });
+    
+        positionData.forEach(pos => {
+            if (pos.pa !== '0') { // Ignore closed positions
+                const symbol = pos.s;
+                const pnl = parseFloat(pos.up);
+                const margin = Math.abs(parseFloat(pos.pa) * parseFloat(pos.ep) / parseFloat(pos.l));
+                const roi = margin !== 0 ? ((pnl / margin) * 100).toFixed(2) : '0.00';
+    
+                if (existingRows[symbol]) {
+                    // Update existing row
+                    const row = existingRows[symbol];
+                    row.innerHTML = `
+                        <td>${pos.s}</td>
+                        <td>${pos.ps}</td>
+                        <td>${pos.l}x</td>
+                        <td>${pos.pa}</td>
+                        <td>${pos.ep}</td>
+                        <td>${pos.mp}</td>
+                        <td>${pnl.toFixed(2)}</td>
+                        <td>${roi}%</td>
+                    `;
+                } else {
+                    // Insert new position if it doesn't exist
+                    const newRow = document.createElement("tr");
+                    newRow.setAttribute("data-symbol", symbol);
+                    newRow.innerHTML = `
+                        <td>${pos.s}</td>
+                        <td>${pos.ps}</td>
+                        <td>${pos.l}x</td>
+                        <td>${pos.pa}</td>
+                        <td>${pos.ep}</td>
+                        <td>${pos.mp}</td>
+                        <td>${pnl.toFixed(2)}</td>
+                        <td>${roi}%</td>
+                    `;
+                    positionsTable.appendChild(newRow);
+                }
+            }
+        });
+    
+        // Remove positions that no longer exist
+        Object.keys(existingRows).forEach(symbol => {
+            if (!positionData.some(pos => pos.s === symbol && pos.pa !== '0')) {
+                existingRows[symbol].remove();
+            }
+        });
+    }
+
+    async function updateCopyTrading() {
+        const binanceBTCBot = document.getElementById('binance-btc-bot');
+        const binanceETHBot = document.getElementById('binance-eth-bot');
+        
+        // Clear active bots
+        binanceBTCBot.style.display = 'none';
+        binanceETHBot.style.display = 'none';
+        
         // List of exchanges to fetch
         const exchanges = ['binance']; //, 'coinbase'
 
@@ -240,46 +433,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
             //console.log('Updated Exchange Data:', data); // Debugging
 
-            // Clear existing table rows
-            tableBody.innerHTML = "";
-        
-            // Iterate over the object keys
-            for (const exchange in data) {
-                if (data.hasOwnProperty(exchange) && data[exchange].message !== 'No exchange data' && Object.keys(data[exchange]).length > 0) {
-                    const exchangeData = data[exchange];
-                    const row = document.createElement("tr");
+            // Iterate over each exchange response
+            Object.entries(data).forEach(([exchange, exchangeData]) => {
+                if (exchangeData.message === 'No exchange data' || Object.keys(exchangeData).length === 0) {
+                    return; // Skip if no data
+                }
 
-                    row.innerHTML = `
-                        <td>${exchangeData.exchange_name}</td>
-                        <td>${exchangeData.account_name}</td>
-                        <td>${exchangeData.api_key}</td>
-                        <td>
-                            <button class="table-edit-button" onclick="editExchange('${exchange}')">Edit</button>
-                            <button class="table-delete-button" onclick="deleteExchange('${exchange}')">Delete</button>
-                        </td>
-                    `;
-
-                    tableBody.appendChild(row);
-                    if (tableBody.children.length > 0) {
-                        tableBody.classList.add('has-data'); // Make tbody visible
-                    } else {
-                        tableBody.classList.remove('has-data'); // Keep it hidden if empty
+                if (exchange.toLowerCase() === 'binance') {
+                    if (exchangeData.btc_bot) {
+                        binanceBTCBot.style.display = 'inline-block';
+                    }
+                    if (exchangeData.eth_bot) {
+                        binanceETHBot.style.display = 'inline-block';
                     }
                 }
-            }
+            });
         } catch (error) {
             console.error('Error fetching exchange data:', error);
         }
-    }
-/*
-    async function updateAnalytics() {
-    }
-    
-    async function updatePositions() {
-    }
-*/
-    async function updateCopyTrading() {
-
     }
 
     // Sidebar expansion
@@ -495,13 +666,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-
     // Titles toggle
     document.querySelectorAll('.card-title').forEach(title => {
         title.addEventListener('click', function() {
             const card = this.closest('.card'); // Find the parent card
-            const contents = card.querySelectorAll('.card-content'); // Get all card contents inside
-    
+            // Select all the target content elements inside the card
+            const contents = card.querySelectorAll('.card-content, .getting-started-content, .copy-trading-content, .table-content');    
             contents.forEach(content => {
                 content.classList.toggle('collapsed');
             });
@@ -686,4 +856,157 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error deleting exchange data:', error);
         }
     }
+
+    // Copy-trade Binance BTC 
+    document.getElementById('binance-btc-copy-button').addEventListener('click', async function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return;
+        }
+
+        try {
+            // Send the password update request
+            const response = await fetch('http://localhost:5000/trader/copy-trade', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    exchange: 'binance',
+                    coin: 'btc'
+                })
+            });
+
+            if (!response.ok) {
+                console.error('Failed to copy-trade BTC:', response.statusText);
+                return;
+            }
+
+            //const result = await response.json();
+            //console.log('Copy-trading BTC successful:', result);
+
+            // Show BTC bot UI
+            document.getElementById('binance-btc-bot').style.display = 'inline-block';
+
+        } catch (error) {
+            console.error('Error copy-trading BTC:', error);
+        }
+    });
+
+    // Copy-trade Binance ETH 
+    document.getElementById('binance-eth-copy-button').addEventListener('click', async function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return;
+        }
+
+        try {
+            // Send the password update request
+            const response = await fetch('http://localhost:5000/trader/copy-trade', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    exchange: 'binance',
+                    coin: 'eth'
+                })
+            });
+
+            if (!response.ok) {
+                console.error('Failed to copy-trade ETH:', response.statusText);
+                return;
+            }
+
+            //const result = await response.json();
+            //console.log('Copy-trading ETH successful:', result);
+
+            // Show ETH bot UI
+            document.getElementById('binance-eth-bot').style.display = 'inline-block';
+
+        } catch (error) {
+            console.error('Error copy-trading ETH:', error);
+        }
+    });
+    
+    // Cancel-trade Binance BTC 
+    document.getElementById('cancel-binance-btc-bot').addEventListener('click', async function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return;
+        }
+
+        try {
+            // Send the password update request
+            const response = await fetch('http://localhost:5000/trader/cancel-trade', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    exchange: 'binance',
+                    coin: 'btc'
+                })
+            });
+
+            if (!response.ok) {
+                console.error('Failed to cancel-trade BTC:', response.statusText);
+                return;
+            }
+
+            //const result = await response.json();
+            //console.log('Cancel-trading BTC successful:', result);
+
+            // Clear BTC bot UI
+            document.getElementById('binance-btc-bot').style.display = 'none';
+
+        } catch (error) {
+            console.error('Error cancel-trading BTC:', error);
+        }
+    });
+
+    // Cancel-trade Binance ETH 
+    document.getElementById('cancel-binance-eth-bot').addEventListener('click', async function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return;
+        }
+
+        try {
+            // Send the password update request
+            const response = await fetch('http://localhost:5000/trader/cancel-trade', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    exchange: 'binance',
+                    coin: 'eth'
+                })
+            });
+
+            if (!response.ok) {
+                console.error('Failed to cancel-trade ETH:', response.statusText);
+                return;
+            }
+
+            //const result = await response.json();
+            //console.log('Cancel-trading ETH successful:', result);
+
+            // Clear ETH bot UI
+            document.getElementById('binance-eth-bot').style.display = 'none';
+
+        } catch (error) {
+            console.error('Error cancel-trading ETH:', error);
+        }
+    });
+        
 });

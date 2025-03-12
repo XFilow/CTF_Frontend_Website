@@ -187,7 +187,7 @@
                 <section id="exchanges-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <div class="table-container">
+                            <div id="exchanges-table-content" class="table-content">
                                 <table id=exchanges-table>
                                     <thead>
                                         <tr>
@@ -242,11 +242,11 @@
                 <section id="positions-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <div class="table-container">
-                                <table id="positions-table">
+                            <h2 id="binance-positions-title" class="card-title">Binance</h2>
+                            <div id="binance-table-content" class="table-content">
+                                <table id="binance-positions-table">
                                     <thead>
                                         <tr>
-                                            <th>Exchange</th>
                                             <th>Symbol</th>
                                             <th>Position</th>
                                             <th>Leverage</th>
@@ -257,11 +257,11 @@
                                             <th>ROI</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="binance-positions-tbody">
                                         <!-- Live position updates will be added here -->
                                     </tbody>
                                 </table>
-                            </div>      
+                            </div>
                         </div>
                     </div> 
                 </section>
@@ -269,28 +269,28 @@
                     <div class="cards">
                         <div class="card">
                             <h2 class="card-title">Binance</h2>
-                            <div id="bitcoin-copy-trading" class="card-content">
+                            <div id="binance-btc-copy-trading" class="card-content">
                                 <img src="../static/logos/bitcoin_logo.webp" alt="Logo" class="coin-logo">
                                 <h3 class="inline-title">BTCUSDT</h3>
-                                <button type="button" id="bitcoin-copy-button" class="button copy-trading-button">Copy-Trade</button>
+                                <button type="button" id="binance-btc-copy-button" class="button copy-trading-button">Copy-Trade</button>
                                 <br><br><p class="inline-title">Leverage: 100x | Position Size: 1% | One-Way Mode</p>
                             </div>
-                            <div id="ethereum-copy-trading" class="card-content">
+                            <div id="binance-eth-copy-trading" class="card-content">
                                 <img src="../static/logos/ethereum_logo.webp" alt="Logo" class="coin-logo">
                                 <h3 class="inline-title">ETHUSDT</h3>
-                                <button type="button" id="ethereum-copy-button" class="button copy-trading-button">Copy-Trade</button>
+                                <button type="button" id="binance-eth-copy-button" class="button copy-trading-button">Copy-Trade</button>
                                 <br><br><p class="inline-title">Leverage: 50x | Position Size: 1% | One-Way Mode</p>
                             </div>
                                 <!-- Add more coins here in the future -->
                         </div>
                         <div class="card">
-                            <h2 class="card-title">Active Bots</h2>
-                            <div id="btc-active-bot" class="card-content">
+                            <h2 id="active-bots-title" class="card-title">Active Bots</h2>
+                            <div id="binance-btc-bot" class="card-content">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
                                 <h3 class="inline-title">Binance - BTCUSDT</h3>
                                 <button type="button" id="cancel-binance-btc-bot" class="button cancel-trading-button">Cancel</button>
                             </div>
-                            <div id="eth-active-bot" class="card-content">
+                            <div id="binance-eth-bot" class="card-content">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
                                 <h3 class="inline-title">Binance - ETHUSDT</h3>
                                 <button type="button" id="cancel-binance-eth-bot" class="button cancel-trading-button">Cancel</button>
@@ -340,7 +340,7 @@
                                 <br><img src="../static/images/ctf3.webp" alt="Image" class="getting-started-image">
                                 <p>You're Binance API will be displayed in the table if added successfully.</p>
                                 <p>To verify the exchange connection, select the Dashboard sidebar tab and check if your Portfolio Value matches your Binance account.</p>
-                                <br><br><img src="../static/images/ctf9.webp" alt="Image" class="getting-started-image">
+                                <br><br><img src="../static/images/ctf4.webp" alt="Image" class="getting-started-image">
                                 <p>All that's left is to select a trading bot to copy-trade.</p>
                                 <p>Select the Copy-Trading sidebar tab.</p>
                                 <p>Choose one of the CTF trading bots and start copy-trading.</p>

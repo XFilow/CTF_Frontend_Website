@@ -11,9 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let binanceSocket = null;
     let accountSocket = null;
     let fetchTimeout = null
-    let isFetching = false;
     let markPriceMap = {};
-    let lastFetchTime = 0;
     let lastAccountUpdate = 0;
 
     // Check for token and update UI
@@ -313,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function startWebSockets() {
         if (!binanceSocket) {
-            binanceSocket = new WebSocket('wss://stream.binancefuture.com/ws/!markPrice@arr');
+            binanceSocket = new WebSocket('wss://stream.binancefuture.com/ws/!markPrice@arr'); // wss://fstream.binance.com/ws/!markPrice@arr
     
             binanceSocket.onopen = () => console.log('MarkPrice WebSocket connected');
             binanceSocket.onclose = () => {
@@ -332,11 +330,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
     
                 updateTablePrices();
-    
-                clearTimeout(fetchTimeout);
-                fetchTimeout = setTimeout(() => {
-                    fetchAndUpdatePositions();
-                }, 5000);
             };
         }
     
@@ -364,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const listenKeyData = await listenKeyResponse.json();
             if (!listenKeyData.listenKey) throw new Error('No listenKey received');
     
-            accountSocket = new WebSocket(`wss://stream.binancefuture.com/ws/${listenKeyData.listenKey}`);
+            accountSocket = new WebSocket(`wss://stream.binancefuture.com/ws/${listenKeyData.listenKey}`); // wss://fstream.binance.com/ws/${listenKeyData.listenKey}
     
             accountSocket.onopen = () => console.log('Account WebSocket connected');
             accountSocket.onclose = () => {
@@ -379,6 +372,7 @@ document.addEventListener('DOMContentLoaded', function() {
             accountSocket.onmessage = async (event) => {
                 const data = JSON.parse(event.data);
                 if (data.e === 'ACCOUNT_UPDATE') {
+                    console.log('Account WebSocket message received.');
                     const now = Date.now();
                     if (now - lastAccountUpdate > 5000) {
                         lastAccountUpdate = now;
@@ -394,17 +388,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Fetch latest positions from API
     async function fetchAndUpdatePositions() {
-        const fetchCooldown = 5000;
-        const now = Date.now();
-    
-        if (isFetching || now - lastFetchTime < fetchCooldown) {
-            console.log('Skipping fetch - Too many requests');
-            return;
-        }
-    
-        isFetching = true;
-        lastFetchTime = now;
-    
         try {
             const token = localStorage.getItem('token');
             if (!token) {
@@ -429,9 +412,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         } catch (error) {
             console.error('Error fetching positions:', error);
-        } finally {
-            isFetching = false;
-        }
+        } 
     }
     
     // Updates table data
@@ -445,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         let rows = '';
         positionData.forEach(pos => {
-            const markPrice = markPriceMap[pos.symbol]?.toFixed(2) || "...";
+            const markPrice = markPriceMap[pos.symbol]?.toFixed(2) || "-";
             const pnl = parseFloat(pos.unrealizedProfit || "0");
             const margin = Math.abs(parseFloat(pos.positionAmt) * parseFloat(pos.entryPrice) / parseFloat(pos.leverage));
             const roi = margin !== 0 ? ((pnl / margin) * 100).toFixed(2) : '0.00';
@@ -525,12 +506,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (binanceSocket) {
             binanceSocket.close();
             binanceSocket = null;
-            console.log('Binance Socket closed');
+            //console.log('Binance Socket closed');
         }
         if (accountSocket) {
             accountSocket.close();
             accountSocket = null;
-            console.log('Account Socket closed');
+            //console.log('Account Socket closed');
         }
     }
     

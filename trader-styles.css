@@ -171,6 +171,7 @@ body.icons-only .footer-icon-links {
     vertical-align: middle; /* Aligns elements vertically in the middle */
     width: 3em; /* Fixed width for the logo */
     height: 3em; /* Fixed height for the logo */
+    margin-right: 0.3em;
 }
 
 .inline-title{

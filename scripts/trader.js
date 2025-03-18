@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let traderInfo = null;
     let binanceSocket = null;
     let accountSocket = null;
+    let positionsChart = null;
     let markPriceMap = {};
 
     // Check for token and update UI
@@ -118,9 +119,9 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (contentId === 'exchanges-section') {
             updateExchanges()
         }
-        //else if (contentId === 'analytics-section') {
-        //    updateAnalytics()
-        //}
+        else if (contentId === 'analytics-section') {
+            updateAnalytics()
+        }
         else if (contentId === 'positions-section') {
             updatePositions()
         }
@@ -278,11 +279,71 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching exchange data:', error);
         }
     }
-/*
+
     async function updateAnalytics() {
+        // Initialize with Monthly View (Last 30 Days)
+        await updatePositionsChart(30);
     }
-    */
     
+    async function fetchOpenPositions(days) {
+        try {
+            const response = await fetch(`http://localhost:5000/trader/open-positions?days=${days}`);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Error fetching open positions:", error);
+            return [];
+        }
+    }
+
+    async function updatePositionsChart(days) {
+        try {
+            const data = await fetchOpenPositions(days) || [];
+    
+            if (data.length === 0) {
+                console.log("No position data available.");
+                return;
+            }
+    
+            const canvas = document.getElementById("positions-chart");
+            if (!canvas) {
+                console.error("Chart element not found.");
+                return;
+            }
+            const ctx = canvas.getContext("2d");
+    
+            if (positionsChart) {
+                positionsChart.destroy(); // Destroy existing chart if it exists
+            }
+    
+            const labels = data.map(item => new Date(item.date).toLocaleDateString());
+            const counts = data.map(item => item.count);
+    
+            positionsChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Open Positions",
+                        data: counts,
+                        backgroundColor: "rgba(54, 162, 235, 0.6)",
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { title: { display: true, text: "Date" } },
+                        y: { title: { display: true, text: "Count" }, beginAtZero: true }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error("Error updating positions chart:", error);
+        }
+    }
+
     async function updatePositions() {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -972,6 +1033,12 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error deleting exchange data:', error);
         }
     }
+
+    // Update Positions Chart 
+    document.getElementById("positions-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updatePositionsChart(days);
+    });
 
     // Copy-trade Binance BTC 
     document.getElementById('binance-btc-copy-button').addEventListener('click', async function() {

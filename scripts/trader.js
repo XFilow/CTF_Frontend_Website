@@ -285,6 +285,22 @@ document.addEventListener('DOMContentLoaded', function() {
         await updatePositionsChart(30);
     }
     
+    async function generateMockData(days) {
+        const mockData = [];
+        const now = new Date();
+    
+        for (let i = days - 1; i >= 0; i--) {
+            const date = new Date(now);
+            date.setDate(now.getDate() - i);
+            mockData.push({
+                date: date.toISOString(),
+                count: Math.floor(Math.random() * 10) + 1 // Random count between 1 and 10
+            });
+        }
+    
+        return mockData;
+    }
+
     async function fetchOpenPositions(days) {
         try {
             const response = await fetch(`http://localhost:5000/trader/open-positions?days=${days}`);
@@ -298,8 +314,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function updatePositionsChart(days) {
         try {
-            const data = await fetchOpenPositions(days) || [];
-    
+            //const data = await fetchOpenPositions(days) || [];
+            const data = await generateMockData(days);
+
             if (data.length === 0) {
                 console.log("No position data available.");
                 return;

@@ -163,7 +163,16 @@ body.icons-only .footer-icon-links {
     vertical-align: middle; /* Aligns elements vertically in the middle */
     width: 2em; /* Fixed width for the logo */
     height: 2em; /* Fixed height for the logo */
-    margin-right: 0.2em;
+    margin-right: 0.15em;
+}
+
+.exchange-title-logo {
+    display: inline;
+    vertical-align: middle; /* Aligns elements vertically in the middle */
+    width: 1.3em; /* Fixed width for the logo */
+    height: 1.3em; /* Fixed height for the logo */
+    margin-right: 0.3em;  
+    margin-left: -0.15em;  
 }
 
 .coin-logo {
@@ -174,9 +183,13 @@ body.icons-only .footer-icon-links {
     margin-right: 0.3em;
 }
 
-.inline-title{
+.coin-logo-title {
     display: inline;
     vertical-align: middle; /* Aligns elements vertically in the middle */
+    width: 2em; /* Fixed width for the logo */
+    height: 2em; /* Fixed height for the logo */
+    margin-right: 0.2em;
+    margin-left: 0.5em;
 }
 
 .user-menu {
@@ -317,7 +330,7 @@ body.icons-only .footer-icon-links {
     color: black;
     cursor: pointer;
     border: 1px solid black;
-    background-color: rgb(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255, 0.75);
     padding: 0.25em 0.5em;
     border-radius: 4px;
     font-size: 1em;
@@ -488,6 +501,7 @@ td:nth-child(3) {
     list-style-type: none;
     align-self: left;
     display: block;
+    cursor: pointer;
     border: 1px solid white;
     background-color: rgba(0, 0, 0, 0.7);
     border-radius: 5px;
@@ -496,11 +510,27 @@ td:nth-child(3) {
     font-size: 1em;
 }
 
+.dropdown-timeRange {
+    color: white;
+    position: relative; /* Changed to relative for better positioning */
+    list-style-type: none;
+    align-self: left;
+    display: block;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 0.25em;
+    font-size: em;
+}
+
+.dropdown-timeRange:hover,
 .dropdown-menu:hover {
     background-color: black;
     outline: none; /* Remove default outline */
 }
 
+.dropdown-timeRange:focus,
 .dropdown-menu:focus {
     background-color: black;
     outline: none; /* Remove default outline */
@@ -569,6 +599,8 @@ td:nth-child(3) {
     margin-bottom: 0;
 }
 
+/*#portfolio-title.collapsed,
+#profit-loss-title.collapsed,*/
 #binance-positions-title.collapsed,
 #active-bots-title.collapsed {
     padding-bottom: 1em;
@@ -582,6 +614,26 @@ td:nth-child(3) {
 
 .card-title.collapsed::before {
     transform: rotate(-90deg);
+}
+
+.card-content-title{
+    display: inline;
+    vertical-align: middle; /* Aligns elements vertically in the middle */
+}
+
+#binance-btc-title{
+    display: block;
+}
+
+#binance-btc-card {
+    max-width: 99%;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#btc-positions-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .balances-container {
@@ -608,7 +660,14 @@ td:nth-child(3) {
     color: grey;
 }
 
-canvas {
+.analytics-canvas {
     width: 100%;
-    height: 300px; /* Adjust height as needed */
+    height: 250px; /* Adjust height as needed */
+}
+
+#empty-portfolio,
+#binance-portfolio,
+#empty-profit-loss,
+#binance-profit-loss {
+    display: none;
 }

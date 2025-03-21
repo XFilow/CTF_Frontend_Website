@@ -158,14 +158,17 @@
                             <p>To start copy-trading a CTF bot, you'll need to connect an exchange API to your CTF account. To do this go the Exchanges tab. If you need further assistance, check the Getting Started guide.</p>
                         </div>
                         <div class="card">
-                            <h2 class="card-title">Portfolio Value</h2>
+                            <h2 id="portfolio-title" class="card-title">Portfolio Value</h2>
+                            <div id="empty-portfolio" class="card-content">
+                                <h3>No Connected Exchange!</h3>
+                            </div>
                             <div id="binance-portfolio" class="card-content">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
-                                <h3 class="inline-title">Binance</h3>
+                                <h3 class="card-content-title">Binance</h3>
                                 <div class="balances-container">
                                     <div class="balance-section">
                                         <h4>Futures Wallet</h4>
-                                        <div id="binance-futures-balance" class="inside-balance-section">
+                                        <div id="binance-balance" class="inside-balance-section">
                                             <!-- Futures balances will be injected here -->
                                         </div>
                                     </div>
@@ -173,10 +176,13 @@
                             </div>
                         </div>
                         <div class="card">
-                            <h2 class="card-title">Profit and Loss</h2>
+                            <h2 id="profit-loss-title" class="card-title">Profit and Loss</h2>
+                            <div id="empty-profit-loss" class="card-content">
+                                <h3>No Connected Exchange!</h3>
+                            </div>
                             <div id="binance-profit-loss" class="card-content">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
-                                <h3 class="inline-title">Binance</h3>
+                                <h3 class="card-content-title">Binance</h3>
                                 <h4 id="binance-7d">Weekly P/L</h4>
                                 <h4 id="binance-30d">Monthly P/L</h4>
                                 <h4 id="binance-overall">Overall P/L</h4>
@@ -235,15 +241,24 @@
                 <section id="analytics-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <h2 class="card-title">BTCUSDT</h2>
-                            <div id="btc-positions-card" class="card-content">
-                                <select id="btc-positions-timeRange">
-                                    <option value="30">Weekly</option>
-                                    <option value="90">Monthly</option>
-                                    <option value="365">Yearly</option>
-                                    <option value="0">All Time</option>
-                                </select>
-                                <canvas id="positions-chart"></canvas>
+                            <h2 id="binance-analytics-title" class="card-title">
+                                <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-title-logo">
+                                Binance
+                            </h2>
+                            <div id="binance-btc-card" class="card-content">
+                                <h3 id="binance-btc-title" class="card-content-title">
+                                    <img src="../static/logos/bitcoin_logo.webp" alt="Logo" class="coin-logo-title">
+                                    BTCUSDT
+                                </h3>
+                                <div id="btc-positions-card" class="card-content">
+                                    <select id="btc-positions-timeRange" name="btc-positions-timeRange" class="dropdown-timeRange">
+                                        <option value="7">Weekly</option>
+                                        <option value="30">Monthly</option>
+                                        <option value="365">Yearly</option>
+                                        <option value="0">Overall</option>
+                                    </select>
+                                    <canvas id="positions-chart" class="analytics-canvas"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div> 
@@ -251,7 +266,10 @@
                 <section id="positions-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <h2 id="binance-positions-title" class="card-title">Binance</h2>
+                            <h2 id="binance-positions-title" class="card-title">
+                                <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-title-logo">
+                                Binance
+                            </h2>
                             <div id="binance-table-content" class="table-content">
                                 <table id="binance-positions-table">
                                     <thead>
@@ -277,18 +295,21 @@
                 <section id="copy-trading-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <h2 class="card-title">Binance</h2>
+                            <h2 id="binance-copy-trading-title" class="card-title">
+                                <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-title-logo">
+                                Binance
+                            </h2>
                             <div id="binance-btc-copy-trading" class="card-content">
                                 <img src="../static/logos/bitcoin_logo.webp" alt="Logo" class="coin-logo">
-                                <h3 class="inline-title">BTCUSDT</h3>
+                                <h3 class="card-content-title">BTCUSDT</h3>
                                 <button type="button" id="binance-btc-copy-button" class="button copy-trading-button">Copy-Trade</button>
-                                <br><br><p class="inline-title">Leverage: 100x | Position Size: 1% | One-Way Mode</p>
+                                <br><br><p class="card-content-title">Leverage: 100x | Position Size: 1% | One-Way Mode</p>
                             </div>
                             <div id="binance-eth-copy-trading" class="card-content">
                                 <img src="../static/logos/ethereum_logo.webp" alt="Logo" class="coin-logo">
-                                <h3 class="inline-title">ETHUSDT</h3>
+                                <h3 class="card-content-title">ETHUSDT</h3>
                                 <button type="button" id="binance-eth-copy-button" class="button copy-trading-button">Copy-Trade</button>
-                                <br><br><p class="inline-title">Leverage: 50x | Position Size: 1% | One-Way Mode</p>
+                                <br><br><p class="card-content-title">Leverage: 50x | Position Size: 1% | One-Way Mode</p>
                             </div>
                                 <!-- Add more coins here in the future -->
                         </div>
@@ -296,12 +317,12 @@
                             <h2 id="active-bots-title" class="card-title">Active Bots</h2>
                             <div id="binance-btc-bot" class="card-content">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
-                                <h3 class="inline-title">Binance - BTCUSDT</h3>
+                                <h3 class="card-content-title">Binance - BTCUSDT</h3>
                                 <button type="button" id="cancel-binance-btc-bot" class="button cancel-trading-button">Cancel</button>
                             </div>
                             <div id="binance-eth-bot" class="card-content">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
-                                <h3 class="inline-title">Binance - ETHUSDT</h3>
+                                <h3 class="card-content-title">Binance - ETHUSDT</h3>
                                 <button type="button" id="cancel-binance-eth-bot" class="button cancel-trading-button">Cancel</button>
                             </div>
                                 <!-- Add more coins here in the future -->
@@ -311,7 +332,10 @@
                 <section id="getting-started-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <h2 class="card-title">Binance</h2>
+                            <h2 id="getting-started-title" class="card-title">
+                                <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-title-logo">
+                                Binance
+                            </h2>
                             <div id="binance-getting-started" class="getting-started-content">
                                 <h3>Create a Binance account</h3>
                                 <p><a href="https://www.binance.com" class="getting-started-link">https://www.binance.com</a></p>

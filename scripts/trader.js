@@ -142,19 +142,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function updateDashboard() {
-        document.getElementById('getting-started-card').style.display = 'none';
+        const gettingStartedCard = document.getElementById('getting-started-card');
+        const emptyPortfolio = document.getElementById('empty-portfolio');
+        const emptyProfitLoss = document.getElementById('empty-profit-loss');
+        
+        //document.getElementById('binance-portfolio').style.display = 'none';
+
+        gettingStartedCard.style.display = 'none'
+        emptyPortfolio.style.display = 'none'
+        emptyProfitLoss.style.display = 'none'
 
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
-            return null; // Return null if the user is not logged in
+            return;
         }
     
-        const exchanges = ['binance']; // Add more exchanges when implemented
-        let validExchangeFound = false; // Flag to track if at least one exchange has valid data
-
         try {
-            const response = await fetch(`http://localhost:5000/trader/balance?exchange=${exchanges.join(',')}`, {
+            // Fetch the list of exchanges
+            const exchangeResponse = await fetch(`http://localhost:5000/trader/exchanges`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -162,32 +168,58 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
     
-            if (!response.ok) {
-                console.error('Failed to fetch exchange data:', response.statusText);
+            if (!exchangeResponse.ok) {
+                console.error('Failed to fetch exchange data:', exchangeResponse.statusText);
                 return;
             }
     
-            const data = await response.json();
-            //console.log('Updated Dashboard Data:', data); // Debugging
+            // Extract JSON response
+            const exchangeList = await exchangeResponse.json();
+            console.log(exchangeList);
+
+            if (!Array.isArray(exchangeList) || exchangeList.length === 0) {
+                console.log("No exchange data available.");
+                gettingStartedCard.style.display = 'block';
+                emptyPortfolio.style.display = 'block';
+                emptyProfitLoss.style.display = 'block';
+                return; // Exit early if no exchanges
+            }
     
-            // Iterate over the object keys (exchange names)
-            for (const exchange in data) {
-                if (data.hasOwnProperty(exchange) && data[exchange].message !== 'No exchange data' && Object.keys(data[exchange]).length > 0) {
+            // Fetch balance only if exchanges exist
+            const balanceResponse = await fetch(`http://localhost:5000/trader/balance?exchange=${exchangeList.join(',')}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (!balanceResponse.ok) {
+                console.error('Failed to fetch balance data:', balanceResponse.statusText);
+                return;
+            }
+    
+            const balanceData = await balanceResponse.json();
+            let validExchangeFound = false;
+    
+            for (const exchange in balanceData) {
+                if (balanceData.hasOwnProperty(exchange) && balanceData[exchange].message !== 'No exchange data' && Object.keys(balanceData[exchange]).length > 0) {
                     validExchangeFound = true;
-                    const exchangeData = data[exchange];
+                    const exchangeData = balanceData[exchange];
     
-                    // Find the corresponding container dynamically
-                    const exchangeFuturesBalance = document.getElementById(`${exchange}-futures-balance`);
-                    
+                    // Find the container dynamically
+                    document.getElementById(`${exchange}-portfolio`).style.display = 'inline-block';
+                    const exchangeFuturesBalance = document.getElementById(`${exchange}-balance`);
+    
                     if (!exchangeFuturesBalance) {
                         console.log(`No container found for exchange: ${exchange}`);
-                        continue; // Skip if the container doesn't exist
+                        continue;
                     }
     
-                    // Clear existing balances for this exchange
-                    exchangeFuturesBalance.innerHTML = ''; 
+                    // Clear existing balances
+                    exchangeFuturesBalance.innerHTML = '';
     
-                    // Create a paragraph for each coin with a balance greater than 0
+                    // Populate balances
                     for (const asset in exchangeData) {
                         if (exchangeData.hasOwnProperty(asset) && parseFloat(exchangeData[asset]) > 0) {
                             const p = document.createElement('p');
@@ -197,17 +229,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             }
-
-            // If no valid exchange was found show getting starter message
+    
+            // Show "getting started" card if no valid exchange was found
             if (!validExchangeFound) {
                 console.log("No exchange data available.");
                 document.getElementById('getting-started-card').style.display = 'block';
             }
+    
         } catch (error) {
             console.error('Error fetching exchange data:', error);
         }
     }
-
+    
     async function updateExchanges() {
         document.getElementById('new-exchange-container').classList.remove('active');
         document.getElementById('add-exchange-container').classList.add('active');
@@ -281,29 +314,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function updateAnalytics() {
-        // Initialize with Monthly View (Last 30 Days)
-        await updatePositionsChart(30);
-    }
-    
-    async function generateMockData(days) {
-        const mockData = [];
-        const now = new Date();
-    
-        for (let i = days - 1; i >= 0; i--) {
-            const date = new Date(now);
-            date.setDate(now.getDate() - i);
-            mockData.push({
-                date: date.toISOString(),
-                count: Math.floor(Math.random() * 10) + 1 // Random count between 1 and 10
-            });
-        }
-    
-        return mockData;
+        await updatePositionsChart(7); // Initialize with Weekly View (Last 7 Days)
     }
 
     async function fetchOpenPositions(days) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return;
+        }
+
         try {
-            const response = await fetch(`http://localhost:5000/trader/open-positions?days=${days}`);
+            const response = await fetch(`http://localhost:5000/trader/open-positions?days=${days}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            //if (!response.ok) throw new Error(`Failed to fetch open positions: ${response.statusText}`);
+
             const data = await response.json();
             return data;
         } catch (error) {
@@ -314,9 +345,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function updatePositionsChart(days) {
         try {
-            //const data = await fetchOpenPositions(days) || [];
-            const data = await generateMockData(days);
-
+            const data = await fetchOpenPositions(days) || [];
+    
             if (data.length === 0) {
                 console.log("No position data available.");
                 return;
@@ -333,16 +363,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 positionsChart.destroy(); // Destroy existing chart if it exists
             }
     
-            const labels = data.map(item => new Date(item.date).toLocaleDateString());
-            const counts = data.map(item => item.count);
+            // Determine window size inline
+            const windowSize = days > 0 && days <= 30 ? "1d" : days > 30 && days <= 365 ? "1mo" : "1y";
+    
+            // Object to aggregate counts for each time period
+            const aggregatedData = {};
+    
+            data.forEach(item => {
+                const date = new Date(item.date);
+                let label;
+    
+                if (windowSize === "1d") {
+                    label = date.toLocaleDateString();
+                } else if (windowSize === "1mo") {
+                    label = `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+                } else {
+                    label = date.getFullYear().toString();
+                }
+    
+                aggregatedData[label] = (aggregatedData[label] || 0) + item.count;
+            });
+    
+            // Only keep dates that have data (remove empty ones)
+            const filteredLabels = Object.keys(aggregatedData).filter(label => aggregatedData[label] > 0);
+            const filteredCounts = filteredLabels.map(label => aggregatedData[label]);
+    
+            if (filteredLabels.length === 0) {
+                console.log("No position data available after filtering.");
+                return;
+            }
     
             positionsChart = new Chart(ctx, {
                 type: "bar",
                 data: {
-                    labels: labels,
+                    labels: filteredLabels,
                     datasets: [{
                         label: "Open Positions",
-                        data: counts,
+                        data: filteredCounts,
                         backgroundColor: "rgba(54, 162, 235, 0.6)",
                         borderColor: "rgba(54, 162, 235, 1)",
                         borderWidth: 1
@@ -351,7 +408,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 options: {
                     responsive: true,
                     scales: {
-                        x: { title: { display: true, text: "Date" } },
+                        x: { title: { display: true, text: windowSize === "1d" ? "Date" : (windowSize === "1mo" ? "Month" : "Year") } },
                         y: { title: { display: true, text: "Count" }, beginAtZero: true }
                     }
                 }
@@ -1051,8 +1108,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Update Positions Chart 
-    document.getElementById("positions-timeRange").addEventListener("change", (event) => {
+    // Update Positions Histogram Analytics
+    document.getElementById("btc-positions-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
         updatePositionsChart(days);
     });

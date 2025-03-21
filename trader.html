@@ -160,7 +160,7 @@
                         <div class="card">
                             <h2 id="portfolio-title" class="card-title">Portfolio Value</h2>
                             <div id="empty-portfolio" class="card-content">
-                                <h3>No Connected Exchange!</h3>
+                                <h3>No Connected Exchange</h3>
                             </div>
                             <div id="binance-portfolio" class="card-content">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
@@ -178,7 +178,7 @@
                         <div class="card">
                             <h2 id="profit-loss-title" class="card-title">Profit and Loss</h2>
                             <div id="empty-profit-loss" class="card-content">
-                                <h3>No Connected Exchange!</h3>
+                                <h3>No Connected Exchange</h3>
                             </div>
                             <div id="binance-profit-loss" class="card-content">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
@@ -250,14 +250,53 @@
                                     <img src="../static/logos/bitcoin_logo.webp" alt="Logo" class="coin-logo-title">
                                     BTCUSDT
                                 </h3>
-                                <div id="btc-positions-card" class="card-content">
-                                    <select id="btc-positions-timeRange" name="btc-positions-timeRange" class="dropdown-timeRange">
-                                        <option value="7">Weekly</option>
-                                        <option value="30">Monthly</option>
-                                        <option value="365">Yearly</option>
-                                        <option value="0">Overall</option>
-                                    </select>
-                                    <canvas id="positions-chart" class="analytics-canvas"></canvas>
+                                <div id="binance-analytics-table-content" class="table-content">
+                                    <table id="binance-analytics-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Symbol</th>
+                                                <th>Position</th>
+                                                <th>Leverage</th>
+                                                <th>Size</th>
+                                                <th>Entry Price</th>
+                                                <th>Mark Price</th>
+                                                <th>PNL</th>
+                                                <th>ROI</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="binance-analytics-tbody">
+                                            <!-- Live position updates will be added here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="btc-canvas" class="canvas-content">
+                                    <div id="btc-positions-card" class="card-content">
+                                        <select id="btc-positions-timeRange" name="btc-positions-timeRange" class="dropdown-timeRange">
+                                            <option value="7">Weekly</option>
+                                            <option value="30">Monthly</option>
+                                            <option value="365">Yearly</option>
+                                            <option value="0">Overall</option>
+                                        </select>
+                                        <canvas id="positions-chart" class="analytics-canvas"></canvas>
+                                    </div>
+                                    <div id="btc-profit-loss-card" class="card-content">
+                                        <select id="btc-profit-loss-timeRange" name="btc-profit-loss-timeRange" class="dropdown-timeRange">
+                                            <option value="7">Weekly</option>
+                                            <option value="30">Monthly</option>
+                                            <option value="365">Yearly</option>
+                                            <option value="0">Overall</option>
+                                        </select>
+                                        <canvas id="profit-loss-chart" class="analytics-canvas"></canvas>
+                                    </div>
+                                    <div id="btc-cumulative-profit-card" class="card-content">
+                                        <select id="btc-cumulative-profit-timeRange" name="btc-cumulative-profit-timeRange" class="dropdown-timeRange">
+                                            <option value="7">Weekly</option>
+                                            <option value="30">Monthly</option>
+                                            <option value="365">Yearly</option>
+                                            <option value="0">Overall</option>
+                                        </select>
+                                        <canvas id="cumulative-profit-chart" class="analytics-canvas"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -270,7 +309,7 @@
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-title-logo">
                                 Binance
                             </h2>
-                            <div id="binance-table-content" class="table-content">
+                            <div id="binance-positions-table-content" class="table-content">
                                 <table id="binance-positions-table">
                                     <thead>
                                         <tr>
@@ -315,6 +354,9 @@
                         </div>
                         <div class="card">
                             <h2 id="active-bots-title" class="card-title">Active Bots</h2>
+                            <div id="no-active-bot" class="card-content">
+                                <h4 class="card-content-title">No Active Bot</h4>
+                            </div>
                             <div id="binance-btc-bot" class="card-content">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
                                 <h3 class="card-content-title">Binance - BTCUSDT</h3>

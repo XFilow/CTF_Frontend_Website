@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let binanceSocket = null;
     let accountSocket = null;
     let positionsChart = null;
+    let profitLossChart = null;
+    let cumulativeProfitChart = null;
     let markPriceMap = {};
 
     // Check for token and update UI
@@ -175,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
             // Extract JSON response
             const exchangeList = await exchangeResponse.json();
-            console.log(exchangeList);
+            //console.log(exchangeList);
 
             if (!Array.isArray(exchangeList) || exchangeList.length === 0) {
                 console.log("No exchange data available.");
@@ -252,10 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         // Update the table with the received data
         const tableBody = document.getElementById("exchanges-tbody");
-    
-        // List of exchanges to fetch
-        const exchanges = ['binance']; // Add more if needed
-    
+
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
@@ -263,7 +262,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     
         try {
-            const response = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchanges.join(',')}`, {
+            // Fetch the list of exchanges
+            const exchangeResponse = await fetch(`http://localhost:5000/trader/exchanges`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (!exchangeResponse.ok) {
+                console.error('Failed to fetch exchange data:', exchangeResponse.statusText);
+                return;
+            }
+    
+            // Extract JSON response
+            const exchangeList = await exchangeResponse.json();
+            //console.log(exchangeList);
+
+            const response = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchangeList.join(',')}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -314,9 +331,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function updateAnalytics() {
-        await updatePositionsChart(7); // Initialize with Weekly View (Last 7 Days)
+        // Initialize with Weekly View (Last 7 Days)
+        updatePositionsChart(7);
+        updateProfitLossChart(7)
+        updateCumulativeProfitChart(7);
+
+        const analyticsTable = document.getElementById('binance-analytics-tbody');
+        analyticsTable.innerHTML = '<tr><td colspan="8" style="text-align:center;">TODO WORK</td></tr>';
     }
 
+    // Fetch open positions data from API
     async function fetchOpenPositions(days) {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -333,10 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            //if (!response.ok) throw new Error(`Failed to fetch open positions: ${response.statusText}`);
-
-            const data = await response.json();
-            return data;
+            return await response.json();
         } catch (error) {
             console.error("Error fetching open positions:", error);
             return [];
@@ -346,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
     async function updatePositionsChart(days) {
         try {
             const data = await fetchOpenPositions(days) || [];
-    
+        
             if (data.length === 0) {
                 console.log("No position data available.");
                 return;
@@ -363,32 +384,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 positionsChart.destroy(); // Destroy existing chart if it exists
             }
     
-            // Determine window size inline
-            const windowSize = days > 0 && days <= 30 ? "1d" : days > 30 && days <= 365 ? "1mo" : "1y";
+            const windowSize = getWindowSize(days);
     
             // Object to aggregate counts for each time period
             const aggregatedData = {};
     
             data.forEach(item => {
-                const date = new Date(item.date);
-                let label;
-    
-                if (windowSize === "1d") {
-                    label = date.toLocaleDateString();
-                } else if (windowSize === "1mo") {
-                    label = `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
-                } else {
-                    label = date.getFullYear().toString();
-                }
-    
-                aggregatedData[label] = (aggregatedData[label] || 0) + item.count;
+                const date = new Date(item.time);
+                let label = formatLabel(date, windowSize);
+                aggregatedData[label] = (aggregatedData[label] || 0) + 1; // Count positions
             });
     
-            // Only keep dates that have data (remove empty ones)
-            const filteredLabels = Object.keys(aggregatedData).filter(label => aggregatedData[label] > 0);
-            const filteredCounts = filteredLabels.map(label => aggregatedData[label]);
+            const labels = Object.keys(aggregatedData);
+            const counts = labels.map(label => aggregatedData[label]);
     
-            if (filteredLabels.length === 0) {
+            if (labels.length === 0) {
                 console.log("No position data available after filtering.");
                 return;
             }
@@ -396,26 +406,226 @@ document.addEventListener('DOMContentLoaded', function() {
             positionsChart = new Chart(ctx, {
                 type: "bar",
                 data: {
-                    labels: filteredLabels,
+                    labels: labels,
                     datasets: [{
                         label: "Open Positions",
-                        data: filteredCounts,
-                        backgroundColor: "rgba(54, 162, 235, 0.6)",
-                        borderColor: "rgba(54, 162, 235, 1)",
+                        data: counts,
+                        backgroundColor: "rgba(22, 142, 223, 0.6)",
+                        borderColor: "rgb(22, 142, 223)",
                         borderWidth: 1
                     }]
                 },
                 options: {
                     responsive: true,
                     scales: {
-                        x: { title: { display: true, text: windowSize === "1d" ? "Date" : (windowSize === "1mo" ? "Month" : "Year") } },
-                        y: { title: { display: true, text: "Count" }, beginAtZero: true }
+                        x: { title: { display: true, text: getAxisLabel(windowSize) } },
+                        y: { title: { display: true, text: "Count" }, beginAtZero: true, 
+                            ticks: {
+                                callback: (value) => Number.isInteger(value) ? value : null, // Only show whole numbers
+                                stepSize: function (context) {
+                                    const maxValue = context.chart.scales.y.max; 
+                                    return Math.ceil(maxValue / 10); // Adjust step size dynamically
+                            }}
+                        }
                     }
                 }
             });
         } catch (error) {
             console.error("Error updating positions chart:", error);
         }
+    }
+
+    // Fetch trade profit-loss data from API
+    async function fetchTradeProfits(days) {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return;
+        }
+        try {
+            const response = await fetch(`http://localhost:5000/trader/trade-profits?days=${days}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            return await response.json();
+        } catch (error) {
+            console.error("Error fetching trade profits:", error);
+            return [];
+        }
+    }
+
+    async function updateProfitLossChart(days) {
+        try {
+            const data = await fetchTradeProfits(days) || [];
+    
+            if (data.length === 0) {
+                console.log("No profit/loss data available.");
+                return;
+            }
+    
+            const canvas = document.getElementById("profit-loss-chart");
+            if (!canvas) {
+                console.error("Profit-Loss Chart element not found.");
+                return;
+            }
+            const ctx = canvas.getContext("2d");
+    
+            if (profitLossChart) {
+                profitLossChart.destroy(); // Destroy existing chart if it exists
+            }
+    
+            // Determine window size
+            const windowSize = getWindowSize(days);
+    
+            // Aggregate profits by date/month/year
+            const aggregatedProfits = {};
+            data.forEach(trade => {
+                const date = new Date(trade.closeTime);
+                let label = formatLabel(date, windowSize);
+                aggregatedProfits[label] = (aggregatedProfits[label] || 0) + parseFloat(trade.profitPercent);
+            });
+    
+            const labels = Object.keys(aggregatedProfits);
+            const profitData = labels.map(label => aggregatedProfits[label]);
+    
+            if (labels.length === 0) {
+                console.log("No profit/loss data available after filtering.");
+                return;
+            }
+    
+            // Determine color based on overall profit trend
+            const firstProfit = profitData.length > 0 ? profitData[0] : 0;
+            const lastProfit = profitData.length > 0 ? profitData[profitData.length - 1] : 0;
+            const isPositive = lastProfit >= firstProfit;
+
+            const backgroundColor = isPositive ? "rgba(75, 190, 110, 0.3)" : "rgba(255, 100, 100, 0.3)";
+            const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
+
+            profitLossChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Profit/Loss (%)",
+                        data: profitData,
+                        backgroundColor: backgroundColor,
+                        borderColor: borderColor,
+                        borderWidth: 2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { title: { display: true, text: getAxisLabel(windowSize) } },
+                        y: {
+                            title: { display: true, text: "Profit (%)" },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+    
+        } catch (error) {
+            console.error("Error updating profit/loss chart:", error);
+        }
+    }
+    
+    async function updateCumulativeProfitChart(days) {
+        try {
+            const data = await fetchTradeProfits(days) || [];
+    
+            if (data.length === 0) {
+                console.log("No cumulative profit data available.");
+                return;
+            }
+    
+            const canvas = document.getElementById("cumulative-profit-chart");
+            if (!canvas) {
+                console.error("Cumulative Profit Chart element not found.");
+                return;
+            }
+            const ctx = canvas.getContext("2d");
+    
+            if (cumulativeProfitChart) {
+                cumulativeProfitChart.destroy(); // Destroy existing chart if it exists
+            }
+    
+            // Determine window size
+            const windowSize = getWindowSize(days);
+    
+            // Aggregate cumulative profits by date/month/year
+            const aggregatedCumulative = {};
+            data.forEach(trade => {
+                const date = new Date(trade.closeTime);
+                let label = formatLabel(date, windowSize);
+                aggregatedCumulative[label] = parseFloat(trade.cumulativeProfit);
+            });
+    
+            const labels = Object.keys(aggregatedCumulative);
+            const cumulativeData = labels.map(label => aggregatedCumulative[label]);
+    
+            if (labels.length === 0) {
+                console.log("No cumulative profit data available after filtering.");
+                return;
+            }
+    
+            // Determine color based on overall profit trend
+            const firstProfit = cumulativeData.length > 0 ? cumulativeData[0] : 0;
+            const lastProfit = cumulativeData.length > 0 ? cumulativeData[cumulativeData.length - 1] : 0;
+            const isPositive = lastProfit >= firstProfit;
+
+            const backgroundColor = isPositive ? "rgba(75, 190, 110, 0.3)" : "rgba(255, 100, 100, 0.3)";
+            const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
+
+            cumulativeProfitChart = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Cumulative Profit (%)",
+                        data: cumulativeData,
+                        backgroundColor: backgroundColor,
+                        borderColor: borderColor,
+                        borderWidth: 2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { title: { display: true, text: getAxisLabel(windowSize) } },
+                        y: {
+                            title: { display: true, text: "Profit (%)" },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+    
+        } catch (error) {
+            console.error("Error updating cumulative profit chart:", error);
+        }
+    }   
+
+    function getWindowSize(days) {
+        if (days > 0 && days <= 30) return "1d";
+        if (days > 30 && days <= 365) return "1mo";
+        return "1y";
+    }
+
+    function formatLabel(date, windowSize) {
+        if (windowSize === "1d") return date.toLocaleDateString();
+        if (windowSize === "1mo") return `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+        return date.getFullYear().toString();
+    }
+
+    function getAxisLabel(windowSize) {
+        return windowSize === "1d" ? "Date" : (windowSize === "1mo" ? "Month" : "Year");
     }
 
     async function updatePositions() {
@@ -652,13 +862,12 @@ document.addEventListener('DOMContentLoaded', function() {
     async function updateCopyTrading() {
         const binanceBTCBot = document.getElementById('binance-btc-bot');
         const binanceETHBot = document.getElementById('binance-eth-bot');
-        
+        const noActiveBot = document.getElementById('no-active-bot');
+
         // Clear active bots
         binanceBTCBot.style.display = 'none';
         binanceETHBot.style.display = 'none';
-        
-        // List of exchanges to fetch
-        const exchanges = ['binance']; //, 'coinbase'
+        noActiveBot.style.display = 'block';
 
         const token = localStorage.getItem('token');
         if (!token) {
@@ -667,7 +876,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchanges.join(',')}`, {
+            // Fetch the list of exchanges
+            const exchangeResponse = await fetch(`http://localhost:5000/trader/exchanges`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (!exchangeResponse.ok) {
+                console.error('Failed to fetch exchange data:', exchangeResponse.statusText);
+                return;
+            }
+    
+            // Extract JSON response
+            const exchangeList = await exchangeResponse.json();
+            //console.log(exchangeList);
+
+            const response = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchangeList.join(',')}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -691,9 +918,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (exchange.toLowerCase() === 'binance') {
                     if (exchangeData.btc_bot) {
+                        noActiveBot.style.display = 'none';
                         binanceBTCBot.style.display = 'inline-block';
                     }
                     if (exchangeData.eth_bot) {
+                        noActiveBot.style.display = 'none';
                         binanceETHBot.style.display = 'inline-block';
                     }
                 }
@@ -1114,6 +1343,18 @@ document.addEventListener('DOMContentLoaded', function() {
         updatePositionsChart(days);
     });
 
+    // Update Profit-Loss Chart Analytics
+    document.getElementById("btc-profit-loss-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updateProfitLossChart(days);
+    });
+
+    // Update Cumulative Profit Chart Analytics
+    document.getElementById("btc-cumulative-profit-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updateCumulativeProfitChart(days);
+    });
+    
     // Copy-trade Binance BTC 
     document.getElementById('binance-btc-copy-button').addEventListener('click', async function() {
         const token = localStorage.getItem('token');
@@ -1145,6 +1386,7 @@ document.addEventListener('DOMContentLoaded', function() {
             //console.log('Copy-trading BTC successful:', result);
 
             // Show BTC bot UI
+            document.getElementById('no-active-bot').style.display = 'none';
             document.getElementById('binance-btc-bot').style.display = 'inline-block';
 
         } catch (error) {
@@ -1183,6 +1425,7 @@ document.addEventListener('DOMContentLoaded', function() {
             //console.log('Copy-trading ETH successful:', result);
 
             // Show ETH bot UI
+            document.getElementById('no-active-bot').style.display = 'none';
             document.getElementById('binance-eth-bot').style.display = 'inline-block';
 
         } catch (error) {
@@ -1221,7 +1464,8 @@ document.addEventListener('DOMContentLoaded', function() {
             //console.log('Cancel-trading BTC successful:', result);
 
             // Clear BTC bot UI
-            document.getElementById('binance-btc-bot').style.display = 'none';
+            updateCopyTrading();
+            //document.getElementById('binance-btc-bot').style.display = 'none';
 
         } catch (error) {
             console.error('Error cancel-trading BTC:', error);
@@ -1259,7 +1503,8 @@ document.addEventListener('DOMContentLoaded', function() {
             //console.log('Cancel-trading ETH successful:', result);
 
             // Clear ETH bot UI
-            document.getElementById('binance-eth-bot').style.display = 'none';
+            updateCopyTrading();
+            //document.getElementById('binance-eth-bot').style.display = 'none';
 
         } catch (error) {
             console.error('Error cancel-trading ETH:', error);

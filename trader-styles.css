@@ -418,8 +418,8 @@ body.icons-only .footer-icon-links {
 /* General table styles */
 .table-content {
     overflow-x: auto;
-    width: 80%;
     margin: auto;
+    width: 80%;
 }
 
 #exchanges-table-content {
@@ -476,6 +476,7 @@ td:nth-child(3) {
     max-width: 300px; /* Adjust width as needed */
 }
 
+#binance-analytics-table,
 #binance-positions-table {
     margin: 0 auto 2em auto;
 }
@@ -600,9 +601,9 @@ td:nth-child(3) {
 }
 
 /*#portfolio-title.collapsed,
-#profit-loss-title.collapsed,*/
-#binance-positions-title.collapsed,
-#active-bots-title.collapsed {
+#profit-loss-title.collapsed,
+#active-bots-title.collapsed,*/
+#binance-positions-title.collapsed {
     padding-bottom: 1em;
 }
 
@@ -621,17 +622,19 @@ td:nth-child(3) {
     vertical-align: middle; /* Aligns elements vertically in the middle */
 }
 
-#binance-btc-title{
-    display: block;
-}
-
 #binance-btc-card {
     max-width: 99%;
     padding-top: 0;
     padding-bottom: 0;
 }
 
-#btc-positions-card {
+#binance-btc-title {
+    display: block;
+}
+
+#btc-positions-card,
+#btc-profit-loss-card,
+#btc-cumulative-profit-card {
     background-color: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.5);
 }
@@ -670,4 +673,13 @@ td:nth-child(3) {
 #empty-profit-loss,
 #binance-profit-loss {
     display: none;
+}
+
+.canvas-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    margin-bottom: 0.5em;
+    width: 100%;
 }

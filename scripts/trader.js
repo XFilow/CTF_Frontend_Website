@@ -331,13 +331,90 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function updateAnalytics() {
+        document.getElementById('binance-analytics-tbody').innerHTML = '<tr><td colspan="8" style="text-align:center;">Loading analytics...</td></tr>';
         // Initialize with Weekly View (Last 7 Days)
         updatePositionsChart(7);
         updateProfitLossChart(7)
         updateCumulativeProfitChart(7);
+        updateAnalyticsTable();
+    }
 
-        const analyticsTable = document.getElementById('binance-analytics-tbody');
-        analyticsTable.innerHTML = '<tr><td colspan="8" style="text-align:center;">TODO WORK</td></tr>';
+    async function updateAnalyticsTable() {
+        const tableBody = document.getElementById("binance-analytics-tbody");
+        tableBody.innerHTML = ""; // Clear old data
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/trader/trade-profits');
+            const trades = await response.json();
+            console.log(trades);
+
+            if (!trades || trades.length === 0) {
+                console.warn("No trade data available.");
+                document.getElementById("binance-analytics-tbody").innerHTML = "<tr><td colspan='7'>No data available</td></tr>";
+                return;
+            }
+    
+            // Initialize stats
+            let totalTrades = trades.length;
+            let totalDollarGain = 0;
+            let totalOrderDollarSize = 0;
+            let totalTradeTime = 0;
+            let profitableCount = 0;
+            let profitPercentages = [];
+    
+            trades.forEach(trade => {
+                let profit = parseFloat(trade.dollarGain);
+                let tradeTime = (new Date(trade.closeTime) - new Date(trade.openTime)) / (1000 * 60); // Convert ms to minutes
+    
+                totalDollarGain += profit;
+                totalOrderDollarSize += parseFloat(trade.size) * parseFloat(trade.price); // Assuming `orderSize` exists
+                totalTradeTime += tradeTime;
+                profitPercentages.push(parseFloat(trade.profitPercent));
+                if (profit > 0) profitableCount++;
+            });
+    
+            // Compute final analytics
+            let avgTradeTime;
+            if (totalTrades > 0) {
+                let avgMinutes = totalTradeTime / totalTrades;
+                if (avgMinutes < 1) {
+                    avgTradeTime = Math.round(avgMinutes * 60) + " sec";  // Use `Math.round` for clean output
+                } else if (avgMinutes >= 60) {
+                    avgTradeTime = (avgMinutes / 60).toFixed(2) + " hr";   // Show in hours
+                } else {
+                    avgTradeTime = avgMinutes.toFixed(2) + " min";        // Show in minutes
+                }
+            } else {
+                avgTradeTime = 0; // Default case if no trades exist
+            }
+            
+            let avgPNL = totalTrades > 0 ? (totalDollarGain / totalTrades).toFixed(2) : 0;
+            let avgTradeVolume = totalTrades > 0 ? (totalOrderDollarSize / totalTrades).toFixed(2) : 0;
+            let profitableTrades = totalTrades > 0 ? ((profitableCount / totalTrades) * 100).toFixed(2) : 0;
+            let maxGain = Math.max(...profitPercentages).toFixed(2);
+            let maxLoss = Math.min(...profitPercentages);
+            maxLoss = maxLoss < 0 ? maxLoss.toFixed(2) : 0;
+    
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${totalTrades}</td>
+                <td>$${totalDollarGain}</td>
+                <td>$${avgPNL}</td>
+                <td>$${avgTradeVolume}</td>
+                <td>${avgTradeTime}</td>
+                <td>${profitableTrades}%</td>
+                <td>${maxLoss}% / ${maxGain}%</td>
+            `;
+            tableBody.appendChild(row);
+        } catch (error) {
+            console.error("Error fetching trade analytics:", error);
+        }
     }
 
     // Fetch open positions data from API
@@ -894,7 +971,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const exchangeList = await exchangeResponse.json();
             //console.log(exchangeList);
 
-            const response = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchangeList.join(',')}`, {
+            const response = await fetch(`http://localhost:5000/trader/trading-bots?exchange=${exchangeList.join(',')}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -903,14 +980,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (!response.ok) {
-                console.error('Failed to fetch exchange data:', response.statusText);
+                console.error('Failed to trading bots data:', response.statusText);
                 return;
             }
 
-            const data = await response.json();
-            //console.log('Updated Exchange Data:', data); // Debugging
-
             // Iterate over each exchange response
+            const data = await response.json();
             Object.entries(data).forEach(([exchange, exchangeData]) => {
                 if (exchangeData.message === 'No exchange data' || Object.keys(exchangeData).length === 0) {
                     return; // Skip if no data
@@ -1153,6 +1228,20 @@ document.addEventListener('DOMContentLoaded', function() {
             // Select all the target content elements inside the card
             const contents = card.querySelectorAll('.card-content, .getting-started-content, .copy-trading-content, .table-content');    
             contents.forEach(content => {
+                content.classList.toggle('collapsed');
+            });
+    
+            this.classList.toggle('collapsed');
+        });
+    });
+
+    // Analytics Titles toggle for sub-content
+    document.querySelectorAll('.analytics-card-title').forEach(title => {
+        title.addEventListener('click', function () {
+            const cardContent = this.closest('.card-content'); // Find the nearest card-content
+            const targetContents = cardContent.querySelectorAll('.table-content, .canvas-content');
+    
+            targetContents.forEach(content => {
                 content.classList.toggle('collapsed');
             });
     

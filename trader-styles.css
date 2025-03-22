@@ -189,7 +189,6 @@ body.icons-only .footer-icon-links {
     width: 2em; /* Fixed width for the logo */
     height: 2em; /* Fixed height for the logo */
     margin-right: 0.2em;
-    margin-left: 0.5em;
 }
 
 .user-menu {
@@ -581,22 +580,35 @@ td:nth-child(3) {
     max-width: 100%; /* Sets a maximum width for the container */
 }
 
+
 .card-content.collapsed,
 .getting-started-content.collapsed,
-.copy-trading-content.collapsed,
-.table-content.collapsed {
+.copy-trading-content.collapsed {
     max-height: 0;
     padding: 0;
     border: none;
 }
 
-.card-title {
+.table-content.collapsed,
+.canvas-content.collapsed {
+    display: none;
+}
+
+.card-title,
+.analytics-card-title {
     cursor: pointer;
     display: flex;
     align-items: center;
 }
 
-.card-title.collapsed {
+.card-content-title {
+    cursor: pointer;
+    display: inline;
+    align-items: center;
+}
+
+.card-title.collapsed,
+.analytics-card-title.collapsed {
     margin-bottom: 0;
 }
 
@@ -607,25 +619,22 @@ td:nth-child(3) {
     padding-bottom: 1em;
 }
 
-.card-title::before {
+.card-title::before,
+.analytics-card-title::before {
     content: '\25BD'; /* Right arrow */
     margin-right: 0.5em;
     transition: transform 0.3s;
+    display: inline-block;
 }
 
-.card-title.collapsed::before {
+.card-title.collapsed::before,
+.analytics-card-title.collapsed::before {
     transform: rotate(-90deg);
-}
-
-.card-content-title{
-    display: inline;
-    vertical-align: middle; /* Aligns elements vertically in the middle */
 }
 
 #binance-btc-card {
     max-width: 99%;
     padding-top: 0;
-    padding-bottom: 0;
 }
 
 #binance-btc-title {
@@ -680,6 +689,5 @@ td:nth-child(3) {
     flex-wrap: wrap;
     justify-content: center; /* Centers content horizontally */
     align-items: center; /* Centers content vertically */
-    margin-bottom: 0.5em;
     width: 100%;
 }

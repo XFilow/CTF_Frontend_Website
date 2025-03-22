@@ -341,7 +341,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function updateAnalyticsTable() {
         const tableBody = document.getElementById("binance-analytics-tbody");
-        tableBody.innerHTML = ""; // Clear old data
 
         const token = localStorage.getItem('token');
         if (!token) {
@@ -352,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const response = await fetch('http://localhost:5000/trader/trade-profits');
             const trades = await response.json();
-            console.log(trades);
+            //console.log(trades);
 
             if (!trades || trades.length === 0) {
                 console.warn("No trade data available.");
@@ -367,16 +366,32 @@ document.addEventListener('DOMContentLoaded', function() {
             let totalTradeTime = 0;
             let profitableCount = 0;
             let profitPercentages = [];
-    
+            let profitDollarAmounts = [];
+
+            let gains = [];
+            let losses = [];
+            let gainsPercent = [];
+            let lossesPercent = [];
+            let cumulativeROI = 0;
+
             trades.forEach(trade => {
                 let profit = parseFloat(trade.dollarGain);
                 let tradeTime = (new Date(trade.closeTime) - new Date(trade.openTime)) / (1000 * 60); // Convert ms to minutes
-    
+            
                 totalDollarGain += profit;
                 totalOrderDollarSize += parseFloat(trade.size) * parseFloat(trade.price); // Assuming `orderSize` exists
                 totalTradeTime += tradeTime;
                 profitPercentages.push(parseFloat(trade.profitPercent));
-                if (profit > 0) profitableCount++;
+                profitDollarAmounts.push(profit);
+            
+                if (profit > 0) {
+                    gains.push(profit);
+                    gainsPercent.push(parseFloat(trade.profitPercent));
+                    profitableCount++;
+                } else {
+                    losses.push(profit);
+                    lossesPercent.push(parseFloat(trade.profitPercent));
+                }
             });
     
             // Compute final analytics
@@ -394,22 +409,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 avgTradeTime = 0; // Default case if no trades exist
             }
             
-            let avgPNL = totalTrades > 0 ? (totalDollarGain / totalTrades).toFixed(2) : 0;
             let avgTradeVolume = totalTrades > 0 ? (totalOrderDollarSize / totalTrades).toFixed(2) : 0;
             let profitableTrades = totalTrades > 0 ? ((profitableCount / totalTrades) * 100).toFixed(2) : 0;
-            let maxGain = Math.max(...profitPercentages).toFixed(2);
-            let maxLoss = Math.min(...profitPercentages);
-            maxLoss = maxLoss < 0 ? maxLoss.toFixed(2) : 0;
-    
+            let maxGainPercent = Math.max(...profitPercentages).toFixed(2);
+            let maxLossPercent = Math.min(...profitPercentages);
+            maxLossPercent = maxLossPercent < 0 ? maxLossPercent.toFixed(2) : 0;
+            
+            // Max Gain / Max Loss in dollars
+            let maxGainDollar = gains.length > 0 ? Math.max(...gains).toFixed(2) : "0.00";
+            let maxLossDollar = losses.length > 0 ? -1 * Math.min(...losses).toFixed(2) : "0.00";
+            
+            // Avg Gain / Avg Loss in dollars
+            let avgGainDollar = gains.length > 0 ? (gains.reduce((a, b) => a + b, 0) / gains.length).toFixed(2) : "0.00";
+            let avgLossDollar = losses.length > 0 ? -1 * (losses.reduce((a, b) => a + b, 0) / losses.length).toFixed(2) : "0.00";
+            
+            // Avg Gain / Avg Loss in %
+            let avgGainPercent = gainsPercent.length > 0 ? (gainsPercent.reduce((a, b) => a + b, 0) / gainsPercent.length).toFixed(2) : "0.00";
+            let avgLossPercent = lossesPercent.length > 0 ? (lossesPercent.reduce((a, b) => a + b, 0) / lossesPercent.length).toFixed(2) : "0.00";
+            
+            // Cumulative ROI
+            let cumulativeROIPercentage = cumulativeROI.toFixed(2);
+            
+            tableBody.innerHTML = ""; // Clear old data
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${totalTrades}</td>
                 <td>$${totalDollarGain}</td>
-                <td>$${avgPNL}</td>
+                <td>${profitableTrades}%</td>
+                <td>-$${maxLossDollar} / $${maxGainDollar}</td>
+                <td>-$${avgLossDollar} / $${avgGainDollar}</td>
                 <td>$${avgTradeVolume}</td>
                 <td>${avgTradeTime}</td>
-                <td>${profitableTrades}%</td>
-                <td>${maxLoss}% / ${maxGain}%</td>
             `;
             tableBody.appendChild(row);
         } catch (error) {
@@ -847,7 +877,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         let rows = '';
         positionData.forEach(pos => {
-            const markPrice = markPriceMap[pos.symbol]?.toFixed(2) || "-";
+            const markPrice = markPriceMap[pos.symbol]?.toFixed(2) || "0";
             const pnl = parseFloat(pos.unrealizedProfit || "0");
             const margin = Math.abs(parseFloat(pos.positionAmt) * parseFloat(pos.entryPrice) / parseFloat(pos.leverage));
             const roi = margin !== 0 ? ((pnl / margin) * 100).toFixed(2) : '0.00';
@@ -858,8 +888,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td>${parseFloat(pos.positionAmt) > 0 ? 'Long' : 'Short'}</td>
                     <td>${pos.leverage}x</td>
                     <td>${pos.positionAmt} ${pos.symbol.replace("USDT", "")}</td>
-                    <td>${parseFloat(pos.entryPrice).toString()}</td>
-                    <td id="markPrice-${pos.symbol}">${markPrice}</td>
+                    <td>$${parseFloat(pos.entryPrice).toString()}</td>
+                    <td id="markPrice-${pos.symbol}">$${markPrice}</td>
                     <td id="pnl-${pos.symbol}">${pnl.toFixed(2)} USDT</td>
                     <td id="roi-${pos.symbol}">${roi}%</td>
                 </tr>
@@ -876,15 +906,17 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!markPriceMap[symbol]) return;
     
             const markPrice = markPriceMap[symbol].toFixed(2);
-            const entryPrice = parseFloat(row.cells[4].textContent);
+            const entryPrice = parseFloat(row.cells[4].textContent.replace("$", "")); // Remove "$"
             const positionAmt = parseFloat(row.cells[3].textContent);
-            const leverage = parseFloat(row.cells[2].textContent);
+            const leverage = parseFloat(row.cells[2].textContent.replace("x", "")); // Remove "x"
+    
+            if (isNaN(entryPrice) || isNaN(positionAmt) || isNaN(leverage)) return; // Safety check
     
             const pnl = (markPrice - entryPrice) * positionAmt;
             const margin = Math.abs(positionAmt * entryPrice / leverage);
             const roi = margin !== 0 ? ((pnl / margin) * 100).toFixed(2) : '0.00';
     
-            row.querySelector(`#markPrice-${symbol}`).textContent = markPrice;
+            row.querySelector(`#markPrice-${symbol}`).textContent = "$" + markPrice;
             row.querySelector(`#pnl-${symbol}`).textContent = pnl.toFixed(2) + " USDT";
             row.querySelector(`#roi-${symbol}`).textContent = roi + "%";
         });

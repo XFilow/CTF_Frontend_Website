@@ -71,7 +71,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             const response = await fetch('http://localhost:5000/trader/info', {
-                headers: { 'Authorization': `Bearer ${token}` }
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
             });
 
             if (response.ok) {
@@ -349,7 +353,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/trader/trade-profits');
+            const response = await fetch('http://localhost:5000/trader/trade-profits', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
             const trades = await response.json();
             //console.log(trades);
 
@@ -434,8 +444,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${totalTrades}</td>
-                <td>$${totalDollarGain}</td>
                 <td>${profitableTrades}%</td>
+                <td>$${totalDollarGain}</td>
                 <td>-$${maxLossDollar} / $${maxGainDollar}</td>
                 <td>-$${avgLossDollar} / $${avgGainDollar}</td>
                 <td>$${avgTradeVolume}</td>
@@ -454,9 +464,12 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('User is not logged in');
             return;
         }
-
+        
         try {
-            const response = await fetch(`http://localhost:5000/trader/open-positions?days=${days}`, {
+            
+            // TODO - GET influxDB exchanges with data
+
+            const response = await fetch(`http://localhost:5000/trader/open-positions?exchange=binance&days=${days}&copytrade=true`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -517,7 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     datasets: [{
                         label: "Open Positions",
                         data: counts,
-                        backgroundColor: "rgba(22, 142, 223, 0.6)",
+                        backgroundColor: "rgba(22, 142, 223, 0.5)",
                         borderColor: "rgb(22, 142, 223)",
                         borderWidth: 1
                     }]
@@ -603,6 +616,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log("No profit/loss data available after filtering.");
                 return;
             }
+
+            // Get the previous period label based on window size
+            const firstTradeDate = new Date(data[0].closeTime);
+            const previousPeriodDate = getPreviousPeriod(firstTradeDate, windowSize);
+            const previousPeriodLabel = formatLabel(previousPeriodDate, windowSize);
+
+            // Ensure chart starts at zero
+            labels.unshift(previousPeriodLabel);
+            profitData.unshift(0); // Start with zero
     
             // Determine color based on overall profit trend
             const firstProfit = profitData.length > 0 ? profitData[0] : 0;
@@ -622,7 +644,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         backgroundColor: backgroundColor,
                         borderColor: borderColor,
                         borderWidth: 2,
-                        fill: true
+                        fill: false
                     }]
                 },
                 options: {
@@ -680,6 +702,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log("No cumulative profit data available after filtering.");
                 return;
             }
+
+            // Get the previous period label based on window size
+            const firstTradeDate = new Date(data[0].closeTime);
+            const previousPeriodDate = getPreviousPeriod(firstTradeDate, windowSize);
+            const previousPeriodLabel = formatLabel(previousPeriodDate, windowSize);
+
+            // Ensure chart starts at zero
+            labels.unshift(previousPeriodLabel);
+            cumulativeData.unshift(0); // Start with zero
     
             // Determine color based on overall profit trend
             const firstProfit = cumulativeData.length > 0 ? cumulativeData[0] : 0;
@@ -699,7 +730,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         backgroundColor: backgroundColor,
                         borderColor: borderColor,
                         borderWidth: 2,
-                        fill: true
+                        fill: false
                     }]
                 },
                 options: {
@@ -723,6 +754,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (days > 0 && days <= 30) return "1d";
         if (days > 30 && days <= 365) return "1mo";
         return "1y";
+    }
+
+    function getPreviousPeriod(date, windowSize) {
+        const prevDate = new Date(date);
+        if (windowSize === "1d") {
+            prevDate.setDate(prevDate.getDate() - 1); // Previous day
+        } else if (windowSize === "1mo") {
+            prevDate.setMonth(prevDate.getMonth() - 1); // Previous month
+        } else if (windowSize === "1y") {
+            prevDate.setFullYear(prevDate.getFullYear() - 1); // Previous year
+        }
+        return prevDate;
     }
 
     function formatLabel(date, windowSize) {

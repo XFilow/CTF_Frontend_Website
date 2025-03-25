@@ -153,16 +153,16 @@
                 </section>
                 <section id="dashboard-section" class="content-section">
                     <div class="cards">
-                        <div id="getting-started-card" class="card">
+                        <div id="getting-started-card" class="card" style="display: none;">
                             <b><h3>Connect Exchange</h3></b>
                             <p>To start copy-trading a CTF bot, you'll need to connect an exchange API to your CTF account. To do this go the Exchanges tab. If you need further assistance, check the Getting Started guide.</p>
                         </div>
                         <div class="card">
                             <h2 id="portfolio-title" class="card-title">Portfolio Value</h2>
-                            <div id="empty-portfolio" class="card-content">
+                            <div id="empty-portfolio" class="card-content" style="display: none;">
                                 <h3>No Connected Exchange</h3>
                             </div>
-                            <div id="binance-portfolio" class="card-content">
+                            <div id="binance-portfolio" class="card-content" style="display: none;">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
                                 <h3 class="card-content-title">Binance</h3>
                                 <div class="balances-container">
@@ -177,15 +177,26 @@
                         </div>
                         <div class="card">
                             <h2 id="profit-loss-title" class="card-title">Profit and Loss</h2>
-                            <div id="empty-profit-loss" class="card-content">
+                            <div id="empty-profit-loss" class="card-content" style="display: none;">
                                 <h3>No Connected Exchange</h3>
                             </div>
-                            <div id="binance-profit-loss" class="card-content">
+                            <div id="binance-profit-loss" class="card-content" style="display: none;">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
                                 <h3 class="card-content-title">Binance</h3>
-                                <h4 id="binance-7d">Weekly P/L</h4>
-                                <h4 id="binance-30d">Monthly P/L</h4>
-                                <h4 id="binance-overall">Overall P/L</h4>
+                                <div class="profit-loss-container">
+                                    <div id="binance-left-profit-loss-values" class="profit-loss-values" style="display: none;">
+                                        <h4 id="binance-7d-text">Weekly PNL</h4>
+                                        <p id="binance-7d"></p>
+                                        <h4 id="binance-365d-text">Yearly PNL</h4>
+                                        <p id="binance-365d"></p>
+                                    </div>
+                                    <div id="binance-right-profit-loss-values" class="profit-loss-values" style="display: none;">
+                                        <h4 id="binance-30d-text">Monthly PNL</h4>
+                                        <p id="binance-30d"></p>
+                                        <h4 id="binance-0d-text">Overall PNL</h4>
+                                        <p id="binance-0d"></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -241,12 +252,15 @@
                 <section id="analytics-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <h2 id="binance-analytics-title" class="card-title">
+                            <div id="empty-analytics" class="empty-card-content" style="display: none;">
+                                <h3>No Connected Exchange</h3>
+                            </div>
+                            <h2 id="binance-analytics-title" class="card-title" style="display: none;">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-title-logo">
                                 Binance
                             </h2>
-                            <div id="binance-btc-card" class="card-content">
-                                <h3 id="binance-btc-title" class="analytics-card-title">
+                            <div id="binance-analytics-btc-card" class="card-content" style="display: none;">
+                                <h3 id="binance-analytics-btc-title" class="analytics-card-title">
                                     <img src="../static/logos/bitcoin_logo.webp" alt="Logo" class="coin-logo-title">
                                     BTCUSDT
                                 </h3>
@@ -304,11 +318,14 @@
                 <section id="positions-section" class="content-section" style="display: none;">
                     <div class="cards">
                         <div class="card">
-                            <h2 id="binance-positions-title" class="card-title">
+                            <div id="empty-positions" class="empty-card-content" style="display: none;">
+                                <h3>No Connected Exchange</h3>
+                            </div>
+                            <h2 id="binance-positions-title" class="card-title" style="display: none;">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-title-logo">
                                 Binance
                             </h2>
-                            <div id="binance-positions-table-content" class="table-content">
+                            <div id="binance-positions-table-content" class="table-content" style="display: none;">
                                 <table id="binance-positions-table">
                                     <thead>
                                         <tr>

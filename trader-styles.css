@@ -278,7 +278,7 @@ body.icons-only .footer-icon-links {
     display: none;
     color: black;
     background-color: rgba(255, 255, 255, 0.75);
-    margin-bottom: 1.25em;
+    margin-bottom: 1em;
 }
 
 .input-label {
@@ -551,7 +551,8 @@ td:nth-child(3) {
     max-width: 300px;
 }
 
-.card-content {
+.card-content,
+.empty-card-content {
     display: inline-block;
     border: 1px solid white; /* Adds a white border */
     border-radius: 10px; /* Optional: Adds rounded corners */
@@ -580,16 +581,20 @@ td:nth-child(3) {
     max-width: 100%; /* Sets a maximum width for the container */
 }
 
+.empty-card-content{
+    margin-top: 1em;
+}
 
 .card-content.collapsed,
 .getting-started-content.collapsed,
-.copy-trading-content.collapsed {
+.copy-trading-content.collapsed,
+.table-content.collapsed,
+.canvas-content.collapsed {
     max-height: 0;
     padding: 0;
     border: none;
 }
 
-.table-content.collapsed,
 .canvas-content.collapsed {
     display: none;
 }
@@ -632,13 +637,9 @@ td:nth-child(3) {
     transform: rotate(-90deg);
 }
 
-#binance-btc-card {
+#binance-analytics-btc-card {
     max-width: 99%;
     padding-top: 0;
-}
-
-#binance-btc-title {
-    display: block;
 }
 
 #btc-positions-card,
@@ -674,14 +675,7 @@ td:nth-child(3) {
 
 .analytics-canvas {
     width: 100%;
-    height: 250px; /* Adjust height as needed */
-}
-
-#empty-portfolio,
-#binance-portfolio,
-#empty-profit-loss,
-#binance-profit-loss {
-    display: none;
+    height: 185px;
 }
 
 .canvas-content {
@@ -690,4 +684,24 @@ td:nth-child(3) {
     justify-content: center; /* Centers content horizontally */
     align-items: center; /* Centers content vertically */
     width: 100%;
+}
+
+.profit-loss-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#binance-portfolio,
+#binance-profit-loss{
+    padding-bottom: 0;
+}
+
+#binance-left-profit-loss-values,
+#binance-right-profit-loss-values {
+    width: 48%; /* Adjust width to fit properly */
+}
+
+.balance-section h4,
+.profit-loss-values h4 {
+    margin-bottom: 0;
 }

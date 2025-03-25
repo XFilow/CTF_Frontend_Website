@@ -151,12 +151,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const gettingStartedCard = document.getElementById('getting-started-card');
         const emptyPortfolio = document.getElementById('empty-portfolio');
         const emptyProfitLoss = document.getElementById('empty-profit-loss');
-        
-        //document.getElementById('binance-portfolio').style.display = 'none';
 
-        gettingStartedCard.style.display = 'none'
-        emptyPortfolio.style.display = 'none'
-        emptyProfitLoss.style.display = 'none'
+        const copyTrade = false;
+        const timeFrames = {
+            "7d": { label: "Weekly", days: 7 },
+            "30d": { label: "Monthly", days: 30 },
+            "365d": { label: "Yearly", days: 365 },
+            "0d": { label: "Overall", days: 0 }
+        };
 
         const token = localStorage.getItem('token');
         if (!token) {
@@ -206,11 +208,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
     
             const balanceData = await balanceResponse.json();
-            let validExchangeFound = false;
-    
             for (const exchange in balanceData) {
                 if (balanceData.hasOwnProperty(exchange) && balanceData[exchange].message !== 'No exchange data' && Object.keys(balanceData[exchange]).length > 0) {
-                    validExchangeFound = true;
                     const exchangeData = balanceData[exchange];
     
                     // Find the container dynamically
@@ -235,13 +234,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             }
-    
-            // Show "getting started" card if no valid exchange was found
-            if (!validExchangeFound) {
-                console.log("No exchange data available.");
-                document.getElementById('getting-started-card').style.display = 'block';
+
+            // Iterate over each exchange
+            for (const exchange of exchangeList) {     
+                document.getElementById(`${exchange}-profit-loss`).style.display = 'inline-block';  
+                document.getElementById(`${exchange}-left-profit-loss-values`).style.display = 'block';
+                document.getElementById(`${exchange}-right-profit-loss-values`).style.display = 'block';
+                for (const [key, { label, days }] of Object.entries(timeFrames)) {
+                    const elementId = `${exchange}-${key}`;
+                    const pnlElement = document.getElementById(elementId);
+                    const data = await fetchTradeProfits(exchange, days, copyTrade);
+                    if (!data || data.length === 0) {
+                        pnlElement.textContent = `${label}: $0`;
+                        continue;
+                    }
+                    
+                    // Process and display cumulative profits
+                    const lastTrade = data[data.length - 1];
+                    const profitDollar = parseFloat(lastTrade.cumulativeDollarProfit).toFixed(2);
+                    pnlElement.textContent = `$${profitDollar}`;
+                }
             }
-    
         } catch (error) {
             console.error('Error fetching exchange data:', error);
         }
@@ -326,7 +339,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
             // Only show "No exchanges connected" if no exchanges were found
             if (!hasExchanges) {
-                tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;">No exchanges connected</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;">No Exchanges Connected</td></tr>';
             }
             
         } catch (error) {
@@ -335,15 +348,67 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function updateAnalytics() {
-        document.getElementById('binance-analytics-tbody').innerHTML = '<tr><td colspan="8" style="text-align:center;">Loading analytics...</td></tr>';
-        // Initialize with Weekly View (Last 7 Days)
-        updatePositionsChart(7);
-        updateProfitLossChart(7)
-        updateCumulativeProfitChart(7);
-        updateAnalyticsTable();
+        document.getElementById('binance-analytics-tbody').innerHTML = '<tr><td colspan="8" style="text-align:center;">Loading Analytics...</td></tr>';
+        const emptyAnalytics = document.getElementById('empty-analytics');
+        const binanceAnalyticsTitle = document.getElementById('binance-analytics-title');
+        const binanceAnalyticsBtcTitle = document.getElementById('binance-analytics-btc-title');
+        const binanceAnalyticsBtcCard = document.getElementById('binance-analytics-btc-card');
+
+        const days = 7; // Initialize with Weekly View (Last 7 Days)
+        const copyTrade = true;
+        
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('User is not logged in');
+            return null; // Return null if the user is not logged in
+        }
+
+        try {
+            // Fetch the list of exchanges
+            const exchangeResponse = await fetch(`http://localhost:5000/trader/exchanges`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (!exchangeResponse.ok) {
+                console.error('Failed to fetch exchange data:', exchangeResponse.statusText);
+                return;
+            }
+
+            const exchangeList = await exchangeResponse.json();
+            //console.log(exchangeList);
+
+            if (!Array.isArray(exchangeList) || exchangeList.length === 0) {
+                console.log("No exchange data available.");
+                return; // Exit early if no exchanges
+            }
+            else {
+                emptyAnalytics.style.display = 'none';
+            }
+
+            // Iterate over each exchange
+            exchangeList.forEach(exchange => {           
+                if (exchange.toLowerCase() === 'binance') {
+                    binanceAnalyticsTitle.style.display = 'block';
+                    binanceAnalyticsBtcTitle.style.display = 'block';
+                    binanceAnalyticsBtcCard.style.display = 'block';
+            
+                    updatePositionsChart(exchange, days, copyTrade);
+                    updateProfitLossChart(exchange, days, copyTrade);
+                    updateCumulativeProfitChart(exchange, days, copyTrade);
+                    updateAnalyticsTable(exchange, 0, copyTrade);
+                }
+            });
+
+        } catch (error) {
+            console.error('Error fetching exchange data:', error);
+        }
     }
 
-    async function updateAnalyticsTable() {
+    async function updateAnalyticsTable(exchange, days, copyTrade) {
         const tableBody = document.getElementById("binance-analytics-tbody");
 
         const token = localStorage.getItem('token');
@@ -353,22 +418,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/trader/trade-profits', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-            const trades = await response.json();
-            //console.log(trades);
+            const trades = await fetchTradeProfits(exchange, days, copyTrade) || [];
 
             if (!trades || trades.length === 0) {
-                console.warn("No trade data available.");
-                document.getElementById("binance-analytics-tbody").innerHTML = "<tr><td colspan='7'>No data available</td></tr>";
+                console.log("No trade data available.");
+                document.getElementById("binance-analytics-tbody").innerHTML = '<tr><td colspan="8" style="text-align:center;">No Data Available</td></tr>';
                 return;
             }
-    
+
             // Initialize stats
             let totalTrades = trades.length;
             let totalDollarGain = 0;
@@ -458,7 +515,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Fetch open positions data from API
-    async function fetchOpenPositions(days) {
+    async function fetchOpenPositions(exchange, days, copyTrade) {
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
@@ -466,10 +523,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         try {
-            
-            // TODO - GET influxDB exchanges with data
-
-            const response = await fetch(`http://localhost:5000/trader/open-positions?exchange=binance&days=${days}&copytrade=true`, {
+            const response = await fetch(`http://localhost:5000/trader/open-positions?exchange=${exchange}&days=${days}&copytrade=${copyTrade}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -484,14 +538,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function updatePositionsChart(days) {
+    async function updatePositionsChart(exchange, days, copyTrade) {
         try {
-            const data = await fetchOpenPositions(days) || [];
-        
-            if (data.length === 0) {
-                console.log("No position data available.");
-                return;
-            }
+            const data = await fetchOpenPositions(exchange, days, copyTrade) || [];
     
             const canvas = document.getElementById("positions-chart");
             if (!canvas) {
@@ -504,6 +553,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 positionsChart.destroy(); // Destroy existing chart if it exists
             }
     
+            // If no data, show "No Data Available" text
+            if (data.length === 0) {
+                console.log("No positions data available.");
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "gray";
+                ctx.textAlign = "center";
+                ctx.fillText("No Data Available", canvas.width / 2, canvas.height / 2);
+                return;
+            }
+
             const windowSize = getWindowSize(days);
     
             // Object to aggregate counts for each time period
@@ -556,14 +616,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Fetch trade profit-loss data from API
-    async function fetchTradeProfits(days) {
+    async function fetchTradeProfits(exchange, days, copyTrade) {
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
             return;
         }
         try {
-            const response = await fetch(`http://localhost:5000/trader/trade-profits?days=${days}`, {
+            const response = await fetch(`http://localhost:5000/trader/trade-profits?exchange=${exchange}&days=${days}&copytrade=${copyTrade}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -578,15 +638,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function updateProfitLossChart(days) {
+    async function updateProfitLossChart(exchange, days, copyTrade) {
         try {
-            const data = await fetchTradeProfits(days) || [];
-    
-            if (data.length === 0) {
-                console.log("No profit/loss data available.");
-                return;
-            }
-    
+            const data = await fetchTradeProfits(exchange, days, copyTrade) || [];
+
             const canvas = document.getElementById("profit-loss-chart");
             if (!canvas) {
                 console.error("Profit-Loss Chart element not found.");
@@ -596,6 +651,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
             if (profitLossChart) {
                 profitLossChart.destroy(); // Destroy existing chart if it exists
+            }
+
+            // If no data, show "No Data Available" text
+            if (data.length === 0) {
+                console.log("No profit/loss data available.");
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "gray";
+                ctx.textAlign = "center";
+                ctx.fillText("No Data Available", canvas.width / 2, canvas.height / 2);
+                return;
             }
     
             // Determine window size
@@ -664,14 +730,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    async function updateCumulativeProfitChart(days) {
+    async function updateCumulativeProfitChart(exchange, days, copyTrade) {
         try {
-            const data = await fetchTradeProfits(days) || [];
-    
-            if (data.length === 0) {
-                console.log("No cumulative profit data available.");
-                return;
-            }
+            const data = await fetchTradeProfits(exchange, days, copyTrade) || [];
     
             const canvas = document.getElementById("cumulative-profit-chart");
             if (!canvas) {
@@ -682,6 +743,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
             if (cumulativeProfitChart) {
                 cumulativeProfitChart.destroy(); // Destroy existing chart if it exists
+            }
+
+            // If no data, show "No Data Available" text
+            if (data.length === 0) {
+                console.log("No cumulative profits data available.");
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "gray";
+                ctx.textAlign = "center";
+                ctx.fillText("No Data Available", canvas.width / 2, canvas.height / 2);
+                return;
             }
     
             // Determine window size
@@ -779,6 +851,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function updatePositions() {
+        const emptyPositions = document.getElementById('empty-positions');
+        const binancePositionsTitle = document.getElementById('binance-positions-title');
+        const binancePositionsTableContent = document.getElementById('binance-positions-table-content');
+        
+        document.getElementById('binance-positions-tbody').innerHTML = 
+        '<tr><td colspan="8" style="text-align:center;">Loading Positions...</td></tr>';
+
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
@@ -786,9 +865,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     
         try {
-            document.getElementById('binance-positions-tbody').innerHTML = 
-                '<tr><td colspan="8" style="text-align:center;">Loading positions...</td></tr>';
+            // Fetch the list of exchanges
+            const exchangeResponse = await fetch(`http://localhost:5000/trader/exchanges`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
     
+            if (!exchangeResponse.ok) {
+                console.error('Failed to fetch exchange data:', exchangeResponse.statusText);
+                return;
+            }
+
+            const exchangeList = await exchangeResponse.json();
+            //console.log(exchangeList);
+
+            if (!Array.isArray(exchangeList) || exchangeList.length === 0) {
+                console.log("No exchange data available.");
+                emptyPositions.style.display = 'block';
+                return; // Exit early if no exchanges
+            }
+            else {
+                emptyPositions.style.display = 'none';
+            }
+
+            // Iterate over each exchange
+            exchangeList.forEach(exchange => {           
+                if (exchange.toLowerCase() === 'binance') {
+                    binancePositionsTitle.style.display = 'block';
+                    binancePositionsTableContent.style.display = 'block';
+                }
+            });
+
             // Ensure WebSockets are running
             if (!binanceSocket || !accountSocket) {
                 startWebSockets();
@@ -914,7 +1024,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const positionsTable = document.getElementById('binance-positions-tbody');
     
         if (!positionData.length) {
-            positionsTable.innerHTML = '<tr><td colspan="8" style="text-align:center;">No open positions</td></tr>';
+            positionsTable.innerHTML = '<tr><td colspan="8" style="text-align:center;">No Open Positions</td></tr>';
             return;
         }
     
@@ -1301,8 +1411,8 @@ document.addEventListener('DOMContentLoaded', function() {
         title.addEventListener('click', function() {
             const card = this.closest('.card'); // Find the parent card
             // Select all the target content elements inside the card
-            const contents = card.querySelectorAll('.card-content, .getting-started-content, .copy-trading-content, .table-content');    
-            contents.forEach(content => {
+            const targetContents = card.querySelectorAll('.card-content, .getting-started-content, .copy-trading-content, .table-content');    
+            targetContents.forEach(content => {
                 content.classList.toggle('collapsed');
             });
     
@@ -1315,7 +1425,6 @@ document.addEventListener('DOMContentLoaded', function() {
         title.addEventListener('click', function () {
             const cardContent = this.closest('.card-content'); // Find the nearest card-content
             const targetContents = cardContent.querySelectorAll('.table-content, .canvas-content');
-    
             targetContents.forEach(content => {
                 content.classList.toggle('collapsed');
             });

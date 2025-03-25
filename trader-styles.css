@@ -379,7 +379,7 @@ body.icons-only .footer-icon-links {
     cursor: pointer;
     display: inline;
     float: right;
-    margin-top: 0.5em;
+    margin-top: 0.75em;
     margin-right: 0.5em;
 }
 
@@ -423,6 +423,10 @@ body.icons-only .footer-icon-links {
 
 #exchanges-table-content {
     margin: 2em auto;
+}
+
+#binance-copy-trading-btc-table-content {
+    margin: 1em auto 2em auto;
 }
 
 table {
@@ -475,7 +479,7 @@ td:nth-child(3) {
     max-width: 300px; /* Adjust width as needed */
 }
 
-#binance-analytics-table,
+#binance-analytics-btc-table,
 #binance-positions-table {
     margin: 0 auto 2em auto;
 }
@@ -566,6 +570,10 @@ td:nth-child(3) {
     background-color: rgba(0, 0, 0, 0.75);
 }
 
+.empty-card-content{
+    margin-top: 1em;
+}
+
 .copy-trading-content,
 .getting-started-content {
     display: block;
@@ -581,13 +589,28 @@ td:nth-child(3) {
     max-width: 100%; /* Sets a maximum width for the container */
 }
 
-.empty-card-content{
-    margin-top: 1em;
+.copy-trading-content {
+    margin: 0;
+}
+
+.charts-content{
+    display: inline-block;
+    border: 1px solid; /* Adds a white border */
+    border-radius: 10px; /* Optional: Adds rounded corners */
+    padding: 1em; /* Optional: Adds padding inside the border */
+    margin: auto 1em 1em 0.5em; /* Centers the container and adds vertical margin */
+    max-width: 415px; /* Sets a maximum width for the container */
+    width: 100%; /* Ensures the container adjusts to smaller screen sizes */
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .card-content.collapsed,
-.getting-started-content.collapsed,
 .copy-trading-content.collapsed,
+.getting-started-content.collapsed,
 .table-content.collapsed,
 .canvas-content.collapsed {
     max-height: 0;
@@ -608,6 +631,11 @@ td:nth-child(3) {
 
 .card-content-title {
     cursor: pointer;
+    display: inline;
+    align-items: center;
+}
+
+.card-content-text {
     display: inline;
     align-items: center;
 }
@@ -640,13 +668,6 @@ td:nth-child(3) {
 #binance-analytics-btc-card {
     max-width: 99%;
     padding-top: 0;
-}
-
-#btc-positions-card,
-#btc-profit-loss-card,
-#btc-cumulative-profit-card {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .balances-container {
@@ -704,4 +725,19 @@ td:nth-child(3) {
 .balance-section h4,
 .profit-loss-values h4 {
     margin-bottom: 0;
+}
+
+/*
+#binance-btc-copy-trading:hover,
+#binance-eth-copy-trading:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+*/
+#binance-btc-copy-button:hover,
+#binance-eth-copy-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-color: white;
 }

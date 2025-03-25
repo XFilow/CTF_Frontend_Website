@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const userDropdownToggle = document.getElementById('user-dropdown-toggle');
     const userDropdownMenu = document.getElementById('user-dropdown-menu');
 
+    const AVAILABLE_EXCHANGES = ['binance']; // Add exchanges as needed , 'coinbase', 'bybit'
+    const AVAILABLE_COINS = ['btc', 'eth']; // Add exchanges as needed , 'coinbase', 'bybit'
+
     let traderInfo = null;
     let binanceSocket = null;
     let accountSocket = null;
@@ -348,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function updateAnalytics() {
-        document.getElementById('binance-analytics-tbody').innerHTML = '<tr><td colspan="8" style="text-align:center;">Loading Analytics...</td></tr>';
+        document.getElementById('binance-analytics-btc-tbody').innerHTML = '<tr><td colspan="8" style="text-align:center;">Loading Analytics...</td></tr>';
         const emptyAnalytics = document.getElementById('empty-analytics');
         const binanceAnalyticsTitle = document.getElementById('binance-analytics-title');
         const binanceAnalyticsBtcTitle = document.getElementById('binance-analytics-btc-title');
@@ -356,6 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const days = 7; // Initialize with Weekly View (Last 7 Days)
         const copyTrade = true;
+        const element = 'analytics';
         
         const token = localStorage.getItem('token');
         if (!token) {
@@ -396,10 +400,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     binanceAnalyticsBtcTitle.style.display = 'block';
                     binanceAnalyticsBtcCard.style.display = 'block';
             
-                    updatePositionsChart(exchange, days, copyTrade);
-                    updateProfitLossChart(exchange, days, copyTrade);
-                    updateCumulativeProfitChart(exchange, days, copyTrade);
-                    updateAnalyticsTable(exchange, 0, copyTrade);
+                    updatePositionsChart(element, exchange, days, copyTrade);
+                    updateProfitLossChart(element, exchange, days, copyTrade);
+                    updateCumulativeProfitChart(element, exchange, days, copyTrade);
+                    updateAnalyticsTable(element, exchange, 0, copyTrade);
                 }
             });
 
@@ -408,8 +412,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function updateAnalyticsTable(exchange, days, copyTrade) {
-        const tableBody = document.getElementById("binance-analytics-tbody");
+    async function updateAnalyticsTable(element, exchange, days, copyTrade) {
+        const tableBody = document.getElementById(`${exchange}-${element}-btc-tbody`);
 
         const token = localStorage.getItem('token');
         if (!token) {
@@ -422,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!trades || trades.length === 0) {
                 console.log("No trade data available.");
-                document.getElementById("binance-analytics-tbody").innerHTML = '<tr><td colspan="8" style="text-align:center;">No Data Available</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;">No Data Available</td></tr>';
                 return;
             }
 
@@ -432,20 +436,21 @@ document.addEventListener('DOMContentLoaded', function() {
             let totalOrderDollarSize = 0;
             let totalTradeTime = 0;
             let profitableCount = 0;
-            let profitPercentages = [];
-            let profitDollarAmounts = [];
+            let longsCount = 0;
 
             let gains = [];
             let losses = [];
             let gainsPercent = [];
             let lossesPercent = [];
-            let cumulativeROI = 0;
+            let profitPercentages = [];
+            let profitDollarAmounts = [];
 
             trades.forEach(trade => {
                 let profit = parseFloat(trade.dollarGain);
                 let tradeTime = (new Date(trade.closeTime) - new Date(trade.openTime)) / (1000 * 60); // Convert ms to minutes
             
                 totalDollarGain += profit;
+                longsCount += trade.type === 'LONG' ? 1 : 0;
                 totalOrderDollarSize += parseFloat(trade.size) * parseFloat(trade.price); // Assuming `orderSize` exists
                 totalTradeTime += tradeTime;
                 profitPercentages.push(parseFloat(trade.profitPercent));
@@ -476,6 +481,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 avgTradeTime = 0; // Default case if no trades exist
             }
             
+            let shortsCount = totalTrades > 0 ? totalTrades - longsCount : 0;
             let avgTradeVolume = totalTrades > 0 ? (totalOrderDollarSize / totalTrades).toFixed(2) : 0;
             let profitableTrades = totalTrades > 0 ? ((profitableCount / totalTrades) * 100).toFixed(2) : 0;
             let maxGainPercent = Math.max(...profitPercentages).toFixed(2);
@@ -493,13 +499,16 @@ document.addEventListener('DOMContentLoaded', function() {
             // Avg Gain / Avg Loss in %
             let avgGainPercent = gainsPercent.length > 0 ? (gainsPercent.reduce((a, b) => a + b, 0) / gainsPercent.length).toFixed(2) : "0.00";
             let avgLossPercent = lossesPercent.length > 0 ? (lossesPercent.reduce((a, b) => a + b, 0) / lossesPercent.length).toFixed(2) : "0.00";
-            
-            // Cumulative ROI
-            let cumulativeROIPercentage = cumulativeROI.toFixed(2);
-            
+
+            // Long/Short Ratio
+            let divisor = gcd(longsCount, shortsCount);
+            let longRatio = longsCount / divisor;
+            let shortRatio = shortsCount / divisor;
+
             tableBody.innerHTML = ""; // Clear old data
             const row = document.createElement("tr");
-            row.innerHTML = `
+            if (element === 'analytics') {
+                row.innerHTML = `
                 <td>${totalTrades}</td>
                 <td>${profitableTrades}%</td>
                 <td>$${totalDollarGain}</td>
@@ -507,8 +516,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>-$${avgLossDollar} / $${avgGainDollar}</td>
                 <td>$${avgTradeVolume}</td>
                 <td>${avgTradeTime}</td>
-            `;
-            tableBody.appendChild(row);
+                `;
+                tableBody.appendChild(row);
+            }
+            else if (element === 'copy-trading') {
+                row.innerHTML = `
+                <td>${totalTrades}</td>
+                <td>${profitableTrades}%</td>
+                <td>-${maxLossPercent}% / ${maxGainPercent}%</td>
+                <td>-${avgLossPercent}% / ${avgGainPercent}%</td>
+                <td>${avgTradeTime}</td>
+                <td>${longRatio}:${shortRatio}</td>
+                `;
+                tableBody.appendChild(row); 
+            }
         } catch (error) {
             console.error("Error fetching trade analytics:", error);
         }
@@ -538,11 +559,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function updatePositionsChart(exchange, days, copyTrade) {
+    async function updatePositionsChart(element, exchange, days, copyTrade) {
         try {
             const data = await fetchOpenPositions(exchange, days, copyTrade) || [];
     
-            const canvas = document.getElementById("positions-chart");
+            const canvas = document.getElementById(`${exchange}-${element}-positions-chart`);
             if (!canvas) {
                 console.error("Chart element not found.");
                 return;
@@ -638,11 +659,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function updateProfitLossChart(exchange, days, copyTrade) {
+    async function updateProfitLossChart(element, exchange, days, copyTrade) {
         try {
             const data = await fetchTradeProfits(exchange, days, copyTrade) || [];
 
-            const canvas = document.getElementById("profit-loss-chart");
+            const canvas = document.getElementById(`${exchange}-${element}-profit-loss-chart`);
             if (!canvas) {
                 console.error("Profit-Loss Chart element not found.");
                 return;
@@ -730,11 +751,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    async function updateCumulativeProfitChart(exchange, days, copyTrade) {
+    async function updateCumulativeProfitChart(element, exchange, days, copyTrade) {
         try {
             const data = await fetchTradeProfits(exchange, days, copyTrade) || [];
-    
-            const canvas = document.getElementById("cumulative-profit-chart");
+
+            const canvas = document.getElementById(`${exchange}-${element}-cumulative-profit-chart`);
             if (!canvas) {
                 console.error("Cumulative Profit Chart element not found.");
                 return;
@@ -848,6 +869,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getAxisLabel(windowSize) {
         return windowSize === "1d" ? "Date" : (windowSize === "1mo" ? "Month" : "Year");
+    }
+
+    // Find the greatest common divisor (GCD)
+    function gcd(a, b) {
+        return b === 0 ? a : gcd(b, a % b);
     }
 
     async function updatePositions() {
@@ -1611,23 +1637,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Update Positions Histogram Analytics
-    document.getElementById("btc-positions-timeRange").addEventListener("change", (event) => {
+    document.getElementById("binance-analytics-btc-positions-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
-        updatePositionsChart(days);
+        updatePositionsChart('analytics','binance', days, true);
     });
 
     // Update Profit-Loss Chart Analytics
-    document.getElementById("btc-profit-loss-timeRange").addEventListener("change", (event) => {
+    document.getElementById("binance-analytics-btc-profit-loss-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
-        updateProfitLossChart(days);
+        updateProfitLossChart('analytics', 'binance', days, true);
     });
 
     // Update Cumulative Profit Chart Analytics
-    document.getElementById("btc-cumulative-profit-timeRange").addEventListener("change", (event) => {
+    document.getElementById("binance-analytics-btc-cumulative-profit-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
-        updateCumulativeProfitChart(days);
+        updateCumulativeProfitChart('analytics', 'binance', days, true);
     });
     
+    // Copy-trade Charts Display for Binance BTC 
+    document.getElementById('binance-btc-copy-trading-title').addEventListener('click', async function() {
+        const binanceBtcCopyTrading = document.getElementById('binance-btc-copy-trading');
+        const binanceCopyTradingBtcStats = document.getElementById('binance-copy-trading-btc-stats');
+        
+        if (binanceCopyTradingBtcStats.style.display === 'none') {
+            binanceBtcCopyTrading.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            binanceCopyTradingBtcStats.style.display = 'block';
+        }
+        else {
+            binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+            binanceCopyTradingBtcStats.style.display = 'none';
+        }
+    });
+
     // Copy-trade Binance BTC 
     document.getElementById('binance-btc-copy-button').addEventListener('click', async function() {
         const token = localStorage.getItem('token');

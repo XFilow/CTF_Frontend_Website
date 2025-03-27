@@ -172,7 +172,6 @@ body.icons-only .footer-icon-links {
     width: 1.3em; /* Fixed width for the logo */
     height: 1.3em; /* Fixed height for the logo */
     margin-right: 0.3em;  
-    margin-left: -0.15em;  
 }
 
 .coin-logo {
@@ -188,7 +187,7 @@ body.icons-only .footer-icon-links {
     vertical-align: middle; /* Aligns elements vertically in the middle */
     width: 2em; /* Fixed width for the logo */
     height: 2em; /* Fixed height for the logo */
-    margin-right: 0.2em;
+    margin-right: 0.4em;
 }
 
 .user-menu {
@@ -415,18 +414,20 @@ body.icons-only .footer-icon-links {
 }
 
 /* General table styles */
+.table {
+    margin: 0 auto 2em auto;
+}
+
 .table-content {
     overflow-x: auto;
     margin: auto;
     width: 80%;
 }
 
-#exchanges-table-content {
+#exchanges-table-content,
+#binance-copy-trading-btc-table-content,
+#binance-copy-trading-eth-table-content {
     margin: 2em auto;
-}
-
-#binance-copy-trading-btc-table-content {
-    margin: 1em auto 2em auto;
 }
 
 table {
@@ -477,11 +478,6 @@ td:nth-child(3) {
     overflow: hidden; /* Hide overflowing content */
     text-overflow: ellipsis; /* Show '...' when content overflows */
     max-width: 300px; /* Adjust width as needed */
-}
-
-#binance-analytics-btc-table,
-#binance-positions-table {
-    margin: 0 auto 2em auto;
 }
 
 .new-exchange-form-submit {
@@ -574,7 +570,6 @@ td:nth-child(3) {
     margin-top: 1em;
 }
 
-.copy-trading-content,
 .getting-started-content {
     display: block;
     border-radius: 10px; /* Optional: Adds rounded corners */
@@ -587,10 +582,6 @@ td:nth-child(3) {
     border: none;
     background-color: transparent;
     max-width: 100%; /* Sets a maximum width for the container */
-}
-
-.copy-trading-content {
-    margin: 0;
 }
 
 .charts-content{
@@ -609,16 +600,17 @@ td:nth-child(3) {
 }
 
 .card-content.collapsed,
-.copy-trading-content.collapsed,
 .getting-started-content.collapsed,
 .table-content.collapsed,
-.canvas-content.collapsed {
+.canvas-content.collapsed,
+.charts-content.collapsed {
     max-height: 0;
     padding: 0;
     border: none;
 }
 
-.canvas-content.collapsed {
+.canvas-content.collapsed,
+.charts-content.collapsed {
     display: none;
 }
 
@@ -643,18 +635,19 @@ td:nth-child(3) {
 .card-title.collapsed,
 .analytics-card-title.collapsed {
     margin-bottom: 0;
+    max-height: 1.25em;
 }
 
 /*#portfolio-title.collapsed,
 #profit-loss-title.collapsed,
 #active-bots-title.collapsed,*/
 #binance-positions-title.collapsed {
-    padding-bottom: 1em;
+    padding-bottom: 0.75em;
 }
 
 .card-title::before,
 .analytics-card-title::before {
-    content: '\25BD'; /* Right arrow */
+    content: '\25BD'; /* Bottom arrow */
     margin-right: 0.5em;
     transition: transform 0.3s;
     display: inline-block;
@@ -665,7 +658,23 @@ td:nth-child(3) {
     transform: rotate(-90deg);
 }
 
-#binance-analytics-btc-card {
+#binance-btc-copy-trading-title::after,
+#binance-eth-copy-trading-title::after {
+    content: '\25B6'; /* Right arrow */
+    margin-left: 0.25em;
+    transition: transform 0.3s;
+    display: inline-block;
+}
+
+#binance-btc-copy-trading-title.expanded::after,
+#binance-eth-copy-trading-title.expanded::after {
+    transform: rotate(90deg);
+}
+
+#binance-analytics-btc-card,
+#binance-analytics-eth-card,
+#binance-copy-trading-btc-card,
+#binance-copy-trading-eth-card {
     max-width: 99%;
     padding-top: 0;
 }
@@ -694,7 +703,8 @@ td:nth-child(3) {
     color: grey;
 }
 
-.analytics-canvas {
+.analytics-canvas,
+.copy-trade-canvas {
     width: 100%;
     height: 185px;
 }

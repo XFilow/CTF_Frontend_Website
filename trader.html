@@ -265,7 +265,7 @@
                                     BTCUSDT
                                 </h3>
                                 <div id="binance-analytics-btc-table-content" class="table-content">
-                                    <table id="binance-analytics-btc-table">
+                                    <table id="binance-analytics-btc-table" class="table">
                                         <thead>
                                             <tr>
                                                 <th>Trades</th>
@@ -290,7 +290,7 @@
                                             <option value="365">Yearly</option>
                                             <option value="0">Overall</option>
                                         </select>
-                                        <canvas id="binance-analytics-positions-chart" class="analytics-canvas"></canvas>
+                                        <canvas id="binance-analytics-btc-positions-chart" class="analytics-canvas"></canvas>
                                     </div>
                                     <div id="binance-analytics-btc-profit-loss-card" class="charts-content">
                                         <select id="binance-analytics-btc-profit-loss-timeRange" name="binance-analytics-btc-profit-loss-timeRange" class="dropdown-timeRange">
@@ -299,7 +299,7 @@
                                             <option value="365">Yearly</option>
                                             <option value="0">Overall</option>
                                         </select>
-                                        <canvas id="binance-analytics-profit-loss-chart" class="analytics-canvas"></canvas>
+                                        <canvas id="binance-analytics-btc-profit-loss-chart" class="analytics-canvas"></canvas>
                                     </div>
                                     <div id="binance-analytics-btc-cumulative-profit-card" class="charts-content">
                                         <select id="binance-analytics-btc-cumulative-profit-timeRange" name="binance-analytics-btc-cumulative-profit-timeRange" class="dropdown-timeRange">
@@ -308,7 +308,60 @@
                                             <option value="365">Yearly</option>
                                             <option value="0">Overall</option>
                                         </select>
-                                        <canvas id="binance-analytics-cumulative-profit-chart" class="analytics-canvas"></canvas>
+                                        <canvas id="binance-analytics-btc-cumulative-profit-chart" class="analytics-canvas"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="binance-analytics-eth-card" class="card-content" style="display: none;">
+                                <h3 id="binance-analytics-eth-title" class="analytics-card-title">
+                                    <img src="../static/logos/ethereum_logo.webp" alt="Logo" class="coin-logo-title">
+                                    ETHUSDT
+                                </h3>
+                                <div id="binance-analytics-eth-table-content" class="table-content">
+                                    <table id="binance-analytics-eth-table" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Trades</th>
+                                                <th>Profitable %</th>
+                                                <th>PNL</th>
+                                                <th>Max Loss/Gain</th>
+                                                <th>Avg Loss/Gain</th>
+                                                <th>Avg Trade Volume</th>
+                                                <th>Avg Trade Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="binance-analytics-eth-tbody">
+                                            <!-- Trade Analytics will be added here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="binance-analytics-eth-canvas" class="canvas-content">
+                                    <div id="binance-analytics-eth-positions-card" class="charts-content">
+                                        <select id="binance-analytics-eth-positions-timeRange" name="binance-analytics-eth-positions-timeRange" class="dropdown-timeRange">
+                                            <option value="7">Weekly</option>
+                                            <option value="30">Monthly</option>
+                                            <option value="365">Yearly</option>
+                                            <option value="0">Overall</option>
+                                        </select>
+                                        <canvas id="binance-analytics-eth-positions-chart" class="analytics-canvas"></canvas>
+                                    </div>
+                                    <div id="binance-analytics-eth-profit-loss-card" class="charts-content">
+                                        <select id="binance-analytics-eth-profit-loss-timeRange" name="binance-analytics-eth-profit-loss-timeRange" class="dropdown-timeRange">
+                                            <option value="7">Weekly</option>
+                                            <option value="30">Monthly</option>
+                                            <option value="365">Yearly</option>
+                                            <option value="0">Overall</option>
+                                        </select>
+                                        <canvas id="binance-analytics-eth-profit-loss-chart" class="analytics-canvas"></canvas>
+                                    </div>
+                                    <div id="binance-analytics-eth-cumulative-profit-card" class="charts-content">
+                                        <select id="binance-analytics-eth-cumulative-profit-timeRange" name="binance-analytics-eth-cumulative-profit-timeRange" class="dropdown-timeRange">
+                                            <option value="7">Weekly</option>
+                                            <option value="30">Monthly</option>
+                                            <option value="365">Yearly</option>
+                                            <option value="0">Overall</option>
+                                        </select>
+                                        <canvas id="binance-analytics-eth-cumulative-profit-chart" class="analytics-canvas"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -326,7 +379,7 @@
                                 Binance
                             </h2>
                             <div id="binance-positions-table-content" class="table-content" style="display: none;">
-                                <table id="binance-positions-table">
+                                <table id="binance-positions-table" class="table">
                                     <thead>
                                         <tr>
                                             <th>Symbol</th>
@@ -371,7 +424,7 @@
                                 <br><br><p class="card-content-text">Leverage: 50x | Position Size: 1% | One-Way Mode</p>
                             </div>
                                 <!-- Add more coins here in the future -->
-                            <div id="binance-copy-trading-btc-stats" class="copy-trading-content" style="display: none;">
+                            <div id="binance-copy-trading-btc-card" class="card-content" style="display: none;">
                                 <div id="binance-copy-trading-btc-table-content" class="table-content">
                                     <table id="binance-copy-trading-btc-table">
                                         <thead>
@@ -397,7 +450,7 @@
                                             <option value="365">Yearly</option>
                                             <option value="0">Overall</option>
                                         </select>
-                                        <canvas id="binance-copy-trading-positions-chart" class="copy-trade-canvas"></canvas>
+                                        <canvas id="binance-copy-trading-btc-positions-chart" class="copy-trade-canvas"></canvas>
                                     </div>
                                     <div id="binance-copy-trading-btc-profit-loss-card" class="charts-content">
                                         <select id="binance-copy-trading-btc-profit-loss-timeRange" name="binance-copy-trading-btc-profit-loss-timeRange" class="dropdown-timeRange">
@@ -406,7 +459,7 @@
                                             <option value="365">Yearly</option>
                                             <option value="0">Overall</option>
                                         </select>
-                                        <canvas id="binance-copy-trading-profit-loss-chart" class="copy-trade-canvas"></canvas>
+                                        <canvas id="binance-copy-trading-btc-profit-loss-chart" class="copy-trade-canvas"></canvas>
                                     </div>
                                     <div id="binance-copy-trading-btc-cumulative-profit-card" class="charts-content">
                                         <select id="binance-copy-trading-btc-cumulative-profit-timeRange" name="binance-copy-trading-btc-cumulative-profit-timeRange" class="dropdown-timeRange">
@@ -415,7 +468,55 @@
                                             <option value="365">Yearly</option>
                                             <option value="0">Overall</option>
                                         </select>
-                                        <canvas id="binance-copy-trading-cumulative-profit-chart" class="copy-trade-canvas"></canvas>
+                                        <canvas id="binance-copy-trading-btc-cumulative-profit-chart" class="copy-trade-canvas"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="binance-copy-trading-eth-card" class="card-content" style="display: none;">
+                                <div id="binance-copy-trading-eth-table-content" class="table-content">
+                                    <table id="binance-copy-trading-eth-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Trades</th>
+                                                <th>Profitable %</th>
+                                                <th>Max Loss/Gain</th>
+                                                <th>Avg Loss/Gain</th>
+                                                <th>Avg Trade Time</th>
+                                                <th>Long/Short Ratio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="binance-copy-trading-eth-tbody">
+                                            <!-- Coin Analytics will be added here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="binance-copy-trading-eth-canvas" class="canvas-content">
+                                    <div id="binance-copy-trading-eth-positions-card" class="charts-content">
+                                        <select id="binance-copy-trading-eth-positions-timeRange" name="binance-copy-trading-eth-positions-timeRange" class="dropdown-timeRange">
+                                            <option value="7">Weekly</option>
+                                            <option value="30">Monthly</option>
+                                            <option value="365">Yearly</option>
+                                            <option value="0">Overall</option>
+                                        </select>
+                                        <canvas id="binance-copy-trading-eth-positions-chart" class="copy-trade-canvas"></canvas>
+                                    </div>
+                                    <div id="binance-copy-trading-eth-profit-loss-card" class="charts-content">
+                                        <select id="binance-copy-trading-eth-profit-loss-timeRange" name="binance-copy-trading-eth-profit-loss-timeRange" class="dropdown-timeRange">
+                                            <option value="7">Weekly</option>
+                                            <option value="30">Monthly</option>
+                                            <option value="365">Yearly</option>
+                                            <option value="0">Overall</option>
+                                        </select>
+                                        <canvas id="binance-copy-trading-eth-profit-loss-chart" class="copy-trade-canvas"></canvas>
+                                    </div>
+                                    <div id="binance-copy-trading-eth-cumulative-profit-card" class="charts-content">
+                                        <select id="binance-copy-trading-eth-cumulative-profit-timeRange" name="binance-copy-trading-eth-cumulative-profit-timeRange" class="dropdown-timeRange">
+                                            <option value="7">Weekly</option>
+                                            <option value="30">Monthly</option>
+                                            <option value="365">Yearly</option>
+                                            <option value="0">Overall</option>
+                                        </select>
+                                        <canvas id="binance-copy-trading-eth-cumulative-profit-chart" class="copy-trade-canvas"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -425,12 +526,12 @@
                             <div id="no-active-bot" class="card-content">
                                 <h4 class="card-content-title">No Active Bot</h4>
                             </div>
-                            <div id="binance-btc-bot" class="card-content">
+                            <div id="binance-btc-bot" class="card-content" style="display: none;">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
                                 <h3 class="card-content-title">Binance - BTCUSDT</h3>
                                 <button type="button" id="cancel-binance-btc-bot" class="button cancel-trading-button">Cancel</button>
                             </div>
-                            <div id="binance-eth-bot" class="card-content">
+                            <div id="binance-eth-bot" class="card-content" style="display: none;">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
                                 <h3 class="card-content-title">Binance - ETHUSDT</h3>
                                 <button type="button" id="cancel-binance-eth-bot" class="button cancel-trading-button">Cancel</button>

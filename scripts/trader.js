@@ -8,15 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const userDropdownMenu = document.getElementById('user-dropdown-menu');
 
     const AVAILABLE_EXCHANGES = ['binance']; // Add exchanges as needed , 'coinbase', 'bybit'
-    const AVAILABLE_COINS = ['btc', 'eth']; // Add exchanges as needed , 'coinbase', 'bybit'
-
+    const AVAILABLE_COINS = ['btc','eth']; // Add exchanges as needed , 'coinbase', 'bybit'
+    
     let traderInfo = null;
     let binanceSocket = null;
     let accountSocket = null;
-    let positionsChart = null;
-    let profitLossChart = null;
-    let cumulativeProfitChart = null;
+    let currentContentId = null;
     let markPriceMap = {};
+    let positionsCharts = {};
+    let profitLossCharts = {};
+    let cumulativeProfitCharts = {};
 
     // Check for token and update UI
     checkUserStatus();
@@ -24,7 +25,10 @@ document.addEventListener('DOMContentLoaded', function() {
     navLinks.forEach(link => {
         link.addEventListener('click', function(event) {
             const contentId = event.currentTarget.getAttribute('data-section');
-            updateHeaderAndContent(event, contentId);
+            if (contentId !== currentContentId) {
+                updateHeaderAndContent(event, contentId);
+                currentContentId = contentId;
+            }
         });
     });
 
@@ -102,7 +106,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!contentId) return;
 
-        stopWebSockets()
+        if (contentId != 'positions-section') {
+            stopWebSockets();
+        }
 
         const selectedText = event.currentTarget.textContent;
         headerTitle.textContent = selectedText;
@@ -246,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 for (const [key, { label, days }] of Object.entries(timeFrames)) {
                     const elementId = `${exchange}-${key}`;
                     const pnlElement = document.getElementById(elementId);
-                    const data = await fetchTradeProfits(exchange, days, copyTrade);
+                    const data = await fetchTradeProfits(exchange, 'ALL', days, copyTrade);
                     if (!data || data.length === 0) {
                         pnlElement.textContent = `${label}: $0`;
                         continue;
@@ -356,6 +362,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const binanceAnalyticsTitle = document.getElementById('binance-analytics-title');
         const binanceAnalyticsBtcTitle = document.getElementById('binance-analytics-btc-title');
         const binanceAnalyticsBtcCard = document.getElementById('binance-analytics-btc-card');
+        const binanceAnalyticsEthTitle = document.getElementById('binance-analytics-eth-title');
+        const binanceAnalyticsEthCard = document.getElementById('binance-analytics-eth-card');
 
         const days = 7; // Initialize with Weekly View (Last 7 Days)
         const copyTrade = true;
@@ -396,24 +404,29 @@ document.addEventListener('DOMContentLoaded', function() {
             // Iterate over each exchange
             exchangeList.forEach(exchange => {           
                 if (exchange.toLowerCase() === 'binance') {
-                    binanceAnalyticsTitle.style.display = 'block';
-                    binanceAnalyticsBtcTitle.style.display = 'block';
-                    binanceAnalyticsBtcCard.style.display = 'block';
-            
-                    updatePositionsChart(element, exchange, days, copyTrade);
-                    updateProfitLossChart(element, exchange, days, copyTrade);
-                    updateCumulativeProfitChart(element, exchange, days, copyTrade);
-                    updateAnalyticsTable(element, exchange, 0, copyTrade);
-                }
-            });
+                    binanceAnalyticsTitle.style.display = 'flex';
 
+                    binanceAnalyticsBtcTitle.style.display = 'flex';
+                    binanceAnalyticsBtcCard.style.display = 'block';
+
+                    binanceAnalyticsEthTitle.style.display = 'flex';
+                    binanceAnalyticsEthCard.style.display = 'block';
+                }
+                
+                AVAILABLE_COINS.forEach(coin => {
+                    updatePositionsChart(element, exchange, coin, days, copyTrade);
+                    updateProfitLossChart(element, exchange, coin, days, copyTrade);
+                    updateCumulativeProfitChart(element, exchange, coin, days, copyTrade);
+                    updateStatsTable(element, exchange, coin, 0, copyTrade);
+                });
+            });
         } catch (error) {
             console.error('Error fetching exchange data:', error);
         }
     }
 
-    async function updateAnalyticsTable(element, exchange, days, copyTrade) {
-        const tableBody = document.getElementById(`${exchange}-${element}-btc-tbody`);
+    async function updateStatsTable(element, exchange, coin, days, copyTrade) {
+        const tableBody = document.getElementById(`${exchange}-${element}-${coin}-tbody`);
 
         const token = localStorage.getItem('token');
         if (!token) {
@@ -422,10 +435,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const trades = await fetchTradeProfits(exchange, days, copyTrade) || [];
+            const trades = await fetchTradeProfits(exchange, coin, days, copyTrade) || [];
 
             if (!trades || trades.length === 0) {
-                console.log("No trade data available.");
+                console.log(`No ${coin} trade data available.`);
                 tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;">No Data Available</td></tr>';
                 return;
             }
@@ -523,8 +536,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 row.innerHTML = `
                 <td>${totalTrades}</td>
                 <td>${profitableTrades}%</td>
-                <td>-${maxLossPercent}% / ${maxGainPercent}%</td>
-                <td>-${avgLossPercent}% / ${avgGainPercent}%</td>
+                <td>${maxLossPercent}% / ${maxGainPercent}%</td>
+                <td>${avgLossPercent}% / ${avgGainPercent}%</td>
                 <td>${avgTradeTime}</td>
                 <td>${longRatio}:${shortRatio}</td>
                 `;
@@ -536,7 +549,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Fetch open positions data from API
-    async function fetchOpenPositions(exchange, days, copyTrade) {
+    async function fetchOpenPositions(exchange, coin, days, copyTrade) {
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
@@ -544,7 +557,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         try {
-            const response = await fetch(`http://localhost:5000/trader/open-positions?exchange=${exchange}&days=${days}&copytrade=${copyTrade}`, {
+            const response = await fetch(`http://localhost:5000/trader/open-positions?exchange=${exchange}&coin=${coin}&days=${days}&copytrade=${copyTrade}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -559,24 +572,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function updatePositionsChart(element, exchange, days, copyTrade) {
+    async function updatePositionsChart(element, exchange, coin, days, copyTrade) {
         try {
-            const data = await fetchOpenPositions(exchange, days, copyTrade) || [];
+            const data = await fetchOpenPositions(exchange, coin, days, copyTrade) || [];
     
-            const canvas = document.getElementById(`${exchange}-${element}-positions-chart`);
+            const canvas = document.getElementById(`${exchange}-${element}-${coin}-positions-chart`);
             if (!canvas) {
                 console.error("Chart element not found.");
                 return;
             }
             const ctx = canvas.getContext("2d");
     
-            if (positionsChart) {
-                positionsChart.destroy(); // Destroy existing chart if it exists
+            // Destroy existing chart if it exists
+            const chartKey = `${exchange}-${coin}`;
+            if (positionsCharts[chartKey]) {
+                console.log(`Destroying old chart for ${exchange} ${coin}`);
+                positionsCharts[chartKey].destroy();
             }
-    
+
             // If no data, show "No Data Available" text
             if (data.length === 0) {
-                console.log("No positions data available.");
+                console.log(`No ${coin} positions data available.`);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.font = "20px Arial";
                 ctx.fillStyle = "gray";
@@ -596,15 +612,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 aggregatedData[label] = (aggregatedData[label] || 0) + 1; // Count positions
             });
     
-            const labels = Object.keys(aggregatedData);
-            const counts = labels.map(label => aggregatedData[label]);
+            // Generate full range of labels for the selected period
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() - days); // Go back 'days' in time
+
+            const fullLabels = [];
+            const tempDate = new Date(startDate);
+
+            while (tempDate <= new Date()) {
+                fullLabels.push(formatLabel(new Date(tempDate), windowSize));
+                tempDate.setDate(tempDate.getDate() + 1); // Increment day
+            }
+
+            // Fill missing dates with 0 counts
+            const aggregatedDataWithZeros = {};
+            fullLabels.forEach(label => {
+                aggregatedDataWithZeros[label] = aggregatedData[label] || 0;
+            });
+
+            // Use the updated dataset
+            const labels = Object.keys(aggregatedDataWithZeros);
+            const counts = labels.map(label => aggregatedDataWithZeros[label]);
     
             if (labels.length === 0) {
                 console.log("No position data available after filtering.");
                 return;
             }
     
-            positionsChart = new Chart(ctx, {
+            positionsCharts[chartKey] = new Chart(ctx, {
                 type: "bar",
                 data: {
                     labels: labels,
@@ -637,14 +672,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Fetch trade profit-loss data from API
-    async function fetchTradeProfits(exchange, days, copyTrade) {
+    async function fetchTradeProfits(exchange, coin, days, copyTrade) {
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
             return;
         }
         try {
-            const response = await fetch(`http://localhost:5000/trader/trade-profits?exchange=${exchange}&days=${days}&copytrade=${copyTrade}`, {
+            const response = await fetch(`http://localhost:5000/trader/trade-profits?exchange=${exchange}&coin=${coin}&days=${days}&copytrade=${copyTrade}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -659,24 +694,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    async function updateProfitLossChart(element, exchange, days, copyTrade) {
+    async function updateProfitLossChart(element, exchange, coin, days, copyTrade) {
         try {
-            const data = await fetchTradeProfits(exchange, days, copyTrade) || [];
+            const data = await fetchTradeProfits(exchange, coin, days, copyTrade) || [];
 
-            const canvas = document.getElementById(`${exchange}-${element}-profit-loss-chart`);
+            const canvas = document.getElementById(`${exchange}-${element}-${coin}-profit-loss-chart`);
             if (!canvas) {
                 console.error("Profit-Loss Chart element not found.");
                 return;
             }
             const ctx = canvas.getContext("2d");
-    
-            if (profitLossChart) {
-                profitLossChart.destroy(); // Destroy existing chart if it exists
+
+            // Destroy existing chart if it exists
+            const chartKey = `${exchange}-${coin}`;
+            if (profitLossCharts[chartKey]) {
+                console.log(`Destroying old chart for ${exchange} ${coin}`);
+                profitLossCharts[chartKey].destroy();
             }
 
             // If no data, show "No Data Available" text
             if (data.length === 0) {
-                console.log("No profit/loss data available.");
+                console.log(`No ${coin} profit/loss data available.`);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.font = "20px Arial";
                 ctx.fillStyle = "gray";
@@ -721,7 +759,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const backgroundColor = isPositive ? "rgba(75, 190, 110, 0.3)" : "rgba(255, 100, 100, 0.3)";
             const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
 
-            profitLossChart = new Chart(ctx, {
+            profitLossCharts[chartKey] = new Chart(ctx, {
                 type: "line",
                 data: {
                     labels: labels,
@@ -751,24 +789,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    async function updateCumulativeProfitChart(element, exchange, days, copyTrade) {
+    async function updateCumulativeProfitChart(element, exchange, coin, days, copyTrade) {
         try {
-            const data = await fetchTradeProfits(exchange, days, copyTrade) || [];
+            const data = await fetchTradeProfits(exchange, coin, days, copyTrade) || [];
 
-            const canvas = document.getElementById(`${exchange}-${element}-cumulative-profit-chart`);
+            const canvas = document.getElementById(`${exchange}-${element}-${coin}-cumulative-profit-chart`);
             if (!canvas) {
                 console.error("Cumulative Profit Chart element not found.");
                 return;
             }
             const ctx = canvas.getContext("2d");
     
-            if (cumulativeProfitChart) {
-                cumulativeProfitChart.destroy(); // Destroy existing chart if it exists
+            // Destroy existing chart if it exists
+            const chartKey = `${exchange}-${coin}`;
+            if (cumulativeProfitCharts[chartKey]) {
+                console.log(`Destroying old chart for ${exchange} ${coin}`);
+                cumulativeProfitCharts[chartKey].destroy();
             }
 
             // If no data, show "No Data Available" text
             if (data.length === 0) {
-                console.log("No cumulative profits data available.");
+                console.log(`No ${coin} cumulative profits data available.`);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.font = "20px Arial";
                 ctx.fillStyle = "gray";
@@ -813,7 +854,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const backgroundColor = isPositive ? "rgba(75, 190, 110, 0.3)" : "rgba(255, 100, 100, 0.3)";
             const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
 
-            cumulativeProfitChart = new Chart(ctx, {
+            cumulativeProfitCharts[chartKey] = new Chart(ctx, {
                 type: "line",
                 data: {
                     labels: labels,
@@ -920,7 +961,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Iterate over each exchange
             exchangeList.forEach(exchange => {           
                 if (exchange.toLowerCase() === 'binance') {
-                    binancePositionsTitle.style.display = 'block';
+                    binancePositionsTitle.style.display = 'flex';
                     binancePositionsTableContent.style.display = 'block';
                 }
             });
@@ -1148,14 +1189,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     async function updateCopyTrading() {
+        const noActiveBot = document.getElementById('no-active-bot');
         const binanceBTCBot = document.getElementById('binance-btc-bot');
         const binanceETHBot = document.getElementById('binance-eth-bot');
-        const noActiveBot = document.getElementById('no-active-bot');
+        const binanceBtcCopyTrading = document.getElementById('binance-btc-copy-trading');
+        const binanceEthCopyTrading = document.getElementById('binance-eth-copy-trading');
+        const binanceBtcCopyTradingTitle = document.getElementById('binance-btc-copy-trading-title');
+        const binanceEthCopyTradingTitle = document.getElementById('binance-eth-copy-trading-title');
+        const binanceCopyTradingBtcCard = document.getElementById('binance-copy-trading-btc-card');
+        const binanceCopyTradingEthCard = document.getElementById('binance-copy-trading-eth-card');
 
-        // Clear active bots
-        binanceBTCBot.style.display = 'none';
-        binanceETHBot.style.display = 'none';
+        const days = 7; // Initialize with Weekly View (Last 7 Days)
+        const copyTrade = false;
+        const element = 'copy-trading';
+
+        binanceBtcCopyTradingTitle.classList.remove('expanded');
+        binanceEthCopyTradingTitle.classList.remove('expanded');
+
         noActiveBot.style.display = 'block';
+
+        binanceCopyTradingBtcCard.style.display = 'none';
+        binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+
+        binanceCopyTradingEthCard.style.display = 'none';
+        binanceEthCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
 
         const token = localStorage.getItem('token');
         if (!token) {
@@ -1195,13 +1252,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            // Iterate over each exchange and coin
+            AVAILABLE_EXCHANGES.forEach(exchange => {
+                AVAILABLE_COINS.forEach(coin => {
+                    updatePositionsChart(element, exchange, coin, days, copyTrade);
+                    updateProfitLossChart(element, exchange, coin, days, copyTrade);
+                    updateCumulativeProfitChart(element, exchange, coin, days, copyTrade);
+                    updateStatsTable(element, exchange, coin, 0, copyTrade);
+                });
+            });
+
             // Iterate over each exchange response
             const data = await response.json();
             Object.entries(data).forEach(([exchange, exchangeData]) => {
-                if (exchangeData.message === 'No exchange data' || Object.keys(exchangeData).length === 0) {
-                    return; // Skip if no data
+                if (exchangeData.message === 'No exchange data' || Object.keys(exchangeData).length === 0 || (exchangeData.btc_bot === 0 && exchangeData.eth_bot === 0)) {
+                    return; // Skip if no data or bots are inactive
                 }
-
                 if (exchange.toLowerCase() === 'binance') {
                     if (exchangeData.btc_bot) {
                         noActiveBot.style.display = 'none';
@@ -1255,6 +1321,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = 'login?message=logout';
             } else if (contentId) {
                 updateHeaderAndContent(event, contentId);
+                currentContentId = contentId;
             }
 
             userDropdownMenu.style.display = 'none';
@@ -1441,7 +1508,6 @@ document.addEventListener('DOMContentLoaded', function() {
             targetContents.forEach(content => {
                 content.classList.toggle('collapsed');
             });
-    
             this.classList.toggle('collapsed');
         });
     });
@@ -1454,7 +1520,6 @@ document.addEventListener('DOMContentLoaded', function() {
             targetContents.forEach(content => {
                 content.classList.toggle('collapsed');
             });
-    
             this.classList.toggle('collapsed');
         });
     });
@@ -1635,37 +1700,40 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error deleting exchange data:', error);
         }
     }
-
-    // Update Positions Histogram Analytics
-    document.getElementById("binance-analytics-btc-positions-timeRange").addEventListener("change", (event) => {
-        const days = parseInt(event.target.value);
-        updatePositionsChart('analytics','binance', days, true);
-    });
-
-    // Update Profit-Loss Chart Analytics
-    document.getElementById("binance-analytics-btc-profit-loss-timeRange").addEventListener("change", (event) => {
-        const days = parseInt(event.target.value);
-        updateProfitLossChart('analytics', 'binance', days, true);
-    });
-
-    // Update Cumulative Profit Chart Analytics
-    document.getElementById("binance-analytics-btc-cumulative-profit-timeRange").addEventListener("change", (event) => {
-        const days = parseInt(event.target.value);
-        updateCumulativeProfitChart('analytics', 'binance', days, true);
-    });
-    
+   
     // Copy-trade Charts Display for Binance BTC 
     document.getElementById('binance-btc-copy-trading-title').addEventListener('click', async function() {
         const binanceBtcCopyTrading = document.getElementById('binance-btc-copy-trading');
-        const binanceCopyTradingBtcStats = document.getElementById('binance-copy-trading-btc-stats');
+        const binanceCopyTradingBtcCard = document.getElementById('binance-copy-trading-btc-card');
+        const binanceBtcCopyTradingTitle = document.getElementById('binance-btc-copy-trading-title');
         
-        if (binanceCopyTradingBtcStats.style.display === 'none') {
+        binanceBtcCopyTradingTitle.classList.toggle('expanded');
+
+        if (binanceCopyTradingBtcCard.style.display === 'none') {
             binanceBtcCopyTrading.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-            binanceCopyTradingBtcStats.style.display = 'block';
+            binanceCopyTradingBtcCard.style.display = 'block';
         }
         else {
             binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
-            binanceCopyTradingBtcStats.style.display = 'none';
+            binanceCopyTradingBtcCard.style.display = 'none';
+        }
+    });
+
+    // Copy-trade Charts Display for Binance ETH 
+    document.getElementById('binance-eth-copy-trading-title').addEventListener('click', async function() {
+        const binanceEthCopyTrading = document.getElementById('binance-eth-copy-trading');
+        const binanceCopyTradingEthCard = document.getElementById('binance-copy-trading-eth-card');
+        const binanceEthCopyTradingTitle = document.getElementById('binance-eth-copy-trading-title');
+        
+        binanceEthCopyTradingTitle.classList.toggle('expanded');
+
+        if (binanceCopyTradingEthCard.style.display === 'none') {
+            binanceEthCopyTrading.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            binanceCopyTradingEthCard.style.display = 'block';
+        }
+        else {
+            binanceEthCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+            binanceCopyTradingEthCard.style.display = 'none';
         }
     });
 
@@ -1778,8 +1846,8 @@ document.addEventListener('DOMContentLoaded', function() {
             //console.log('Cancel-trading BTC successful:', result);
 
             // Clear BTC bot UI
+            document.getElementById('binance-btc-bot').style.display = 'none';
             updateCopyTrading();
-            //document.getElementById('binance-btc-bot').style.display = 'none';
 
         } catch (error) {
             console.error('Error cancel-trading BTC:', error);
@@ -1817,12 +1885,48 @@ document.addEventListener('DOMContentLoaded', function() {
             //console.log('Cancel-trading ETH successful:', result);
 
             // Clear ETH bot UI
+            document.getElementById('binance-eth-bot').style.display = 'none';
             updateCopyTrading();
-            //document.getElementById('binance-eth-bot').style.display = 'none';
 
         } catch (error) {
             console.error('Error cancel-trading ETH:', error);
         }
     });
         
+    // Update Binance BTC Positions Histogram Analytics
+    document.getElementById("binance-analytics-btc-positions-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updatePositionsChart('analytics','binance', days, true);
+    });
+
+    // Update Binance BTC Binance Profit-Loss Chart Analytics
+    document.getElementById("binance-analytics-btc-profit-loss-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updateProfitLossChart('analytics', 'binance', days, true);
+    });
+
+    // Update Binance BTC Cumulative Profits Chart Analytics
+    document.getElementById("binance-analytics-btc-cumulative-profit-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updateCumulativeProfitChart('analytics', 'binance', days, true);
+    });
+
+    // Update Binance BTC Positions Histogram Copy-Trading
+    document.getElementById("binance-copy-trading-btc-positions-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updatePositionsChart('copy-trading','binance', days, false);
+    });
+
+    // Update Binance BTC Profit-Loss Chart Copy-Trading
+    document.getElementById("binance-copy-trading-btc-profit-loss-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updateProfitLossChart('copy-trading', 'binance', days, false);
+    });
+
+    // Update Binance BTC Cumulative Profits Chart Copy-Trading
+    document.getElementById("binance-copy-trading-btc-cumulative-profit-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updateCumulativeProfitChart('copy-trading', 'binance', days, false);
+    });    
+
 });

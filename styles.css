@@ -77,8 +77,7 @@ header {
 }
 
 .header-button:hover {
-    color: black;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 #login-button {
@@ -217,7 +216,7 @@ main {
 
 .main-button {
     color: white;
-    background-color: rgb(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.7);
     display: inline-block;
     margin: 2em auto;
     border: 2px solid white;
@@ -230,7 +229,7 @@ main {
 
 .submit-button {
     color: white;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.7);
     font-weight: bold;
     display: inline-block;
     border: 2px solid white;
@@ -244,9 +243,7 @@ main {
 }
 
 .submit-button:hover {
-    color: black;
-    background-color: white;
-    text-shadow: none;
+    background-color: black;
 }
 
 .typing-effect {

@@ -1206,8 +1206,6 @@ document.addEventListener('DOMContentLoaded', function() {
         binanceBtcCopyTradingTitle.classList.remove('expanded');
         binanceEthCopyTradingTitle.classList.remove('expanded');
 
-        noActiveBot.style.display = 'block';
-
         binanceCopyTradingBtcCard.style.display = 'none';
         binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
 
@@ -1265,6 +1263,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Iterate over each exchange response
             const data = await response.json();
             Object.entries(data).forEach(([exchange, exchangeData]) => {
+                //console.log(exchangeData);
                 if (exchangeData.message === 'No exchange data' || Object.keys(exchangeData).length === 0 || (exchangeData.btc_bot === 0 && exchangeData.eth_bot === 0)) {
                     return; // Skip if no data or bots are inactive
                 }
@@ -1276,6 +1275,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (exchangeData.eth_bot) {
                         noActiveBot.style.display = 'none';
                         binanceETHBot.style.display = 'inline-block';
+                    }
+                    if (exchangeData.btc_bot === 0 && exchangeData.eth_bot === 0) {
+                        noActiveBot.style.display = 'block';
+                        binanceBTCBot.style.display = 'none';
+                        binanceETHBot.style.display = 'none';
                     }
                 }
             });
@@ -1712,8 +1716,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (binanceCopyTradingBtcCard.style.display === 'none') {
             binanceBtcCopyTrading.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
             binanceCopyTradingBtcCard.style.display = 'block';
-        }
-        else {
+        } else {
             binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
             binanceCopyTradingBtcCard.style.display = 'none';
         }
@@ -1730,8 +1733,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (binanceCopyTradingEthCard.style.display === 'none') {
             binanceEthCopyTrading.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
             binanceCopyTradingEthCard.style.display = 'block';
-        }
-        else {
+        } else {
             binanceEthCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
             binanceCopyTradingEthCard.style.display = 'none';
         }
@@ -1817,6 +1819,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Cancel-trade Binance BTC 
     document.getElementById('cancel-binance-btc-bot').addEventListener('click', async function() {
+        const noActiveBot = document.getElementById('no-active-bot');
+        const binanceBTCBot = document.getElementById('binance-btc-bot');
+        const binanceETHBot = document.getElementById('binance-eth-bot');
+
+        const exchange = 'binance';
+
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
@@ -1842,13 +1850,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            //const result = await response.json();
-            //console.log('Cancel-trading BTC successful:', result);
+            const exchangeResponse = await fetch('http://localhost:5000/trader/trading-bots?exchange=binance', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
 
-            // Clear BTC bot UI
-            document.getElementById('binance-btc-bot').style.display = 'none';
-            updateCopyTrading();
+            if (!exchangeResponse.ok) {
+                console.error('Failed to trading bots data:', response.statusText);
+                return;
+            }
 
+            const exchangeData = await exchangeResponse.json();
+
+            binanceBTCBot.style.display = 'none';
+            if (exchangeData[exchange].eth_bot) {
+                noActiveBot.style.display = 'none';
+                binanceETHBot.style.display = 'inline-block';
+            } else {
+                noActiveBot.style.display = 'block';
+                binanceETHBot.style.display = 'none';
+            }
         } catch (error) {
             console.error('Error cancel-trading BTC:', error);
         }
@@ -1856,6 +1880,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cancel-trade Binance ETH 
     document.getElementById('cancel-binance-eth-bot').addEventListener('click', async function() {
+        const noActiveBot = document.getElementById('no-active-bot');
+        const binanceBTCBot = document.getElementById('binance-btc-bot');
+        const binanceETHBot = document.getElementById('binance-eth-bot');
+
+        const exchange = 'binance';
+
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
@@ -1881,13 +1911,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            //const result = await response.json();
-            //console.log('Cancel-trading ETH successful:', result);
+            const exchangeResponse = await fetch('http://localhost:5000/trader/trading-bots?exchange=binance', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
 
-            // Clear ETH bot UI
-            document.getElementById('binance-eth-bot').style.display = 'none';
-            updateCopyTrading();
+            if (!exchangeResponse.ok) {
+                console.error('Failed to trading bots data:', response.statusText);
+                return;
+            }
 
+            const exchangeData = await exchangeResponse.json();
+            
+            binanceETHBot.style.display = 'none';
+            if (exchangeData[exchange].btc_bot) {
+                noActiveBot.style.display = 'none';
+                binanceBTCBot.style.display = 'inline-block';
+            } else {
+                noActiveBot.style.display = 'block';
+                binanceBTCBot.style.display = 'none';
+            }
         } catch (error) {
             console.error('Error cancel-trading ETH:', error);
         }
@@ -1896,37 +1942,37 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update Binance BTC Positions Histogram Analytics
     document.getElementById("binance-analytics-btc-positions-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
-        updatePositionsChart('analytics','binance', days, true);
+        updatePositionsChart('analytics','binance', 'btc', days, true);
     });
 
     // Update Binance BTC Binance Profit-Loss Chart Analytics
     document.getElementById("binance-analytics-btc-profit-loss-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
-        updateProfitLossChart('analytics', 'binance', days, true);
+        updateProfitLossChart('analytics', 'binance', 'btc', days, true);
     });
 
     // Update Binance BTC Cumulative Profits Chart Analytics
     document.getElementById("binance-analytics-btc-cumulative-profit-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
-        updateCumulativeProfitChart('analytics', 'binance', days, true);
+        updateCumulativeProfitChart('analytics', 'binance', 'btc', days, true);
     });
 
     // Update Binance BTC Positions Histogram Copy-Trading
     document.getElementById("binance-copy-trading-btc-positions-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
-        updatePositionsChart('copy-trading','binance', days, false);
+        updatePositionsChart('copy-trading','binance', 'btc', days, false);
     });
 
     // Update Binance BTC Profit-Loss Chart Copy-Trading
     document.getElementById("binance-copy-trading-btc-profit-loss-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
-        updateProfitLossChart('copy-trading', 'binance', days, false);
+        updateProfitLossChart('copy-trading', 'binance', 'btc', days, false);
     });
 
     // Update Binance BTC Cumulative Profits Chart Copy-Trading
     document.getElementById("binance-copy-trading-btc-cumulative-profit-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
-        updateCumulativeProfitChart('copy-trading', 'binance', days, false);
+        updateCumulativeProfitChart('copy-trading', 'binance', 'btc', days, false);
     });    
 
 });

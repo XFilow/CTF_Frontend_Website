@@ -240,8 +240,14 @@ body.icons-only .footer-icon-links {
     padding: 0.5em;
 }
 
+.user-dropdown-menu a {
+    color:white;
+    list-style: none;
+    text-decoration: none;
+}
+
 .user-dropdown-menu li:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .cards {

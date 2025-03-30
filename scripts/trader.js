@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let accountSocket = null;
     let currentContentId = null;
     let markPriceMap = {};
+    let pieCharts = {};
     let positionsCharts = {};
     let profitLossCharts = {};
     let cumulativeProfitCharts = {};
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const traderInfo = await response.json();
                 return traderInfo; // Return the user info
             } else {
-                console.log('Not authenticated or error fetching data');
+                //console.log('Not authenticated or error fetching data');
                 return null; // Return null if there's an error
             }
         } catch (error) {
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update body content and header title
     function updateHeaderAndContent(event, contentId) {
-        event.preventDefault();
+        //event.preventDefault();
 
         const headerTitle = document.querySelector('.content-header h1');
 
@@ -196,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
             //console.log(exchangeList);
 
             if (!Array.isArray(exchangeList) || exchangeList.length === 0) {
-                console.log("No exchange data available.");
+                //console.log("No exchange data available.");
                 gettingStartedCard.style.display = 'block';
                 emptyPortfolio.style.display = 'block';
                 emptyProfitLoss.style.display = 'block';
@@ -218,24 +219,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
     
             const balanceData = await balanceResponse.json();
-            const balanceChartData = {
-                labels: [],
-                datasets: [{
-                    data: [],
-                    backgroundColor: []
-                }]
-            };
-
             for (const exchange in balanceData) {
                 if (balanceData.hasOwnProperty(exchange) && balanceData[exchange].message !== 'No exchange data' && Object.keys(balanceData[exchange]).length > 0) {
                     const exchangeData = balanceData[exchange];
         
                     // Find the container dynamically
-                    document.getElementById(`${exchange}-portfolio`).style.display = 'inline-block';
+                    const portfolioElement = document.getElementById(`${exchange}-portfolio`);
+                    if (portfolioElement) {
+                        portfolioElement.style.display = 'inline-block';
+                    }
+        
                     const exchangeFuturesBalance = document.getElementById(`${exchange}-balance`);
         
                     if (!exchangeFuturesBalance) {
-                        console.log(`No container found for exchange: ${exchange}`);
+                        //console.log(`No container found for exchange: ${exchange}`);
                         continue;
                     }
         
@@ -274,9 +271,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         balanceChartData.datasets[0].backgroundColor.push(getShadeOfGrey(index));
                     });
         
-                    // Create the pie chart
+                    // Get the canvas context
                     const ctx = document.getElementById(`${exchange}-balancePieChart`).getContext('2d');
-                    new Chart(ctx, {
+        
+                    // Destroy existing chart if it exists
+                    if (pieCharts[exchange]) {
+                        pieCharts[exchange].destroy();
+                    }
+        
+                    // Create the pie chart
+                    pieCharts[exchange] = new Chart(ctx, {
                         type: 'pie',
                         data: balanceChartData,
                         options: {
@@ -449,7 +453,7 @@ document.addEventListener('DOMContentLoaded', function() {
             //console.log(exchangeList);
 
             if (!Array.isArray(exchangeList) || exchangeList.length === 0) {
-                console.log("No exchange data available.");
+                //console.log("No exchange data available.");
                 return; // Exit early if no exchanges
             }
             else {
@@ -493,7 +497,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const trades = await fetchTradeProfits(exchange, coin, days, copyTrade) || [];
 
             if (!trades || trades.length === 0) {
-                console.log(`No ${coin} trade data available.`);
+                //console.log(`No ${coin} trade data available.`);
                 tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;">No Data Available</td></tr>';
                 return;
             }
@@ -641,13 +645,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // Destroy existing chart if it exists
             const chartKey = `${exchange}-${coin}`;
             if (positionsCharts[chartKey]) {
-                console.log(`Destroying old chart for ${exchange} ${coin}`);
+                //console.log(`Destroying old chart for ${exchange} ${coin}`);
                 positionsCharts[chartKey].destroy();
             }
 
             // If no data, show "No Data Available" text
             if (data.length === 0) {
-                console.log(`No ${coin} positions data available.`);
+                //console.log(`No ${coin} positions data available.`);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.font = "20px Arial";
                 ctx.fillStyle = "gray";
@@ -690,7 +694,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const counts = labels.map(label => aggregatedDataWithZeros[label]);
     
             if (labels.length === 0) {
-                console.log("No position data available after filtering.");
+                //console.log("No position data available after filtering.");
                 return;
             }
     
@@ -763,13 +767,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // Destroy existing chart if it exists
             const chartKey = `${exchange}-${coin}`;
             if (profitLossCharts[chartKey]) {
-                console.log(`Destroying old chart for ${exchange} ${coin}`);
+                //console.log(`Destroying old chart for ${exchange} ${coin}`);
                 profitLossCharts[chartKey].destroy();
             }
 
             // If no data, show "No Data Available" text
             if (data.length === 0) {
-                console.log(`No ${coin} profit/loss data available.`);
+                //console.log(`No ${coin} profit/loss data available.`);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.font = "20px Arial";
                 ctx.fillStyle = "gray";
@@ -793,16 +797,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const profitData = labels.map(label => aggregatedProfits[label]);
     
             if (labels.length === 0) {
-                console.log("No profit/loss data available after filtering.");
+                //console.log("No profit/loss data available after filtering.");
                 return;
             }
 
+            /*
             // Get the previous period label based on window size
             const firstTradeDate = new Date(data[0].closeTime);
             const previousPeriodDate = getPreviousPeriod(firstTradeDate, windowSize);
             const previousPeriodLabel = formatLabel(previousPeriodDate, windowSize);
-
-            /*
+            
             // Calculate the previous period's value
             const previousPeriodValue = aggregatedProfits[previousPeriodLabel] || 0;
 
@@ -863,13 +867,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // Destroy existing chart if it exists
             const chartKey = `${exchange}-${coin}`;
             if (cumulativeProfitCharts[chartKey]) {
-                console.log(`Destroying old chart for ${exchange} ${coin}`);
+                //console.log(`Destroying old chart for ${exchange} ${coin}`);
                 cumulativeProfitCharts[chartKey].destroy();
             }
 
             // If no data, show "No Data Available" text
             if (data.length === 0) {
-                console.log(`No ${coin} cumulative profits data available.`);
+                //console.log(`No ${coin} cumulative profits data available.`);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.font = "20px Arial";
                 ctx.fillStyle = "gray";
@@ -893,7 +897,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const cumulativeData = labels.map(label => aggregatedCumulative[label]);
     
             if (labels.length === 0) {
-                console.log("No cumulative profit data available after filtering.");
+                //console.log("No cumulative profit data available after filtering.");
                 return;
             }
 
@@ -1010,7 +1014,7 @@ document.addEventListener('DOMContentLoaded', function() {
             //console.log(exchangeList);
 
             if (!Array.isArray(exchangeList) || exchangeList.length === 0) {
-                console.log("No exchange data available.");
+                //console.log("No exchange data available.");
                 emptyPositions.style.display = 'block';
                 return; // Exit early if no exchanges
             }
@@ -1107,7 +1111,7 @@ document.addEventListener('DOMContentLoaded', function() {
             accountSocket.onmessage = async (event) => {
                 const data = JSON.parse(event.data);
                 if (data.e === 'ACCOUNT_UPDATE') {
-                    console.log('Account WebSocket message received.');
+                    //console.log('Account WebSocket message received.');
                     await fetchAndUpdatePositions();
                 }
             };
@@ -1374,14 +1378,14 @@ document.addEventListener('DOMContentLoaded', function() {
     userIcon.addEventListener('click', toggleDropdownMenu);
 
     // Event content handler
-    userDropdownMenu.querySelectorAll('li').forEach(item => {
+    userDropdownMenu.querySelectorAll('li a').forEach(item => {
         item.addEventListener('click', function(event) {
             const contentId = event.currentTarget.getAttribute('data-section');
             const logoutOption = document.getElementById('logout-option');
             
             if (event.currentTarget === logoutOption) {
                 localStorage.removeItem('token');
-                console.log('Logged out');
+                //console.log('Logged out');
                 window.location.href = 'login?message=logout';
             } else if (contentId) {
                 updateHeaderAndContent(event, contentId);
@@ -1408,7 +1412,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const token = localStorage.getItem('token');
         if (!token) {
-            console.log('User is not logged in');
+            //console.log('User is not logged in');
             return null; // Return null if the user is not logged in
         }
         
@@ -1428,7 +1432,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     nameTakenError.textContent = ''; // Clear any previous error message
                     userDropdownToggle.textContent = newUsername;
                     document.querySelector('.profile-username').textContent = newUsername;
-                    console.log('Profile has been updated.');
+                    //console.log('Profile has been updated.');
                 } else {
                     const errorData = await response.json();
                     nameTakenError.textContent = errorData.message;
@@ -1739,7 +1743,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            console.log(`${exchange} API key deleted successfully!`);
+            //console.log(`${exchange} API key deleted successfully!`);
             
             // Remove the deleted exchange row from the table
             const tableBody = document.getElementById("exchanges-tbody");
@@ -2020,6 +2024,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
         
+    /* BTC */
+
     // Update Binance BTC Positions Histogram Analytics
     document.getElementById("binance-analytics-btc-positions-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
@@ -2056,4 +2062,41 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCumulativeProfitChart('copy-trading', 'binance', 'btc', days, false);
     });    
 
+    /* ETH */
+
+    // Update Binance ETH Positions Histogram Analytics
+    document.getElementById("binance-analytics-eth-positions-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updatePositionsChart('analytics','binance', 'eth', days, true);
+    });
+
+    // Update Binance ETH Binance Profit-Loss Chart Analytics
+    document.getElementById("binance-analytics-eth-profit-loss-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updateProfitLossChart('analytics', 'binance', 'eth', days, true);
+    });
+
+    // Update Binance ETH Cumulative Profits Chart Analytics
+    document.getElementById("binance-analytics-eth-cumulative-profit-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updateCumulativeProfitChart('analytics', 'binance', 'eth', days, true);
+    });
+
+    // Update Binance ETH Positions Histogram Copy-Trading
+    document.getElementById("binance-copy-trading-eth-positions-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updatePositionsChart('copy-trading','binance', 'eth', days, false);
+    });
+
+    // Update Binance ETH Profit-Loss Chart Copy-Trading
+    document.getElementById("binance-copy-trading-eth-profit-loss-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updateProfitLossChart('copy-trading', 'binance', 'eth', days, false);
+    });
+
+    // Update Binance ETH Cumulative Profits Chart Copy-Trading
+    document.getElementById("binance-copy-trading-eth-cumulative-profit-timeRange").addEventListener("change", (event) => {
+        const days = parseInt(event.target.value);
+        updateCumulativeProfitChart('copy-trading', 'binance', 'eth', days, false);
+    });    
 });

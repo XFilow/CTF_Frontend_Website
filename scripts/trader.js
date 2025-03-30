@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateUserMenu(traderInfo) {
         const displayName = traderInfo.username || traderInfo.email;
         userDropdownToggle.textContent = displayName;
+        userDropdownToggle.style.fontWeight = 'bold';
         userMenuLogged.style.display = 'flex';
         userMenuNotLogged.style.display = 'none';
     }
@@ -217,30 +218,79 @@ document.addEventListener('DOMContentLoaded', function() {
             }
     
             const balanceData = await balanceResponse.json();
+            const balanceChartData = {
+                labels: [],
+                datasets: [{
+                    data: [],
+                    backgroundColor: []
+                }]
+            };
+
             for (const exchange in balanceData) {
                 if (balanceData.hasOwnProperty(exchange) && balanceData[exchange].message !== 'No exchange data' && Object.keys(balanceData[exchange]).length > 0) {
                     const exchangeData = balanceData[exchange];
-    
+        
                     // Find the container dynamically
                     document.getElementById(`${exchange}-portfolio`).style.display = 'inline-block';
                     const exchangeFuturesBalance = document.getElementById(`${exchange}-balance`);
-    
+        
                     if (!exchangeFuturesBalance) {
                         console.log(`No container found for exchange: ${exchange}`);
                         continue;
                     }
-    
+        
                     // Clear existing balances
                     exchangeFuturesBalance.innerHTML = '';
-    
-                    // Populate balances
+        
+                    // Prepare chart data
+                    const balanceChartData = {
+                        labels: [],
+                        datasets: [{
+                            data: [],
+                            backgroundColor: []
+                        }]
+                    };
+        
+                    // Collect balance data
+                    const balances = [];
                     for (const asset in exchangeData) {
                         if (exchangeData.hasOwnProperty(asset) && parseFloat(exchangeData[asset]) > 0) {
-                            const p = document.createElement('p');
-                            p.textContent = `${exchangeData[asset]} ${asset.toUpperCase()}`;
-                            exchangeFuturesBalance.appendChild(p);
+                            balances.push({ asset: asset.toUpperCase(), amount: parseFloat(exchangeData[asset]) });
                         }
                     }
+        
+                    // Sort balances in descending order
+                    balances.sort((a, b) => b.amount - a.amount);
+        
+                    // Assign colors and populate chart data
+                    balances.forEach((balance, index) => {
+                        const p = document.createElement('p');
+                        p.textContent = `${balance.amount} ${balance.asset}`;
+                        exchangeFuturesBalance.appendChild(p);
+        
+                        // Add data for the pie chart
+                        balanceChartData.labels.push(balance.asset);
+                        balanceChartData.datasets[0].data.push(balance.amount);
+                        balanceChartData.datasets[0].backgroundColor.push(getShadeOfGrey(index));
+                    });
+        
+                    // Create the pie chart
+                    const ctx = document.getElementById(`${exchange}-balancePieChart`).getContext('2d');
+                    new Chart(ctx, {
+                        type: 'pie',
+                        data: balanceChartData,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: false // Hide the legend
+                                },
+                                tooltip: {
+                                    enabled: true // Ensure tooltips are enabled for user interaction
+                                }
+                            }
+                        }
+                    });
                 }
             }
 
@@ -269,6 +319,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    function getShadeOfGrey(index) {
+        const baseColor = 240 - Math.floor(index * 40); // Decrease brightness with index
+        return `rgba(${baseColor}, ${baseColor}, ${baseColor})`;
+    }
+
     async function updateExchanges() {
         document.getElementById('new-exchange-container').classList.remove('active');
         document.getElementById('add-exchange-container').classList.add('active');
@@ -747,10 +802,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const previousPeriodDate = getPreviousPeriod(firstTradeDate, windowSize);
             const previousPeriodLabel = formatLabel(previousPeriodDate, windowSize);
 
+            /*
+            // Calculate the previous period's value
+            const previousPeriodValue = aggregatedProfits[previousPeriodLabel] || 0;
+
             // Ensure chart starts at zero
             labels.unshift(previousPeriodLabel);
-            profitData.unshift(0); // Start with zero
-    
+            profitData.unshift(previousPeriodValue); // Start with zero
+            */
+           
             // Determine color based on overall profit trend
             const firstProfit = profitData.length > 0 ? profitData[0] : 0;
             const lastProfit = profitData.length > 0 ? profitData[profitData.length - 1] : 0;
@@ -843,8 +903,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const previousPeriodLabel = formatLabel(previousPeriodDate, windowSize);
 
             // Ensure chart starts at zero
-            labels.unshift(previousPeriodLabel);
-            cumulativeData.unshift(0); // Start with zero
+            //labels.unshift(previousPeriodLabel);
+            //cumulativeData.unshift(0); // Start with zero
     
             // Determine color based on overall profit trend
             const firstProfit = cumulativeData.length > 0 ? cumulativeData[0] : 0;
@@ -1710,6 +1770,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const binanceBtcCopyTrading = document.getElementById('binance-btc-copy-trading');
         const binanceCopyTradingBtcCard = document.getElementById('binance-copy-trading-btc-card');
         const binanceBtcCopyTradingTitle = document.getElementById('binance-btc-copy-trading-title');
+
+        const binanceEthCopyTrading = document.getElementById('binance-eth-copy-trading');
+        const binanceCopyTradingEthCard = document.getElementById('binance-copy-trading-eth-card');
+        const binanceEthCopyTradingTitle = document.getElementById('binance-eth-copy-trading-title');
         
         binanceBtcCopyTradingTitle.classList.toggle('expanded');
 
@@ -1720,6 +1784,13 @@ document.addEventListener('DOMContentLoaded', function() {
             binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
             binanceCopyTradingBtcCard.style.display = 'none';
         }
+
+        if (binanceCopyTradingEthCard.style.display === 'block') {
+            binanceEthCopyTradingTitle.classList.toggle('expanded');
+            binanceEthCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+            binanceCopyTradingEthCard.style.display = 'none';
+        }
+
     });
 
     // Copy-trade Charts Display for Binance ETH 
@@ -1727,6 +1798,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const binanceEthCopyTrading = document.getElementById('binance-eth-copy-trading');
         const binanceCopyTradingEthCard = document.getElementById('binance-copy-trading-eth-card');
         const binanceEthCopyTradingTitle = document.getElementById('binance-eth-copy-trading-title');
+
+        const binanceBtcCopyTrading = document.getElementById('binance-btc-copy-trading');
+        const binanceCopyTradingBtcCard = document.getElementById('binance-copy-trading-btc-card');
+        const binanceBtcCopyTradingTitle = document.getElementById('binance-btc-copy-trading-title');
         
         binanceEthCopyTradingTitle.classList.toggle('expanded');
 
@@ -1736,6 +1811,12 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             binanceEthCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
             binanceCopyTradingEthCard.style.display = 'none';
+        }
+
+        if (binanceCopyTradingBtcCard.style.display === 'block') {
+            binanceBtcCopyTradingTitle.classList.toggle('expanded');
+            binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+            binanceCopyTradingBtcCard.style.display = 'none';
         }
     });
 

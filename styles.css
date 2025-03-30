@@ -318,7 +318,7 @@ footer {
 }
 
 /* Media queries for tablets */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     body {
         background-image: url('../static/backgrounds/CTF_background_mobile.webp');
     }
@@ -382,7 +382,7 @@ footer {
 }
 
 /* Media queries for smartphones */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     body {
         background-image: url('../static/backgrounds/CTF_background_mobile.webp');
     }

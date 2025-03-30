@@ -164,13 +164,16 @@
                             </div>
                             <div id="binance-portfolio" class="card-content" style="display: none;">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
-                                <h3 class="card-content-title">Binance</h3>
+                                <h3 class="dashboard-content-title">Binance</h3>
                                 <div class="balances-container">
                                     <div class="balance-section">
                                         <h4>Futures Wallet</h4>
                                         <div id="binance-balance" class="inside-balance-section">
                                             <!-- Futures balances will be injected here -->
                                         </div>
+                                    </div>
+                                    <div id="binance-balance-pie" class="balance-pie">
+                                        <canvas id="binance-balancePieChart" class="dashboard-canvas"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +185,7 @@
                             </div>
                             <div id="binance-profit-loss" class="card-content" style="display: none;">
                                 <img src="../static/logos/binance_logo.webp" alt="Logo" class="exchange-logo">
-                                <h3 class="card-content-title">Binance</h3>
+                                <h3 class="dashboard-content-title">Binance</h3>
                                 <div class="profit-loss-container">
                                     <div id="binance-left-profit-loss-values" class="profit-loss-values" style="display: none;">
                                         <h4 id="binance-7d-text">Weekly PNL</h4>

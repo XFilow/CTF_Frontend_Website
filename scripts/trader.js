@@ -1171,10 +1171,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td>${pos.symbol}</td>
                     <td>${parseFloat(pos.positionAmt) > 0 ? 'Long' : 'Short'}</td>
                     <td>${pos.leverage}x</td>
-                    <td>${pos.positionAmt} ${pos.symbol.replace("USDT", "")}</td>
+                    <td>${pos.positionAmt} ${pos.symbol.replace("USDC", "")}</td>
                     <td>$${parseFloat(pos.entryPrice).toString()}</td>
                     <td id="markPrice-${pos.symbol}">$${markPrice}</td>
-                    <td id="pnl-${pos.symbol}">${pnl.toFixed(2)} USDT</td>
+                    <td id="pnl-${pos.symbol}">$${pnl.toFixed(2)}</td>
                     <td id="roi-${pos.symbol}">${roi}%</td>
                 </tr>
             `;
@@ -1201,7 +1201,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const roi = margin !== 0 ? ((pnl / margin) * 100).toFixed(2) : '0.00';
     
             row.querySelector(`#markPrice-${symbol}`).textContent = "$" + markPrice;
-            row.querySelector(`#pnl-${symbol}`).textContent = pnl.toFixed(2) + " USDT";
+            row.querySelector(`#pnl-${symbol}`).textContent = "$" + pnl.toFixed(2);
             row.querySelector(`#roi-${symbol}`).textContent = roi + "%";
         });
     }

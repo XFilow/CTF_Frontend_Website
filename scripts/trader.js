@@ -1171,7 +1171,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td>${pos.symbol}</td>
                     <td>${parseFloat(pos.positionAmt) > 0 ? 'Long' : 'Short'}</td>
                     <td>${pos.leverage}x</td>
-                    <td>${pos.positionAmt} ${pos.symbol.replace("USDC", "")}</td>
+                    <td>${pos.positionAmt} ${pos.symbol.replace("USDT", "")}</td>
                     <td>$${parseFloat(pos.entryPrice).toString()}</td>
                     <td id="markPrice-${pos.symbol}">$${markPrice}</td>
                     <td id="pnl-${pos.symbol}">$${pnl.toFixed(2)}</td>

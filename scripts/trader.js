@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/trader/info', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/info', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         try {
             // Fetch the list of exchanges
-            const exchangeResponse = await fetch(`http://localhost:5000/trader/exchanges`, {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/exchanges', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
     
             // Fetch balance only if exchanges exist
-            const balanceResponse = await fetch(`http://localhost:5000/trader/balance?exchange=${exchangeList.join(',')}`, {
+            const balanceResponse = await fetch(`https://api.cryptotradingflow.com/trader/balance?exchange=${exchangeList.join(',')}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         try {
             // Fetch the list of exchanges
-            const exchangeResponse = await fetch(`http://localhost:5000/trader/exchanges`, {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/exchanges', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const exchangeList = await exchangeResponse.json();
             //console.log(exchangeList);
 
-            const response = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchangeList.join(',')}`, {
+            const response = await fetch(`https://api.cryptotradingflow.com/trader/exchange?exchange=${exchangeList.join(',')}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -436,7 +436,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // Fetch the list of exchanges
-            const exchangeResponse = await fetch(`http://localhost:5000/trader/exchanges`, {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/exchanges', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -616,7 +616,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         try {
-            const response = await fetch(`http://localhost:5000/trader/open-positions?exchange=${exchange}&coin=${coin}&days=${days}&copytrade=${copyTrade}`, {
+            const response = await fetch(`https://api.cryptotradingflow.com/trader/open-positions?exchange=${exchange}&coin=${coin}&days=${days}&copytrade=${copyTrade}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -738,7 +738,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         try {
-            const response = await fetch(`http://localhost:5000/trader/trade-profits?exchange=${exchange}&coin=${coin}&days=${days}&copytrade=${copyTrade}`, {
+            const response = await fetch(`https://api.cryptotradingflow.com/trader/trade-profits?exchange=${exchange}&coin=${coin}&days=${days}&copytrade=${copyTrade}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -800,20 +800,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 //console.log("No profit/loss data available after filtering.");
                 return;
             }
-
-            /*
-            // Get the previous period label based on window size
-            const firstTradeDate = new Date(data[0].closeTime);
-            const previousPeriodDate = getPreviousPeriod(firstTradeDate, windowSize);
-            const previousPeriodLabel = formatLabel(previousPeriodDate, windowSize);
-            
-            // Calculate the previous period's value
-            const previousPeriodValue = aggregatedProfits[previousPeriodLabel] || 0;
-
-            // Ensure chart starts at zero
-            labels.unshift(previousPeriodLabel);
-            profitData.unshift(previousPeriodValue); // Start with zero
-            */
            
             // Determine color based on overall profit trend
             const firstProfit = profitData.length > 0 ? profitData[0] : 0;
@@ -905,10 +891,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const firstTradeDate = new Date(data[0].closeTime);
             const previousPeriodDate = getPreviousPeriod(firstTradeDate, windowSize);
             const previousPeriodLabel = formatLabel(previousPeriodDate, windowSize);
-
-            // Ensure chart starts at zero
-            //labels.unshift(previousPeriodLabel);
-            //cumulativeData.unshift(0); // Start with zero
     
             // Determine color based on overall profit trend
             const firstProfit = cumulativeData.length > 0 ? cumulativeData[0] : 0;
@@ -997,7 +979,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         try {
             // Fetch the list of exchanges
-            const exchangeResponse = await fetch(`http://localhost:5000/trader/exchanges`, {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/exchanges', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1080,7 +1062,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!token) return;
     
         try {
-            const listenKeyResponse = await fetch('http://localhost:5000/trader/listen-key', {
+            const listenKeyResponse = await fetch('https://api.cryptotradingflow.com/trader/listen-key', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1130,7 +1112,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
     
-            const response = await fetch('http://localhost:5000/trader/positions?exchange=binance', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/positions?exchange=binance', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1205,39 +1187,7 @@ document.addEventListener('DOMContentLoaded', function() {
             row.querySelector(`#roi-${symbol}`).textContent = roi + "%";
         });
     }
-/*    
-    let listenKeyInterval = null; // Store the interval ID
 
-    function keepAliveListenKey() {
-        setInterval(async () => {
-            const token = localStorage.getItem('token');
-            if (!token) return;
-    
-            try {
-                await fetch('http://localhost:5000/trader/listen-key', {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ exchange: 'binance' })
-                });
-                console.log('Listen key refreshed');
-            } catch (error) {
-                console.error('Error refreshing listen key:', error);
-            }
-        }, 30 * 60 * 1000); // Every 30 minutes
-    }
-
-    // Call this function to stop refreshing the listen key
-    function stopListenKeyRefresh() {
-        if (listenKeyInterval) {
-            clearInterval(listenKeyInterval);
-            listenKeyInterval = null;
-            console.log('Stopped listen key refresh');
-        }
-    }
-*/
     // Stop WebSockets when user leaves
     function stopWebSockets() {
         if (binanceSocket) {
@@ -1251,7 +1201,7 @@ document.addEventListener('DOMContentLoaded', function() {
             //console.log('Account Socket closed');
         }
     }
-    
+
     async function updateCopyTrading() {
         const noActiveBot = document.getElementById('no-active-bot');
         const binanceBTCBot = document.getElementById('binance-btc-bot');
@@ -1284,7 +1234,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // Fetch the list of exchanges
-            const exchangeResponse = await fetch(`http://localhost:5000/trader/exchanges`, {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/exchanges', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1301,7 +1251,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const exchangeList = await exchangeResponse.json();
             //console.log(exchangeList);
 
-            const response = await fetch(`http://localhost:5000/trader/trading-bots?exchange=${exchangeList.join(',')}`, {
+            const response = await fetch(`https://api.cryptotradingflow.com/trader/trading-bots?exchange=${exchangeList.join(',')}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1419,7 +1369,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             // Change username
             if (newUsername) {
-                const response = await fetch('http://localhost:5000/trader/username', {
+                const response = await fetch('https://api.cryptotradingflow.com/trader/username', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -1474,7 +1424,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (confirmed) {
             try {
-                const response = await fetch('http://localhost:5000/trader/terminate-account', {
+                const response = await fetch('https://api.cryptotradingflow.com/trader/terminate-account', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -1540,7 +1490,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
        
             // Send the password update request
-            const response = await fetch('http://localhost:5000/trader/password', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/password', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1627,7 +1577,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const getResponse = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchange}`, {
+            const getResponse = await fetch(`https://api.cryptotradingflow.com/trader/exchange?exchange=${exchange}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1647,7 +1597,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-            const postResponse = await fetch('http://localhost:5000/trader/exchange', {
+            const postResponse = await fetch('https://api.cryptotradingflow.com/trader/exchange', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1688,7 +1638,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/trader/exchange?exchange=${exchange}`, {
+            const response = await fetch(`https://api.cryptotradingflow.com/trader/exchange?exchange=${exchange}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1729,7 +1679,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!confirmDelete) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/trader/exchange`, {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/exchange', {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1834,7 +1784,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // Send the password update request
-            const response = await fetch('http://localhost:5000/trader/copy-trade', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1850,9 +1800,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Failed to copy-trade BTC:', response.statusText);
                 return;
             }
-
-            //const result = await response.json();
-            //console.log('Copy-trading BTC successful:', result);
 
             // Show BTC bot UI
             document.getElementById('no-active-bot').style.display = 'none';
@@ -1873,7 +1820,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // Send the password update request
-            const response = await fetch('http://localhost:5000/trader/copy-trade', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1889,9 +1836,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Failed to copy-trade ETH:', response.statusText);
                 return;
             }
-
-            //const result = await response.json();
-            //console.log('Copy-trading ETH successful:', result);
 
             // Show ETH bot UI
             document.getElementById('no-active-bot').style.display = 'none';
@@ -1918,7 +1862,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // Send the password update request
-            const response = await fetch('http://localhost:5000/trader/cancel-trade', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/cancel-trade', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1935,7 +1879,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const exchangeResponse = await fetch('http://localhost:5000/trader/trading-bots?exchange=binance', {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/trading-bots?exchange=binance', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1979,7 +1923,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // Send the password update request
-            const response = await fetch('http://localhost:5000/trader/cancel-trade', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/cancel-trade', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1996,7 +1940,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const exchangeResponse = await fetch('http://localhost:5000/trader/trading-bots?exchange=binance', {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/trading-bots?exchange=binance', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

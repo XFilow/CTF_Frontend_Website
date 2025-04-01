@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
             codeMessageContainer.textContent = '';
 
             try {
-                const response = await fetch('http://localhost:5000/register', {
+                const response = await fetch('https://api.cryptotradingflow.com/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
             codeMessageContainer.textContent = '';
 
             try {
-                const response = await fetch('http://localhost:5000/verify-code', {
+                const response = await fetch('https://api.cryptotradingflow.com/verify-code', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

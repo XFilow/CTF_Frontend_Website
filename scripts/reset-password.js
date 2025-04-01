@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
             resetEmail = document.getElementById('email').value.trim();
 
             try {
-                const response = await fetch('http://localhost:5000/reset-password', {
+                const response = await fetch('https://api.cryptotradingflow.com/reset-password', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
             passwordMessageContainer.textContent = '';
 
             try {
-                const response = await fetch('http://localhost:5000/verify-code', {
+                const response = await fetch('https://api.cryptotradingflow.com/verify-code', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
             passwordMessageContainer.textContent = '';
 
             try {
-                const response = await fetch('http://localhost:5000/new-password', {
+                const response = await fetch('https://api.cryptotradingflow.com/new-password', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

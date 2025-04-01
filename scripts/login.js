@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = document.getElementById('login-password').value.trim();
 
         try {
-            const response = await fetch('http://localhost:5000/login', { //https://cryptotradingflow/login
+            const response = await fetch('https://api.cryptotradingflow.com/login', { //https://cryptotradingflow/login
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

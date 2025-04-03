@@ -189,6 +189,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const emptyPortfolio = document.getElementById('empty-portfolio');
         const emptyProfitLoss = document.getElementById('empty-profit-loss');
 
+        console.log("updateDashboard() was called!");
+
         const copyTrade = false;
         const timeFrames = {
             "7d": { label: "Weekly", days: 7 },

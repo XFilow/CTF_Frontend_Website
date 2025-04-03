@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
         resetEmailForm.addEventListener('submit', async function(event) {
             event.preventDefault();
 
-            emailMessageContainer.textContent = '';
-            codeMessageContainer.textContent = '';
+            clearMessageStyles(emailMessageContainer);
+            clearMessageStyles(codeMessageContainer);
 
             resetEmail = document.getElementById('email').value.trim();
 
@@ -59,8 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const code = document.getElementById('code').value.trim();
 
-            codeMessageContainer.textContent = '';
-            passwordMessageContainer.textContent = '';
+            clearMessageStyles(codeMessageContainer);
+            clearMessageStyles(passwordMessageContainer);
 
             try {
                 const response = await fetch('https://api.cryptotradingflow.com/verify-code', {
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const newPassword = document.getElementById('new-password').value.trim();
             const confirmPassword = document.getElementById('confirm-password').value.trim();
 
-            passwordMessageContainer.textContent = '';
+            clearMessageStyles(passwordMessageContainer);
 
             try {
                 const response = await fetch('https://api.cryptotradingflow.com/new-password', {
@@ -133,5 +133,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 passwordMessageContainer.style.display = 'block';
             }
         });
+    }
+   
+    function clearMessageStyles(container) {
+        container.textContent = '';
+        container.style.display = 'none';
+        container.style.color = '';
+        container.style.borderColor = '';
     }
 });

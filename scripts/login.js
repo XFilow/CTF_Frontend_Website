@@ -5,14 +5,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check for the query parameter and display the message if present
     if (urlParams.has('message')) {
         const message = urlParams.get('message');
-        if (message === 'reset') {
+        if (message === 'register') {
+            loginMessageContainer.textContent = 'Your email has been registered';
+            loginMessageContainer.style.color = 'lime';
+            loginMessageContainer.style.borderColor = 'lime';
+            loginMessageContainer.style.display = 'block';
+        }
+        else if (message === 'reset') {
             loginMessageContainer.textContent = 'Your password has been updated';
             loginMessageContainer.style.color = 'lime';
             loginMessageContainer.style.borderColor = 'lime';
             loginMessageContainer.style.display = 'block';
         }
         else if(message === 'logout') {
-            loginMessageContainer.textContent = 'Successfully loged out';
+            loginMessageContainer.textContent = 'Successfully logged out';
             loginMessageContainer.style.color = 'lime';
             loginMessageContainer.style.borderColor = 'lime';
             loginMessageContainer.style.display = 'block';
@@ -26,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = document.getElementById('login-password').value.trim();
 
         try {
-            const response = await fetch('https://api.cryptotradingflow.com/login', { //https://cryptotradingflow/login
+            const response = await fetch('https://api.cryptotradingflow.com/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

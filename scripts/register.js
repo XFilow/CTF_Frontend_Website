@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const verifyCodeForm = document.getElementById('code-form-container');
 
             // Clear previous messages
-            formMessageContainer.textContent = '';
-            codeMessageContainer.textContent = '';
+            clearMessageStyles(formMessageContainer);
+            clearMessageStyles(codeMessageContainer);
 
             try {
                 const response = await fetch('https://api.cryptotradingflow.com/register', {
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const code = document.getElementById('code').value.trim();
 
             // Clear previous messages
-            codeMessageContainer.textContent = '';
+            clearMessageStyles(codeMessageContainer);
 
             try {
                 const response = await fetch('https://api.cryptotradingflow.com/verify-code', {
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
 
                 if (response.ok) {
-                    window.location.href = '/trader';
+                    window.location.href = 'login?message=register';
                 } else {
                     codeMessageContainer.textContent = data.message;
                     codeMessageContainer.style.color = 'red';
@@ -90,5 +90,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 codeMessageContainer.style.display = 'block';
             }
         });
+    }
+    
+    function clearMessageStyles(container) {
+        container.textContent = '';
+        container.style.display = 'none';
+        container.style.color = '';
+        container.style.borderColor = '';
     }
 });

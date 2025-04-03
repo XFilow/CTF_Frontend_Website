@@ -454,6 +454,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!Array.isArray(exchangeList) || exchangeList.length === 0) {
                 //console.log("No exchange data available.");
+                emptyAnalytics.style.display = 'block';
                 return; // Exit early if no exchanges
             }
             else {

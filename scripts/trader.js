@@ -365,6 +365,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const exchangeList = await exchangeResponse.json();
             //console.log(exchangeList);
 
+            if (!Array.isArray(exchangeList) || exchangeList.length === 0) {
+                return; // Exit early if no exchanges
+            }
+
             const response = await fetch(`https://api.cryptotradingflow.com/trader/exchange?exchange=${exchangeList.join(',')}`, {
                 method: 'GET',
                 headers: {

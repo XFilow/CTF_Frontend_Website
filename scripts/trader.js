@@ -295,8 +295,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
         
                     // Sort balances in descending order
-                    balances.sort((a, b) => b.amount - a.amount);
-        
+                    balances.sort((a, b) => b.usdAmount - a.usdAmount);
+                            
                     // Assign colors and populate chart data
                     balances.forEach((balance, index) => {
                         // Show the coin balance in the list below
@@ -326,10 +326,16 @@ document.addEventListener('DOMContentLoaded', function() {
                             responsive: true,
                             plugins: {
                                 legend: {
-                                    display: false // Hide the legend
+                                    display: false
                                 },
                                 tooltip: {
-                                    enabled: true // Ensure tooltips are enabled for user interaction
+                                    enabled: true,
+                                    callbacks: {
+                                        label: function(context) {
+                                            const value = context.parsed || 0;
+                                            return `$${value.toFixed(2)}`;
+                                        }
+                                    }
                                 }
                             }
                         }

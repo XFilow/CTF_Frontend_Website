@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check for token and update UI
     checkUserStatus();
-    console.log("starting!");
 
     navLinks.forEach(link => {
         link.addEventListener('click', function(event) {
@@ -39,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!token) {
             showLoginMenu();
         } else {
-            console.log("got token!");
             showLoadingState();
             updateDashboard();
             loadProfilePicture(token);
@@ -191,8 +189,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const emptyPortfolio = document.getElementById('empty-portfolio');
         const emptyProfitLoss = document.getElementById('empty-profit-loss');
 
-        console.log("updateDashboard() was called!");
-
         const copyTrade = false;
         const timeFrames = {
             "7d": { label: "Weekly", days: 7 },
@@ -284,8 +280,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     if (usdValues) {
                         for (const asset in usdValues) {
-                            if (usdValues.hasOwnProperty(asset) && usdValues[asset] > 0) {
-                                balances.push({ asset: asset.toUpperCase(), amount: usdValues[asset] });
+                            if (
+                                usdValues.hasOwnProperty(asset) &&
+                                usdValues[asset] > 0 &&
+                                exchangeData[asset] > 0 // Make sure coin balance also exists
+                            ) {
+                                balances.push({
+                                    asset: asset.toUpperCase(),
+                                    coinAmount: exchangeData[asset],
+                                    usdAmount: usdValues[asset]
+                                });
                             }
                         }
                     }
@@ -295,17 +299,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
                     // Assign colors and populate chart data
                     balances.forEach((balance, index) => {
+                        // Show the coin balance in the list below
                         const p = document.createElement('p');
-                        p.textContent = `$${balance.amount.toFixed(2)} (${balance.asset})`;
+                        p.textContent = `${balance.coinAmount} ${balance.asset}`;
                         exchangeFuturesBalance.appendChild(p);
-
+                    
+                        // Show the USD value in the pie chart
                         balanceChartData.labels.push(balance.asset);
-                        balanceChartData.datasets[0].data.push(balance.amount);
+                        balanceChartData.datasets[0].data.push(balance.usdAmount);
                         balanceChartData.datasets[0].backgroundColor.push(getShadeOfGrey(index));
                     });
-        
-                    alert(`Loaded chart for ${exchange}`);
-                    console.log(`Chart data for ${exchange}:`, balanceChartData);
 
                     // Get the canvas context
                     const ctx = document.getElementById(`${exchange}-balancePieChart`).getContext('2d');

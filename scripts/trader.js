@@ -1079,7 +1079,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (binanceSocket && binanceSocket.readyState === WebSocket.OPEN) {
             console.warn('MarkPrice WebSocket already running.');
         } else {
-            binanceSocket = new WebSocket('wss://stream.binancefuture.com/ws/!markPrice@arr'); //wss://fstream.binance.com/ws/!markPrice@arr
+            binanceSocket = new WebSocket('wss://fstream.binance.com/ws/!markPrice@arr');
     
             binanceSocket.onopen = () => console.log('MarkPrice WebSocket connected');
             binanceSocket.onclose = () => {
@@ -1126,7 +1126,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const listenKeyData = await listenKeyResponse.json();
             if (!listenKeyData.listenKey) throw new Error('No listenKey received');
     
-            accountSocket = new WebSocket(`wss://stream.binancefuture.com/ws/${listenKeyData.listenKey}`); // wss://fstream.binance.com/ws/${listenKeyData.listenKey}
+            accountSocket = new WebSocket(`wss://fstream.binance.com/ws/${listenKeyData.listenKey}`);
     
             accountSocket.onopen = () => console.log('Account WebSocket connected');
             accountSocket.onclose = () => {

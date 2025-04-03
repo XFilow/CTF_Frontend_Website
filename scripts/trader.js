@@ -300,6 +300,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         balanceChartData.datasets[0].backgroundColor.push(getShadeOfGrey(index));
                     });
         
+                    console.log(`Chart data for ${exchange}:`, balanceChartData);
+
                     // Get the canvas context
                     const ctx = document.getElementById(`${exchange}-balancePieChart`).getContext('2d');
         

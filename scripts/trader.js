@@ -1233,25 +1233,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            // Fetch the list of exchanges
-            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/exchanges', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
+            // Iterate over each exchange and coin
+            AVAILABLE_EXCHANGES.forEach(exchange => {
+                AVAILABLE_COINS.forEach(coin => {
+                    updatePositionsChart(element, exchange, coin, days, copyTrade);
+                    updateProfitLossChart(element, exchange, coin, days, copyTrade);
+                    updateCumulativeProfitChart(element, exchange, coin, days, copyTrade);
+                    updateStatsTable(element, exchange, coin, 0, copyTrade);
+                });
             });
-    
-            if (!exchangeResponse.ok) {
-                console.error('Failed to fetch exchange data:', exchangeResponse.statusText);
-                return;
-            }
-    
-            // Extract JSON response
-            const exchangeList = await exchangeResponse.json();
-            //console.log(exchangeList);
 
-            const response = await fetch(`https://api.cryptotradingflow.com/trader/trading-bots?exchange=${exchangeList.join(',')}`, {
+            // Fetch active bots
+            const response = await fetch(`https://api.cryptotradingflow.com/trader/trading-bots?exchange=${AVAILABLE_EXCHANGES.join(',')}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1263,16 +1256,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Failed to trading bots data:', response.statusText);
                 return;
             }
-
-            // Iterate over each exchange and coin
-            AVAILABLE_EXCHANGES.forEach(exchange => {
-                AVAILABLE_COINS.forEach(coin => {
-                    updatePositionsChart(element, exchange, coin, days, copyTrade);
-                    updateProfitLossChart(element, exchange, coin, days, copyTrade);
-                    updateCumulativeProfitChart(element, exchange, coin, days, copyTrade);
-                    updateStatsTable(element, exchange, coin, 0, copyTrade);
-                });
-            });
 
             // Iterate over each exchange response
             const data = await response.json();

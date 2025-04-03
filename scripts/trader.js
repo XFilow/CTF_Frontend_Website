@@ -22,7 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Check for token and update UI
     checkUserStatus();
-    
+    console.log("starting!");
+
     navLinks.forEach(link => {
         link.addEventListener('click', function(event) {
             const contentId = event.currentTarget.getAttribute('data-section');
@@ -38,10 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!token) {
             showLoginMenu();
         } else {
+            console.log("got token!");
             showLoadingState();
+            updateDashboard();
             loadProfilePicture(token);
             updateUserInfo(token);
-            updateDashboard();
         }
     }
 

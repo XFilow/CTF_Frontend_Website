@@ -300,6 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         balanceChartData.datasets[0].backgroundColor.push(getShadeOfGrey(index));
                     });
         
+                    alert(`Loaded chart for ${exchange}`);
                     console.log(`Chart data for ${exchange}:`, balanceChartData);
 
                     // Get the canvas context

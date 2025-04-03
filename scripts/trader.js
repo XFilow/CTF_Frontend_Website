@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     callbacks: {
                                         label: function(context) {
                                             const value = context.parsed || 0;
-                                            return `$${value.toFixed(2)}`;
+                                            return ` $${value.toFixed(2)}`;
                                         }
                                     }
                                 }

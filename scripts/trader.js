@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showLoginMenu();
         } else {
             showLoadingState();
+            loadProfilePicture(token);
             updateUserInfo(token);
             updateDashboard();
         }
@@ -99,6 +100,31 @@ document.addEventListener('DOMContentLoaded', function() {
             return null; // Return null in case of an exception
         }
     }
+
+    async function loadProfilePicture(token) {
+        if (!token) {
+            console.log('User is not logged in');
+            return null; // Return null if the user is not logged in
+        }
+      
+        try {
+          const response = await fetch('https://api.cryptotradingflow.com/profile-picture', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+      
+          const data = await response.json();
+      
+          if (response.ok) {
+            userIcon.src = data.profilePictureUrl;
+          } else {
+            console.warn('No profile picture found or error:', data.message);
+          }
+        } catch (error) {
+          console.error('Error fetching profile picture:', error);
+        }
+      }
 
     // Update body content and header title
     function updateHeaderAndContent(event, contentId) {
@@ -1379,20 +1405,33 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Change picture
+            const maxSizeKB = 300; // Max size in kilobytes
             if (newPicture) {
-                const maxSizeKB = 300; // Max size in kilobytes
-
-                if (newPicture.size > maxSizeKB * 1024) {
-                    fileSizeError.textContent = 'File size exceeds 300KB';
-                } else {
+                if (newPicture.size <= maxSizeKB * 1024) {
                     fileSizeError.textContent = ''; // Clear any previous error message
-
-                    // Read and display the image
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        userIcon.src = e.target.result;
-                    };
-                    reader.readAsDataURL(newPicture);
+                
+                    const formData = new FormData();
+                    formData.append('profilePicture', newPicture);
+                
+                    const response = await fetch('https://api.cryptotradingflow.com/profile-picture', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}` // NO Content-Type! Let the browser set it for FormData.
+                        },
+                        body: formData
+                    });
+                
+                    if (response.ok) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            userIcon.src = e.target.result; // Update the preview
+                        };
+                        reader.readAsDataURL(newPicture);
+                    } else {
+                        console.error('Failed to upload profile picture');
+                    }
+                } else {
+                    fileSizeError.textContent = 'File size exceeds 300KB';
                 }
             }
         } catch (error) {

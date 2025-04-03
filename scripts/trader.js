@@ -274,11 +274,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         }]
                     };
         
-                    // Collect balance data
+                    // Collect USD-based balances
                     const balances = [];
-                    for (const asset in exchangeData) {
-                        if (exchangeData.hasOwnProperty(asset) && parseFloat(exchangeData[asset]) > 0) {
-                            balances.push({ asset: asset.toUpperCase(), amount: parseFloat(exchangeData[asset]) });
+                    const usdValues = exchangeData.usd_values;
+
+                    if (usdValues) {
+                        for (const asset in usdValues) {
+                            if (usdValues.hasOwnProperty(asset) && usdValues[asset] > 0) {
+                                balances.push({ asset: asset.toUpperCase(), amount: usdValues[asset] });
+                            }
                         }
                     }
         
@@ -288,10 +292,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Assign colors and populate chart data
                     balances.forEach((balance, index) => {
                         const p = document.createElement('p');
-                        p.textContent = `${balance.amount} ${balance.asset}`;
+                        p.textContent = `$${balance.amount.toFixed(2)} (${balance.asset})`;
                         exchangeFuturesBalance.appendChild(p);
-        
-                        // Add data for the pie chart
+
                         balanceChartData.labels.push(balance.asset);
                         balanceChartData.datasets[0].data.push(balance.amount);
                         balanceChartData.datasets[0].backgroundColor.push(getShadeOfGrey(index));

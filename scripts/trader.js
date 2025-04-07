@@ -231,6 +231,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return; // Exit early if no exchanges
             }
     
+            gettingStartedCard.style.display = 'none';
+            emptyPortfolio.style.display = 'none';
+            emptyProfitLoss.style.display = 'none';
+
             // Fetch balance only if exchanges exist
             const balanceResponse = await fetch(`https://api.cryptotradingflow.com/trader/balance?exchange=${exchangeList.join(',')}`, {
                 method: 'GET',

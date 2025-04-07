@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const contentId = event.currentTarget.getAttribute('data-section');
             if (contentId !== currentContentId) {
                 updateHeaderAndContent(event, contentId);
+                window.history.pushState(null, '', `#${contentId.replace('-section', '')}`);
                 currentContentId = contentId;
             }
         });
@@ -172,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateCopyTrading()
         }
     }
-
+    
     function updateProfile() {
         document.querySelector('.profile-username').textContent = traderInfo.username;
         document.querySelector('.profile-email').textContent = traderInfo.email;
@@ -1267,14 +1268,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const copyTrade = false;
         const element = 'copy-trading';
 
+        binanceBtcCopyTrading.classList.remove('expanded');
+        binanceEthCopyTrading.classList.remove('expanded');
         binanceBtcCopyTradingTitle.classList.remove('expanded');
         binanceEthCopyTradingTitle.classList.remove('expanded');
 
         binanceCopyTradingBtcCard.style.display = 'none';
-        binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+        //binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
 
         binanceCopyTradingEthCard.style.display = 'none';
-        binanceEthCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+        //binanceEthCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
 
         const token = localStorage.getItem('token');
         if (!token) {
@@ -1334,6 +1337,25 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching exchange data:', error);
         }
     }
+
+    // Run on page load if there's a hash in the URL
+    const hash = window.location.hash;
+    if (hash) {
+        const contentId = document.querySelector(`a[href="${hash}"]`)?.getAttribute('data-section');
+        if (contentId) {
+            updateHeaderAndContent({ currentTarget: document.querySelector(`a[href="${hash}"]`) }, contentId);
+            currentContentId = contentId;
+        }
+    }
+
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash;
+        const contentId = document.querySelector(`a[href="${hash}"]`)?.getAttribute('data-section');
+        if (contentId) {
+            updateHeaderAndContent({ currentTarget: document.querySelector(`a[href="${hash}"]`) }, contentId);
+            currentContentId = contentId;
+        }
+    });
 
     // Sidebar expansion
     sidebarToggle.addEventListener('click', function() {
@@ -1766,7 +1788,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
    
     // Copy-trade Charts Display for Binance BTC 
-    document.getElementById('binance-btc-copy-trading-title').addEventListener('click', async function() {
+    document.getElementById('binance-btc-copy-trading').addEventListener('click', async function() {
         const binanceBtcCopyTrading = document.getElementById('binance-btc-copy-trading');
         const binanceCopyTradingBtcCard = document.getElementById('binance-copy-trading-btc-card');
         const binanceBtcCopyTradingTitle = document.getElementById('binance-btc-copy-trading-title');
@@ -1775,19 +1797,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const binanceCopyTradingEthCard = document.getElementById('binance-copy-trading-eth-card');
         const binanceEthCopyTradingTitle = document.getElementById('binance-eth-copy-trading-title');
         
+        binanceBtcCopyTrading.classList.toggle('expanded');
         binanceBtcCopyTradingTitle.classList.toggle('expanded');
 
         if (binanceCopyTradingBtcCard.style.display === 'none') {
-            binanceBtcCopyTrading.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            //binanceBtcCopyTrading.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
             binanceCopyTradingBtcCard.style.display = 'block';
         } else {
-            binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+            //binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
             binanceCopyTradingBtcCard.style.display = 'none';
         }
 
         if (binanceCopyTradingEthCard.style.display === 'block') {
             binanceEthCopyTradingTitle.classList.toggle('expanded');
-            binanceEthCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+            binanceEthCopyTrading.classList.toggle('expanded');
+            //binanceEthCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
             binanceCopyTradingEthCard.style.display = 'none';
         }
 
@@ -1803,25 +1827,29 @@ document.addEventListener('DOMContentLoaded', function() {
         const binanceCopyTradingBtcCard = document.getElementById('binance-copy-trading-btc-card');
         const binanceBtcCopyTradingTitle = document.getElementById('binance-btc-copy-trading-title');
         
+        binanceEthCopyTrading.classList.toggle('expanded');
         binanceEthCopyTradingTitle.classList.toggle('expanded');
 
         if (binanceCopyTradingEthCard.style.display === 'none') {
-            binanceEthCopyTrading.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            //binanceEthCopyTrading.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
             binanceCopyTradingEthCard.style.display = 'block';
         } else {
-            binanceEthCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+            //binanceEthCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
             binanceCopyTradingEthCard.style.display = 'none';
         }
 
         if (binanceCopyTradingBtcCard.style.display === 'block') {
+            binanceBtcCopyTrading.classList.toggle('expanded');
             binanceBtcCopyTradingTitle.classList.toggle('expanded');
-            binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
+            //binanceBtcCopyTrading.style.backgroundColor = 'rgba(0, 0, 0, 0.75)';
             binanceCopyTradingBtcCard.style.display = 'none';
         }
     });
 
     // Copy-trade Binance BTC 
-    document.getElementById('binance-btc-copy-button').addEventListener('click', async function() {
+    document.getElementById('binance-btc-copy-button').addEventListener('click', async function(e) {
+        e.stopPropagation(); // Prevents parent click
+
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
@@ -1857,7 +1885,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Copy-trade Binance ETH 
-    document.getElementById('binance-eth-copy-button').addEventListener('click', async function() {
+    document.getElementById('binance-eth-copy-button').addEventListener('click', async function(e) {
+        e.stopPropagation(); // Prevents parent click
+
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');

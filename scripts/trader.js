@@ -228,6 +228,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 gettingStartedCard.style.display = 'block';
                 emptyPortfolio.style.display = 'block';
                 emptyProfitLoss.style.display = 'block';
+                document.getElementById(`binance-portfolio`).style.display = 'none';  
+                document.getElementById(`binance-profit-loss`).style.display = 'none';  
                 return; // Exit early if no exchanges
             }
     

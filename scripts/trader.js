@@ -1568,7 +1568,7 @@ document.addEventListener('DOMContentLoaded', function() {
         title.addEventListener('click', function() {
             const card = this.closest('.card'); // Find the parent card
             // Select all the target content elements inside the card
-            const targetContents = card.querySelectorAll('.card-content, .getting-started-content, .copy-trading-content, .table-content');    
+            const targetContents = card.querySelectorAll('.card-content, .user-manual-content, .copy-trading-content, .table-content');    
             targetContents.forEach(content => {
                 content.classList.toggle('collapsed');
             });

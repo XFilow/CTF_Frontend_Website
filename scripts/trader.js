@@ -190,6 +190,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const emptyPortfolio = document.getElementById('empty-portfolio');
         const emptyProfitLoss = document.getElementById('empty-profit-loss');
 
+        document.getElementById(`binance-portfolio`).style.display = 'none';  
+        document.getElementById(`binance-profit-loss`).style.display = 'none';  
+        gettingStartedCard.style.display = 'none';
+        emptyPortfolio.style.display = 'none';
+        emptyProfitLoss.style.display = 'none';
+
         const copyTrade = false;
         const timeFrames = {
             "7d": { label: "Weekly", days: 7 },
@@ -228,14 +234,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 gettingStartedCard.style.display = 'block';
                 emptyPortfolio.style.display = 'block';
                 emptyProfitLoss.style.display = 'block';
-                document.getElementById(`binance-portfolio`).style.display = 'none';  
-                document.getElementById(`binance-profit-loss`).style.display = 'none';  
                 return; // Exit early if no exchanges
             }
-    
-            gettingStartedCard.style.display = 'none';
-            emptyPortfolio.style.display = 'none';
-            emptyProfitLoss.style.display = 'none';
 
             // Fetch balance only if exchanges exist
             const balanceResponse = await fetch(`https://api.cryptotradingflow.com/trader/balance?exchange=${exchangeList.join(',')}`, {

@@ -840,8 +840,7 @@ td:nth-child(3) {
     }
 */
     .sidebar-menu a {
-        padding: 0.35em 1em;
-        font-size: 0.95em;
+        padding: 0.35em 0.9em;
     }
 
     .footer-icon-link {
@@ -903,7 +902,6 @@ td:nth-child(3) {
 */
     .sidebar-menu a {
         padding: 0.35em 1em;
-        font-size: 0.95em;
     }
 
     .footer-icon-link {

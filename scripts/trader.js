@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function updateWindowOnResize() {
+        console.log("Resized!"); // Debug
         const isSmallScreen = window.innerWidth <= 1000;
         if (isSmallScreen) {
             document.body.classList.add('icons-only');

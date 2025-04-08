@@ -1509,7 +1509,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Clear local storage or perform any other cleanup
                     localStorage.removeItem('token');
                     alert('Your account has been terminated.');
-                    window.location.href = 'login?message=account-terminated';
+                    window.location.href = 'login?message=terminated';
                 } else {
                     const errorData = await response.json();
                     alert(`Failed to terminate account: ${errorData.message}`);
@@ -1853,6 +1853,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Copy-trade Binance BTC 
     document.getElementById('binance-btc-copy-button').addEventListener('click', async function(e) {
+
+        const confirmCopy = confirm('Are you sure you want to copy-trade the BTCUSDT trading bot?');
+        if (!confirmCopy) return;
+
         e.stopPropagation(); // Prevents parent click
 
         const token = localStorage.getItem('token');
@@ -1860,9 +1864,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('User is not logged in');
             return;
         }
-
-        const confirmCopy = alert('Are you sure you want to copy-trade the BTCUSDT trading bot?');
-        if (!confirmCopy) return;
 
         try {
             // Send the password update request

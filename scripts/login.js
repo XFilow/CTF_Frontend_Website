@@ -23,6 +23,12 @@ document.addEventListener('DOMContentLoaded', function() {
             loginMessageContainer.style.borderColor = 'lime';
             loginMessageContainer.style.display = 'block';
         }
+        else if(message === 'terminated') {
+            loginMessageContainer.textContent = 'Your account was terminated';
+            loginMessageContainer.style.color = 'lime';
+            loginMessageContainer.style.borderColor = 'lime';
+            loginMessageContainer.style.display = 'block';
+        }
     }
 
     // Handle the login form submission

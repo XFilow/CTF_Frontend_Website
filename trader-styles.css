@@ -867,11 +867,11 @@ td:nth-child(3) {
     }
 
     body.icons-only .main-content {
-        width: calc(100% - 70px);
+        width: 100%;
     }
 
     body.icons-only .content-header {
-        width: calc(100% - 70px);
+        width: 100%;
     }
 }
 
@@ -929,10 +929,10 @@ td:nth-child(3) {
     }
 
     body.icons-only .main-content {
-        width: calc(100% - 50px);
+        width: 100%;
     }
 
     body.icons-only .content-header {
-        width: calc(100% - 50px);
+        width: 100%;
     }
 }

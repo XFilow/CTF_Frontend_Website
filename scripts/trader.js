@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const navLinks = document.querySelectorAll('.sidebar-menu ul li a');
     const userIcon = document.getElementById('user-icon');
     const userMenuLogged = document.getElementById('user-menu-logged');
     const userMenuNotLogged = document.getElementById('user-menu-not-logged');
@@ -27,10 +26,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    document.getElementById('binance-analytics-btc-card').classList.toggle('collapsed');
+    document.getElementById('binance-analytics-eth-card').classList.toggle('collapsed');
+
     // Check for token and update UI
     checkUserStatus();
 
-    navLinks.forEach(link => {
+    document.querySelectorAll('.sidebar-menu ul li a').forEach(link => {
         link.addEventListener('click', function(event) {
             const contentId = event.currentTarget.getAttribute('data-section');
             if (contentId !== currentContentId) {
@@ -1377,6 +1379,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const mainContent = document.getElementById('main-content');
         const sidebar = document.querySelector('.sidebar');
 
+        if (window.innerWidth < 1000) return;
+
         sidebar.classList.toggle('expanded');
         mainContent.classList.toggle('expanded');
         document.body.classList.toggle('icons-only');
@@ -1899,7 +1903,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Copy-trade Binance ETH 
     document.getElementById('binance-eth-copy-button').addEventListener('click', async function(e) {
         e.stopPropagation(); // Prevents parent click
-
+        /*
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
@@ -1934,6 +1938,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error('Error copy-trading ETH:', error);
         }
+            */
     });
     
     // Cancel-trade Binance BTC 

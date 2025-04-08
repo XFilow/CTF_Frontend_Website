@@ -1855,12 +1855,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Copy-trade Binance BTC 
     document.getElementById('binance-btc-copy-button').addEventListener('click', async function(e) {
         e.stopPropagation(); // Prevents parent click
+        const confirmed = confirm('Are you sure you want to terminate your account? This action cannot be undone.');
 
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
             return;
         }
+
+        const confirmCopy = confirm('Are you sure you want to copy-trade the BTCUSDT trading bot?');
+        if (!confirmCopy) return;
 
         try {
             // Send the password update request
@@ -1899,6 +1903,9 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('User is not logged in');
             return;
         }
+
+        const confirmCopy = confirm('Are you sure you want to copy-trade the ETHUSDT trading bot?');
+        if (!confirmCopy) return;
 
         try {
             // Send the password update request
@@ -1941,6 +1948,9 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('User is not logged in');
             return;
         }
+        
+        const confirmCopy = confirm('Are you sure you want to stop copy-trading the BTCUSDT bot?');
+        if (!confirmCopy) return;
 
         try {
             // Send the password update request
@@ -2002,6 +2012,9 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('User is not logged in');
             return;
         }
+
+        const confirmCopy = confirm('Are you sure you want to stop copy-trading the ETHUSDT bot?');
+        if (!confirmCopy) return;
 
         try {
             // Send the password update request

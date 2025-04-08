@@ -20,6 +20,15 @@ document.addEventListener('DOMContentLoaded', function() {
     let profitLossCharts = {};
     let cumulativeProfitCharts = {};
 
+    if (window.innerWidth < 1000) {
+        document.body.classList.toggle('icons-only');
+
+        sidebarTitle.style.display = sidebarTitle.style.display === 'none' ? 'block' : 'none';
+        menuTexts.forEach(text => {
+            text.style.display = text.style.display === 'none' ? 'inline' : 'none';
+        });
+    }
+    
     // Check for token and update UI
     checkUserStatus();
 

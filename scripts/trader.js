@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const mainContent = document.getElementById('main-content');
     const userIcon = document.getElementById('user-icon');
+    const sidebar = document.querySelector('.sidebar');
     const sidebarTitle = document.querySelector('.sidebar-title');
     const menuTexts = document.querySelectorAll('.sidebar-menu a span');
     const userMenuLogged = document.getElementById('user-menu-logged');
@@ -40,10 +42,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const isSmallScreen = window.innerWidth <= 1000;
         if (isSmallScreen) {
             document.body.classList.add('icons-only');
+            sidebar.classList.remove('expanded');
+            mainContent.classList.remove('expanded');
             sidebarTitle.style.display = 'none';
             menuTexts.forEach(text => text.style.display = 'none');
         } else {
             document.body.classList.remove('icons-only');
+            sidebar.classList.add('expanded');
+            mainContent.classList.add('expanded');
             sidebarTitle.style.display = 'block';
             menuTexts.forEach(text => text.style.display = 'inline');
         }
@@ -1388,10 +1394,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Sidebar expansion
     document.getElementById('sidebar-toggle').addEventListener('click', function() {
-        const mainContent = document.getElementById('main-content');
-        const sidebar = document.querySelector('.sidebar');
 
-        if (window.innerWidth < 1000) return;
+        if (window.innerWidth <= 1000) return;
 
         sidebar.classList.toggle('expanded');
         mainContent.classList.toggle('expanded');

@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const userIcon = document.getElementById('user-icon');
+    const sidebarTitle = document.querySelector('.sidebar-title');
+    const menuTexts = document.querySelectorAll('.sidebar-menu a span');
     const userMenuLogged = document.getElementById('user-menu-logged');
     const userMenuNotLogged = document.getElementById('user-menu-not-logged');
     const userDropdownToggle = document.getElementById('user-dropdown-toggle');
@@ -18,18 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let profitLossCharts = {};
     let cumulativeProfitCharts = {};
 
-    if (window.innerWidth < 1000) {
-        document.body.classList.toggle('icons-only');
-        document.querySelector('.sidebar-title').style.display = 'none';
-        document.querySelectorAll('.sidebar-menu a span').forEach(text => {
-            text.style.display = 'none';
-        });
-    }
-    
-    document.getElementById('binance-analytics-btc-card').classList.toggle('collapsed');
-    document.getElementById('binance-analytics-eth-card').classList.toggle('collapsed');
-
-    // Check for token and update UI
+    // Update UI for window size
+    updateWindowOnResize();
+    // Check for user token
     checkUserStatus();
 
     document.querySelectorAll('.sidebar-menu ul li a').forEach(link => {
@@ -42,6 +35,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    function updateWindowOnResize() {
+        const isSmallScreen = window.innerWidth <= 1000;
+        if (isSmallScreen) {
+            document.body.classList.add('icons-only');
+            sidebarTitle.style.display = 'none';
+            menuTexts.forEach(text => text.style.display = 'none');
+        } else {
+            document.body.classList.remove('icons-only');
+            sidebarTitle.style.display = 'block';
+            menuTexts.forEach(text => text.style.display = 'inline');
+        }
+    }
 
     function checkUserStatus() {
         const token = localStorage.getItem('token');
@@ -1363,6 +1369,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Listen for hash change
     window.addEventListener('hashchange', () => {
         const hash = window.location.hash;
         const contentId = document.querySelector(`a[href="${hash}"]`)?.getAttribute('data-section');
@@ -1371,11 +1378,16 @@ document.addEventListener('DOMContentLoaded', function() {
             currentContentId = contentId;
         }
     });
+    
+    // Listen for window resize
+    window.addEventListener('resize', updateWindowOnResize);
+
+    // User menu
+    userDropdownToggle.addEventListener('click', toggleDropdownMenu);
+    userIcon.addEventListener('click', toggleDropdownMenu);
 
     // Sidebar expansion
     document.getElementById('sidebar-toggle').addEventListener('click', function() {
-        const menuTexts = document.querySelectorAll('.sidebar-menu a span');
-        const sidebarTitle = document.querySelector('.sidebar-title');
         const mainContent = document.getElementById('main-content');
         const sidebar = document.querySelector('.sidebar');
 
@@ -1394,10 +1406,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleDropdownMenu() {
         userDropdownMenu.style.display = userDropdownMenu.style.display === 'block' ? 'none' : 'block';
     }
-
-    // User menu
-    userDropdownToggle.addEventListener('click', toggleDropdownMenu);
-    userIcon.addEventListener('click', toggleDropdownMenu);
 
     // Event content handler
     userDropdownMenu.querySelectorAll('li a').forEach(item => {

@@ -1495,7 +1495,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Confirm before deleting account
-        if (!confirm('Confirmation Needed: Terminate your account? This action cannot be undone.')) return;
+        if (!confirm('Terminate your account? This action cannot be undone.')) return;
 
         try {
             const response = await fetch('https://api.cryptotradingflow.com/trader/terminate-account', {
@@ -1664,7 +1664,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (exchangeData[exchange] && exchangeData[exchange].exchange_name) {
                     if (exchange === exchangeData[exchange].exchange_name.toLowerCase()) {
                         // Confirm before editing exchange
-                        if (!confirm(`Confirmation Needed: Edit the current ${exchangeData[exchange].exchange_name} API?`)) return;
+                        if (!confirm(`Edit the current ${exchangeData[exchange].exchange_name} API?`)) return;
                     }
                 }
             }
@@ -1747,7 +1747,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Confirm before deleting exchange
-        if (!confirm(`Confirmation Needed: Delete the ${exchange.charAt(0).toUpperCase() + exchange.slice(1)} API?`)) return;
+        if (!confirm(`Delete the ${exchange.charAt(0).toUpperCase() + exchange.slice(1)} API?`)) return;
 
         try {
             const response = await fetch('https://api.cryptotradingflow.com/trader/exchange', {
@@ -1859,7 +1859,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (!confirm('Confirmation Needed: Start Copy-Trading the Binance BTCUSDT Bot?')) return;
+        if (!confirm('Start Copy-Trading the Binance BTCUSDT Bot?')) return;
 
         try {
             // Send the password update request
@@ -1899,7 +1899,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (!confirm('Confirmation Needed: Start Copy-Trading the Binance ETHUSDT Bot?')) return;
+        if (!confirm('Start Copy-Trading the Binance ETHUSDT Bot?')) return;
 
         try {
             // Send the password update request
@@ -1943,7 +1943,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (!confirm('Confirmation Needed: Stop Copy-Trading the Binance BTCUSDT Bot?')) return;
+        if (!confirm('Stop Copy-Trading the Binance BTCUSDT Bot?')) return;
 
         try {
             // Send the password update request
@@ -2006,7 +2006,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (!confirm('Confirmation Needed: Stop Copy-Trading the Binance ETHUSDT Bot?')) return;
+        if (!confirm('Stop Copy-Trading the Binance ETHUSDT Bot?')) return;
 
         try {
             // Send the password update request

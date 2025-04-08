@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Meta Description -->
+    <meta name="title" content="Crypto Trading Flow">
     <meta name="description" content="Automate your crypto trades like never before. Copy-trade advanced strategies, receive real-time alerts, and access trading analytics." />
     <meta name="keywords" content="automated trading, crypto trading bots, bitcoin bots, crypto alerts, copy-trading, trading signals" />
     <meta name="author" content="Crypto Trading Flow" />
@@ -16,6 +17,7 @@
     
     <!-- Open Graph (Facebook/Discord/LinkedIn) -->
     <meta property="og:title" content="Crypto Trading Flow" />
+    <meta property="og:site_name" content="Crypto Trading Flow" />
     <meta property="og:description" content="Automate your crypto trades like never before. Copy-trade advanced strategies, receive real-time alerts, and access trading analytics." />
     <meta property="og:image" content="https://cryptotradingflow.com/static/logos/CTF_logo.png" />
     <meta property="og:url" content="https://cryptotradingflow.com" />
@@ -36,16 +38,41 @@
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Crypto Trading Flow",
-        "url": "https://cryptotradingflow.com",
-        "logo": "https://cryptotradingflow.com/static/logos/CTF_logo.png",
-        "sameAs": [
-        "https://twitter.com/CTradingFlow",
-        "https://discord.gg/fxNe2x8SCD",
-        "https://t.me/cryptotradingflow"
-        ]
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://cryptotradingflow.com/#organization",
+          "name": "Crypto Trading Flow",
+          "url": "https://cryptotradingflow.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://cryptotradingflow.com/static/logos/CTF_logo.png",
+            "width": 512,
+            "height": 512
+          },
+          "sameAs": [
+            "https://twitter.com/CTradingFlow",
+            "https://discord.gg/fxNe2x8SCD",
+            "https://t.me/cryptotradingflow",
+            "https://www.youtube.com/@CTFlowbots"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://cryptotradingflow.com/#website",
+          "url": "https://cryptotradingflow.com",
+          "name": "Crypto Trading Flow",
+          "publisher": {
+            "@id": "https://cryptotradingflow.com/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://cryptotradingflow.com/?s={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
     }
     </script>
     
@@ -92,6 +119,9 @@
             </a>
             <a href="https://t.me/cryptotradingflow" class="footer-icon-link">
                 <img src="../static/icons/telegram_icon.webp" alt="Telegram Icon" class="footer-icons">
+            </a>
+            <a href="https://www.youtube.com/@CTFlowbots" class="footer-icon-link">
+                <img src="../static/icons/youtube_icon.webp" alt="Youtube Icon" class="footer-icons">
             </a>
         </div>
     </footer>

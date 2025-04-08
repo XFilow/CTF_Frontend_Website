@@ -1861,7 +1861,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const confirmCopy = confirm('Are you sure you want to copy-trade the BTCUSDT trading bot?');
+        const confirmCopy = alert('Are you sure you want to copy-trade the BTCUSDT trading bot?');
         if (!confirmCopy) return;
 
         try {

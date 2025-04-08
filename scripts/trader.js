@@ -1493,31 +1493,31 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('User is not logged in');
             return null; // Return null if the user is not logged in
         }
-        
-        const confirmed = confirm('Are you sure you want to terminate your account? This action cannot be undone.');
-        if (confirmed) {
-            try {
-                const response = await fetch('https://api.cryptotradingflow.com/trader/terminate-account', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
 
-                if (response.ok) {
-                    // Clear local storage or perform any other cleanup
-                    localStorage.removeItem('token');
-                    alert('Your account has been terminated.');
-                    window.location.href = 'login?message=terminated';
-                } else {
-                    const errorData = await response.json();
-                    alert(`Failed to terminate account: ${errorData.message}`);
+        // Confirm before deleting account
+        if (!confirm('Confirmation Needed: Terminate your account? This action cannot be undone.')) return;
+
+        try {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/terminate-account', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 }
-            } catch (error) {
-                console.error('Error terminating account:', error);
-                alert('An error occurred while terminating your account.');
+            });
+
+            if (response.ok) {
+                // Clear local storage or perform any other cleanup
+                localStorage.removeItem('token');
+                alert('Your account has been terminated.');
+                window.location.href = 'login?message=terminated';
+            } else {
+                const errorData = await response.json();
+                alert(`Failed to terminate account: ${errorData.message}`);
             }
+        } catch (error) {
+            console.error('Error terminating account:', error);
+            alert('An error occurred while terminating your account.');
         }
     });
 
@@ -1663,9 +1663,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
                 if (exchangeData[exchange] && exchangeData[exchange].exchange_name) {
                     if (exchange === exchangeData[exchange].exchange_name.toLowerCase()) {
-                        // Confirm before deleting
-                        const confirmEdit = confirm(`Are you sure you want to edit the current ${exchangeData[exchange].exchange_name} API?`);
-                        if (!confirmEdit) return;
+                        // Confirm before editing exchange
+                        if (!confirm(`Confirmation Needed: Edit the current ${exchangeData[exchange].exchange_name} API?`)) return;
                     }
                 }
             }
@@ -1747,9 +1746,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Confirm before deleting
-        const confirmDelete = confirm(`Are you sure you want to delete the ${exchange.charAt(0).toUpperCase() + exchange.slice(1)} API?`);
-        if (!confirmDelete) return;
+        // Confirm before deleting exchange
+        if (!confirm(`Confirmation Needed: Delete the ${exchange.charAt(0).toUpperCase() + exchange.slice(1)} API?`)) return;
 
         try {
             const response = await fetch('https://api.cryptotradingflow.com/trader/exchange', {
@@ -1861,7 +1859,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (!confirm('Are you sure you want to copy-trade the BTCUSDT trading bot?')) return;
+        if (!confirm('Confirmation Needed: Start Copy-Trading the Binance BTCUSDT Bot?')) return;
 
         try {
             // Send the password update request
@@ -1901,7 +1899,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (!confirm('Are you sure you want to copy-trade the ETHUSDT trading bot?')) return;
+        if (!confirm('Confirmation Needed: Start Copy-Trading the Binance ETHUSDT Bot?')) return;
 
         try {
             // Send the password update request
@@ -1945,7 +1943,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (!confirm('Are you sure you want to stop copy-trading the BTCUSDT bot?')) return;
+        if (!confirm('Confirmation Needed: Stop Copy-Trading the Binance BTCUSDT Bot?')) return;
 
         try {
             // Send the password update request
@@ -2008,7 +2006,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (!confirm('Are you sure you want to stop copy-trading the ETHUSDT bot?')) return;
+        if (!confirm('Confirmation Needed: Stop Copy-Trading the Binance ETHUSDT Bot?')) return;
 
         try {
             // Send the password update request

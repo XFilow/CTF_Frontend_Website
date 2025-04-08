@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const sidebarToggle = document.getElementById('sidebar-toggle');
     const navLinks = document.querySelectorAll('.sidebar-menu ul li a');
     const userIcon = document.getElementById('user-icon');
     const userMenuLogged = document.getElementById('user-menu-logged');
@@ -22,10 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (window.innerWidth < 1000) {
         document.body.classList.toggle('icons-only');
-
-        sidebarTitle.style.display = sidebarTitle.style.display === 'none' ? 'block' : 'none';
-        menuTexts.forEach(text => {
-            text.style.display = text.style.display === 'none' ? 'inline' : 'none';
+        document.querySelector('.sidebar-title').style.display = 'none';
+        document.querySelectorAll('.sidebar-menu a span').forEach(text => {
+            text.style.display = 'none';
         });
     }
     
@@ -1373,7 +1371,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Sidebar expansion
-    sidebarToggle.addEventListener('click', function() {
+    document.getElementById('sidebar-toggle').addEventListener('click', function() {
         const menuTexts = document.querySelectorAll('.sidebar-menu a span');
         const sidebarTitle = document.querySelector('.sidebar-title');
         const mainContent = document.getElementById('main-content');

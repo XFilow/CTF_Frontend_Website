@@ -1488,14 +1488,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Terminate Account
     document.getElementById('terminate-profile-button').addEventListener('click', async function() {
-        const confirmed = confirm('Are you sure you want to terminate your account? This action cannot be undone.');
-
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
             return null; // Return null if the user is not logged in
         }
         
+        const confirmed = confirm('Are you sure you want to terminate your account? This action cannot be undone.');
         if (confirmed) {
             try {
                 const response = await fetch('https://api.cryptotradingflow.com/trader/terminate-account', {
@@ -1855,7 +1854,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Copy-trade Binance BTC 
     document.getElementById('binance-btc-copy-button').addEventListener('click', async function(e) {
         e.stopPropagation(); // Prevents parent click
-        const confirmed = confirm('Are you sure you want to terminate your account? This action cannot be undone.');
 
         const token = localStorage.getItem('token');
         if (!token) {

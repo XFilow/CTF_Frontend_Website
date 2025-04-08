@@ -1949,8 +1949,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        const confirmCopy = confirm('Are you sure you want to stop copy-trading the BTCUSDT bot?');
-        if (!confirmCopy) return;
+        const confirmCancel = confirm('Are you sure you want to stop copy-trading the BTCUSDT bot?');
+        if (!confirmCancel) return;
 
         try {
             // Send the password update request
@@ -2013,8 +2013,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const confirmCopy = confirm('Are you sure you want to stop copy-trading the ETHUSDT bot?');
-        if (!confirmCopy) return;
+        const confirmCancel = confirm('Are you sure you want to stop copy-trading the ETHUSDT bot?');
+        if (!confirmCancel) return;
 
         try {
             // Send the password update request

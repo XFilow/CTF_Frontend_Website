@@ -26,7 +26,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 250px;
+    width: 230px;
     transition: width 0.3s;
     background-color: rgba(0, 0, 0, 0.9);
     padding: 0 0.5em 1em 0.5em;
@@ -270,6 +270,11 @@ body.icons-only .footer-icon-links {
 
 .card h4 {
     margin-top: 2em;
+    margin-bottom: 0;
+}
+
+.card h5 {
+    margin-top: 1em;
     margin-bottom: 0;
 }
 
@@ -821,7 +826,7 @@ td:nth-child(3) {
 
     .sidebar-header {
         /*margin-left: 0.1em;*/
-        margin: 0.5em 0.3em;
+        margin: 0.5em 0.45em;
     }
     
     .sidebar-logo {
@@ -833,11 +838,11 @@ td:nth-child(3) {
     }
 */
     .sidebar-menu a {
-        padding: 0.35em 0.9em;
+        padding: 0.35em 1em;
     }
 
     .footer-icon-link {
-        margin: 0.4em;
+        margin: 0.35em;
     }
 
     .main-content {
@@ -872,7 +877,8 @@ td:nth-child(3) {
 
     .sidebar-header {
         /*margin-left: 0.1em;*/
-        margin: 0 0.5em;
+        margin: 0 0.2em;
+        padding: 0;
     }
     
     .sidebar-logo {
@@ -886,7 +892,7 @@ td:nth-child(3) {
     }
 */
     .sidebar-menu a {
-        padding: 0.35em 1em;
+        padding: 0.3em 0.65em;
     }
 
     .footer-icon-link {
@@ -908,6 +914,6 @@ td:nth-child(3) {
 
     /* Icons-only mode */
     body.icons-only .sidebar {
-        width: 50px;
+        width: 40px;
     }
 }

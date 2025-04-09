@@ -96,14 +96,6 @@ body.icons-only .sidebar {
     width: 80px;
 }
 
-body.icons-only .main-content {
-    width: calc(100% - 80px);
-}
-
-body.icons-only .content-header {
-    width: calc(100% - 80px);
-}
-
 .sidebar-footer {
     margin-top: auto;
     display: flex;
@@ -153,10 +145,6 @@ body.icons-only .footer-icon-links {
     padding: 1em 1em 0.5em 1em; /* Adjust padding as needed */    z-index: 1000;
     width: 100%;
     top: 0;
-}
-
-.main-content.expanded .content-header {
-    width: 100%;
 }
 
 .exchange-logo {
@@ -864,14 +852,6 @@ td:nth-child(3) {
     body.icons-only .sidebar {
         width: 70px;
     }
-
-    body.icons-only .main-content {
-        width: 100%;
-    }
-
-    body.icons-only .content-header {
-        width: 100%;
-    }
 }
 
 /* Media queries for smartphones */
@@ -924,13 +904,5 @@ td:nth-child(3) {
     /* Icons-only mode */
     body.icons-only .sidebar {
         width: 50px;
-    }
-
-    body.icons-only .main-content {
-        width: 100%;
-    }
-
-    body.icons-only .content-header {
-        width: 100%;
     }
 }

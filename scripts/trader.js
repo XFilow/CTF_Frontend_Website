@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const mainContent = document.getElementById('main-content');
     const userIcon = document.getElementById('user-icon');
-    const sidebar = document.querySelector('.sidebar');
     const sidebarTitle = document.querySelector('.sidebar-title');
     const menuTexts = document.querySelectorAll('.sidebar-menu a span');
     const userMenuLogged = document.getElementById('user-menu-logged');
@@ -39,18 +37,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function updateWindowOnResize() {
-        console.log("Resized!"); // Debug
-        const isSmallScreen = window.innerWidth <= 1000;
+        //console.log("Resized!"); // Debug
+        const isSmallScreen = window.innerWidth <= 600;
         if (isSmallScreen) {
             document.body.classList.add('icons-only');
-            sidebar.classList.remove('expanded');
-            mainContent.classList.remove('expanded');
             sidebarTitle.style.display = 'none';
             menuTexts.forEach(text => text.style.display = 'none');
         } else {
             document.body.classList.remove('icons-only');
-            sidebar.classList.add('expanded');
-            mainContent.classList.add('expanded');
             sidebarTitle.style.display = 'block';
             menuTexts.forEach(text => text.style.display = 'inline');
         }
@@ -1396,10 +1390,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Sidebar expansion
     document.getElementById('sidebar-toggle').addEventListener('click', function() {
 
-        if (window.innerWidth <= 1000) return;
-
-        sidebar.classList.toggle('expanded');
-        mainContent.classList.toggle('expanded');
+        if (window.innerWidth <= 600) return;
+        //sidebar.classList.toggle('expanded');
+        //mainContent.classList.toggle('expanded');
         document.body.classList.toggle('icons-only');
 
         sidebarTitle.style.display = sidebarTitle.style.display === 'none' ? 'block' : 'none';

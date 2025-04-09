@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateWindowOnResize() {
         //console.log("Resized!"); // Debug
-        const isSmallScreen = window.innerWidth <= 600;
+        const isSmallScreen = window.innerWidth <= 900;
         if (isSmallScreen) {
             document.body.classList.add('icons-only');
             sidebarTitle.style.display = 'none';
@@ -1390,7 +1390,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Sidebar expansion
     document.getElementById('sidebar-toggle').addEventListener('click', function() {
 
-        if (window.innerWidth <= 600) return;
+        if (window.innerWidth <= 900) return;
         //sidebar.classList.toggle('expanded');
         //mainContent.classList.toggle('expanded');
         document.body.classList.toggle('icons-only');

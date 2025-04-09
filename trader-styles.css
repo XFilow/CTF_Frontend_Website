@@ -276,6 +276,13 @@ body.icons-only .footer-icon-links {
     margin-bottom: 0;
 }
 
+.card h2.collapsed,
+.card h3.collapsed,
+.card h4.collapsed,
+.card h5.collapsed {
+    margin: 0;
+}
+
 #getting-started-card {
     display: none;
     color: black;

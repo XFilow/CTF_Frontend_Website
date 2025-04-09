@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const pnlElement = document.getElementById(elementId);
                     const data = await fetchTradeProfits(exchange, 'ALL', days, copyTrade);
                     if (!data || data.length === 0) {
-                        pnlElement.textContent = `${label}: $0`;
+                        pnlElement.textContent = '$0';
                         continue;
                     }
                     

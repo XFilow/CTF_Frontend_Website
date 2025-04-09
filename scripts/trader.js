@@ -1621,7 +1621,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Analytics Titles toggle for sub-content
-    document.querySelectorAll('.analytics-card-title').forEach(title => {
+    document.querySelectorAll('.inside-card-title').forEach(title => {
         title.addEventListener('click', function () {
             const cardContent = this.closest('.card-content'); // Find the nearest card-content
             const targetContents = cardContent.querySelectorAll('.table-content, .canvas-content');

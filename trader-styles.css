@@ -745,6 +745,11 @@ td:nth-child(3) {
     transform: rotate(90deg);
 }
 
+#binance-analytics-card.collapsed {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
 #binance-analytics-btc-card,
 #binance-analytics-eth-card,
 #binance-copy-trading-btc-card,

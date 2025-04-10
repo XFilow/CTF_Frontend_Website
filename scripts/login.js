@@ -23,12 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
             loginMessageContainer.style.borderColor = 'lime';
             loginMessageContainer.style.display = 'block';
         }
-        else if(message === 'rate-limit') {
-            loginMessageContainer.textContent = 'Too many requests - Timeout';
-            loginMessageContainer.style.color = 'red';
-            loginMessageContainer.style.borderColor = 'red';
-            loginMessageContainer.style.display = 'block';
-        }
         else if(message === 'terminated') {
             loginMessageContainer.textContent = 'Your account was terminated';
             loginMessageContainer.style.color = 'red';

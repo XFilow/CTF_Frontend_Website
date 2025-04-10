@@ -9,10 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const AVAILABLE_EXCHANGES = ['binance']; // Add exchanges as needed , 'coinbase', 'bybit'
     const AVAILABLE_COINS = ['btc','eth']; // Add exchanges as needed , 'coinbase', 'bybit'
-
-    const requestQueue = [];
     
-    let isProcessingQueue = false;
     let traderInfo = null;
     let binanceSocket = null;
     let accountSocket = null;
@@ -22,57 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let positionsCharts = {};
     let profitLossCharts = {};
     let cumulativeProfitCharts = {};
-
-    function request(fetchFunction) {
-        return new Promise((resolve, reject) => {
-            requestQueue.push({ fetchFunction, resolve, reject });
-            processQueue();
-        });
-    }
-
-    async function processQueue() {
-        if (isProcessingQueue || requestQueue.length === 0) return;
-    
-        isProcessingQueue = true;
-        const { fetchFunction, resolve, reject } = requestQueue.shift();
-    
-        try {
-            const result = await fetchFunction();
-            resolve(result);
-        } catch (err) {
-            reject(err);
-        }
-    
-        // Wait before processing the next one
-        setTimeout(() => {
-            isProcessingQueue = false;
-            processQueue();
-        }, 500); // throttle delay (ms)
-    }
-
-    async function secureFetch(url, options = {}) {
-        const token = localStorage.getItem('token');
-    
-        if (!token) {
-            return null;
-        }
-    
-        const response = await fetch(url, {
-            ...options,
-            headers: {
-                ...options.headers,
-                Authorization: `Bearer ${token}`
-            }
-        });
-    
-        if (response.status === 429) {
-            localStorage.removeItem('token');
-            window.location.href = '/login?message=rate-limit';
-            return null;
-        }
-
-        return response;
-    }
 
     // Update UI for window size
     updateWindowOnResize();
@@ -151,13 +97,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const response = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/info', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/info', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
 
             if (response.ok) {
                 const traderInfo = await response.json();
@@ -179,11 +125,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       
         try {
-          const response = await request(() => secureFetch('https://api.cryptotradingflow.com/profile-picture', {
+          const response = await fetch('https://api.cryptotradingflow.com/profile-picture', {
             headers: {
               'Authorization': `Bearer ${token}`
             }
-          }));
+          });
       
           const data = await response.json();
       
@@ -282,13 +228,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
         try {
             // Fetch the list of exchanges
-            const exchangeResponse = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/exchanges', {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/exchanges', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
     
             if (!exchangeResponse.ok) {
                 console.error('Failed to fetch exchange data:', exchangeResponse.statusText);
@@ -308,13 +254,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Fetch balance only if exchanges exist
-            const balanceResponse = await request(() => secureFetch(`https://api.cryptotradingflow.com/trader/balance?exchange=${exchangeList.join(',')}`, {
+            const balanceResponse = await fetch(`https://api.cryptotradingflow.com/trader/balance?exchange=${exchangeList.join(',')}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
     
             if (!balanceResponse.ok) {
                 console.error('Failed to fetch balance data:', balanceResponse.statusText);
@@ -470,13 +416,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
         try {
             // Fetch the list of exchanges
-            const exchangeResponse = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/exchanges', {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/exchanges', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
     
             if (!exchangeResponse.ok) {
                 console.error('Failed to fetch exchange data:', exchangeResponse.statusText);
@@ -491,13 +437,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return; // Exit early if no exchanges
             }
 
-            const response = await request(() => secureFetch(`https://api.cryptotradingflow.com/trader/exchange?exchange=${exchangeList.join(',')}`, {
+            const response = await fetch(`https://api.cryptotradingflow.com/trader/exchange?exchange=${exchangeList.join(',')}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
     
             if (!response.ok) {
                 console.error('Failed to fetch exchange data:', response.statusText);
@@ -564,13 +510,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // Fetch the list of exchanges
-            const exchangeResponse = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/exchanges', {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/exchanges', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
     
             if (!exchangeResponse.ok) {
                 console.error('Failed to fetch exchange data:', exchangeResponse.statusText);
@@ -745,13 +691,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         try {
-            const response = await request(() => secureFetch(`https://api.cryptotradingflow.com/trader/open-positions?exchange=${exchange}&coin=${coin}&days=${days}&copytrade=${copyTrade}`, {
+            const response = await fetch(`https://api.cryptotradingflow.com/trader/open-positions?exchange=${exchange}&coin=${coin}&days=${days}&copytrade=${copyTrade}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
 
             return await response.json();
         } catch (error) {
@@ -867,13 +813,13 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         try {
-            const response = await request(() => secureFetch(`https://api.cryptotradingflow.com/trader/trade-profits?exchange=${exchange}&coin=${coin}&days=${days}&copytrade=${copyTrade}`, {
+            const response = await fetch(`https://api.cryptotradingflow.com/trader/trade-profits?exchange=${exchange}&coin=${coin}&days=${days}&copytrade=${copyTrade}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
             
             return await response.json();
         } catch (error) {
@@ -1108,13 +1054,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
         try {
             // Fetch the list of exchanges
-            const exchangeResponse = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/exchanges', {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/exchanges', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
     
             if (!exchangeResponse.ok) {
                 console.error('Failed to fetch exchange data:', exchangeResponse.statusText);
@@ -1191,14 +1137,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!token) return;
     
         try {
-            const listenKeyResponse = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/listen-key', {
+            const listenKeyResponse = await fetch('https://api.cryptotradingflow.com/trader/listen-key', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ exchange: 'binance' })
-            }));
+            });
     
             if (!listenKeyResponse.ok) throw new Error('Failed to get listenKey');
     
@@ -1241,13 +1187,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
     
-            const response = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/positions?exchange=binance', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/positions?exchange=binance', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
     
             if (!response.ok) throw new Error(`Failed to fetch positions: ${response.statusText}`);
     
@@ -1375,13 +1321,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             // Fetch active bots
-            const response = await request(() => secureFetch(`https://api.cryptotradingflow.com/trader/trading-bots?exchange=${AVAILABLE_EXCHANGES.join(',')}`, {
+            const response = await fetch(`https://api.cryptotradingflow.com/trader/trading-bots?exchange=${AVAILABLE_EXCHANGES.join(',')}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
 
             if (!response.ok) {
                 console.error('Failed to trading bots data:', response.statusText);
@@ -1503,14 +1449,14 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             // Change username
             if (newUsername) {
-                const response = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/username', {
+                const response = await fetch('https://api.cryptotradingflow.com/trader/username', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ newUsername })
-                }));
+                });
 
                 if (response.ok) {
                     nameTakenError.textContent = ''; // Clear any previous error message
@@ -1533,13 +1479,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     const formData = new FormData();
                     formData.append('profilePicture', newPicture);
                 
-                    const response = await request(() => secureFetch('https://api.cryptotradingflow.com/profile-picture', {
+                    const response = await fetch('https://api.cryptotradingflow.com/profile-picture', {
                         method: 'POST',
                         headers: {
                             'Authorization': `Bearer ${token}` // NO Content-Type! Let the browser set it for FormData.
                         },
                         body: formData
-                    }));
+                    });
                 
                     if (response.ok) {
                         const reader = new FileReader();
@@ -1571,13 +1517,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!confirm('Terminate your account? This action cannot be undone.')) return;
 
         try {
-            const response = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/terminate-account', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/terminate-account', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
 
             if (response.ok) {
                 // Clear local storage or perform any other cleanup
@@ -1636,7 +1582,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
        
             // Send the password update request
-            const response = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/password', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/password', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1646,7 +1592,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentPassword: currentPassword,
                     newPassword: newPassword
                 })
-            }));
+            });
 
             const result = await response.json();
             if (!response.ok) {
@@ -1723,13 +1669,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const getResponse = await request(() => secureFetch(`https://api.cryptotradingflow.com/trader/exchange?exchange=${exchange}`, {
+            const getResponse = await fetch(`https://api.cryptotradingflow.com/trader/exchange?exchange=${exchange}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
 
             if (getResponse.ok) {
                 const exchangeData = await getResponse.json();
@@ -1742,7 +1688,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-            const postResponse = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/exchange', {
+            const postResponse = await fetch('https://api.cryptotradingflow.com/trader/exchange', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1754,7 +1700,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     apiKey,
                     apiSecret
                 })
-            }));
+            });
 
             const data = await postResponse.json();
             if (!postResponse.ok) {
@@ -1783,13 +1729,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const response = await request(() => secureFetch(`https://api.cryptotradingflow.com/trader/exchange?exchange=${exchange}`, {
+            const response = await fetch(`https://api.cryptotradingflow.com/trader/exchange?exchange=${exchange}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
 
             if (!response.ok) {
                 console.error('Failed to fetch exchange data:', response.statusText);
@@ -1823,14 +1769,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!confirm(`Delete the ${exchange.charAt(0).toUpperCase() + exchange.slice(1)} API?`)) return;
 
         try {
-            const response = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/exchange', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/exchange', {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ exchange })
-            }));
+            });
 
             if (!response.ok) {
                 console.error('Failed to delete exchange data:', response.statusText);
@@ -1936,7 +1882,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // Send the password update request
-            const response = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/copy-trade', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1946,7 +1892,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     exchange: 'binance',
                     coin: 'btc'
                 })
-            }));
+            });
 
             if (!response.ok) {
                 console.error('Failed to copy-trade BTC:', response.statusText);
@@ -1976,7 +1922,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // Send the password update request
-            const response = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/copy-trade', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1986,7 +1932,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     exchange: 'binance',
                     coin: 'eth'
                 })
-            }));
+            });
 
             if (!response.ok) {
                 console.error('Failed to copy-trade ETH:', response.statusText);
@@ -2021,7 +1967,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // Send the password update request
-            const response = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/cancel-trade', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/cancel-trade', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -2031,20 +1977,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     exchange: 'binance',
                     coin: 'btc'
                 })
-            }));
+            });
 
             if (!response.ok) {
                 console.error('Failed to cancel-trade BTC:', response.statusText);
                 return;
             }
 
-            const exchangeResponse = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/trading-bots?exchange=binance', {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/trading-bots?exchange=binance', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
 
             if (!exchangeResponse.ok) {
                 console.error('Failed to trading bots data:', response.statusText);
@@ -2084,7 +2030,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             // Send the password update request
-            const response = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/cancel-trade', {
+            const response = await fetch('https://api.cryptotradingflow.com/trader/cancel-trade', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -2094,20 +2040,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     exchange: 'binance',
                     coin: 'eth'
                 })
-            }));
+            });
 
             if (!response.ok) {
                 console.error('Failed to cancel-trade ETH:', response.statusText);
                 return;
             }
 
-            const exchangeResponse = await request(() => secureFetch('https://api.cryptotradingflow.com/trader/trading-bots?exchange=binance', {
+            const exchangeResponse = await fetch('https://api.cryptotradingflow.com/trader/trading-bots?exchange=binance', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
-            }));
+            });
 
             if (!exchangeResponse.ok) {
                 console.error('Failed to trading bots data:', response.statusText);

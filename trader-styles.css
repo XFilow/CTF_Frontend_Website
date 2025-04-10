@@ -645,7 +645,6 @@ td:nth-child(3) {
 .table-content.collapsed,
 .canvas-content.collapsed,
 .charts-content.collapsed {
-    display: none;
     border: none;
     max-height: 0;
     padding: 0;
@@ -997,6 +996,6 @@ td:nth-child(3) {
     }
     
     .balance-pie {
-        max-width: 70px; /* Set a maximum width */
+        max-width: 80px; /* Set a maximum width */
     }
 }

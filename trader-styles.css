@@ -810,7 +810,7 @@ td:nth-child(3) {
 }
 
 .profit-loss-container p {
-    margin-top: 0;
+    margin-top: 0.1em;
 }
 
 #binance-portfolio,

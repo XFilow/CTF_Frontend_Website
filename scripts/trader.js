@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             isProcessingQueue = false;
             processQueue();
-        }, 200); // throttle delay (ms)
+        }, 500); // throttle delay (ms)
     }
 
     async function secureFetch(url, options = {}) {
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = '/login?message=rate-limit';
             return null;
         }
-        
+
         return response;
     }
 

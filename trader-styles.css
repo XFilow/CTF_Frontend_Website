@@ -593,7 +593,7 @@ td:nth-child(3) {
 
 .card-content,
 .empty-card-content {
-    display: inline-block;
+    display: block;
     border: 1px solid white; /* Adds a white border */
     border-radius: 10px; /* Optional: Adds rounded corners */
     padding: 1em; /* Optional: Adds padding inside the border */
@@ -646,15 +646,15 @@ td:nth-child(3) {
 .canvas-content.collapsed,
 .charts-content.collapsed {
     border: none;
-    max-height: 0;
-    padding: 0;
-    margin: 0;
 }
 
 .table-content.collapsed,
 .canvas-content.collapsed,
 .charts-content.collapsed {
     display: none;
+    max-height: 0;
+    padding: 0;
+    margin: 0;
 }
 
 .card-title,

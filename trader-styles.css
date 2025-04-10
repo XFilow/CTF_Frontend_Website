@@ -913,6 +913,10 @@ td:nth-child(3) {
     .charts-content{
         max-width: 375px;
     }
+
+    .balance-pie {
+        max-width: 90px; /* Set a maximum width */
+    }
 }
 
 /* Media queries for smartphones */
@@ -989,5 +993,9 @@ td:nth-child(3) {
 
     .charts-content{
         max-width: 300px;
+    }
+    
+    .balance-pie {
+        max-width: 70px; /* Set a maximum width */
     }
 }

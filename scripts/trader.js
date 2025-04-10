@@ -1309,14 +1309,20 @@ document.addEventListener('DOMContentLoaded', function() {
             return null; // Return null if the user is not logged in
         }
 
+        const delay = 300; // ms between calls
+        let index = 0;
+
         try {
             // Iterate over each exchange and coin
             AVAILABLE_EXCHANGES.forEach(exchange => {
                 AVAILABLE_COINS.forEach(coin => {
-                    updatePositionsChart(element, exchange, coin, days, copyTrade);
-                    updateProfitLossChart(element, exchange, coin, days, copyTrade);
-                    updateCumulativeProfitChart(element, exchange, coin, days, copyTrade);
-                    updateStatsTable(element, exchange, coin, 0, copyTrade);
+                    setTimeout(() => {
+                        updatePositionsChart(element, exchange, coin, days, copyTrade);
+                        updateProfitLossChart(element, exchange, coin, days, copyTrade);
+                        updateCumulativeProfitChart(element, exchange, coin, days, copyTrade);
+                        updateStatsTable(element, exchange, coin, 0, copyTrade);
+                    }, index * delay);
+                    index++;
                 });
             });
 

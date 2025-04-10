@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let profitLossCharts = {};
     let cumulativeProfitCharts = {};
 
-    async function secureFetch(url, options = {}, delayTime = 200) {
+    async function secureFetch(url, options = {}, delayTime = 500) {
         const token = localStorage.getItem('token');
     
         if (!token) {

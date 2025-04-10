@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
             loginMessageContainer.style.display = 'block';
         }
         else if(message === 'rate-limit') {
-            loginMessageContainer.textContent = 'Too many requests - 5 mins timeout';
+            loginMessageContainer.textContent = 'Too many requests - Timeout';
             loginMessageContainer.style.color = 'red';
             loginMessageContainer.style.borderColor = 'red';
             loginMessageContainer.style.display = 'block';

@@ -648,14 +648,13 @@ td:nth-child(3) {
     border: none;
     max-height: 0;
     padding: 0;
+    margin: 0;
 }
 
 .table-content.collapsed,
 .canvas-content.collapsed,
 .charts-content.collapsed {
     display: none;
-    max-height: 0;
-    margin: 0;
 }
 
 .card-title,
@@ -840,11 +839,6 @@ td:nth-child(3) {
 #binance-analytics-btc-table-content,
 #binance-analytics-eth-table-content {
     margin-top: 2em;
-}
-
-#binance-analytics-btc-card.collapsed,
-#binance-analytics-eth-card.collapsed {
-    max-height: 1em;
 }
 
 @media (max-width: 1250px) {

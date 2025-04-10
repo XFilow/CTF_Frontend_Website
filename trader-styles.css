@@ -759,14 +759,14 @@ td:nth-child(3) {
 
 #binance-analytics-title.collapsed {
     margin-bottom: 0;
-    max-height: 1em;
+    margin-top: 0.25em;
 }
 
 #binance-analytics-btc-title,
 #binance-analytics-eth-title {
     padding: 0;
-    margin-top: 0.5em;
     margin-bottom: 0;
+    margin-top: 0.75em;
 }
 
 .balances-container {

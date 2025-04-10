@@ -593,7 +593,7 @@ td:nth-child(3) {
 
 .card-content,
 .empty-card-content {
-    display: block;
+    display: inline-block;
     border: 1px solid white; /* Adds a white border */
     border-radius: 10px; /* Optional: Adds rounded corners */
     padding: 1em; /* Optional: Adds padding inside the border */
@@ -626,7 +626,7 @@ td:nth-child(3) {
 }
 
 .charts-content{
-    display: block;
+    display: inline-block;
     border: 1px solid; /* Adds a white border */
     border-radius: 10px; /* Optional: Adds rounded corners */
     padding: 1em; /* Optional: Adds padding inside the border */
@@ -810,7 +810,7 @@ td:nth-child(3) {
 }
 
 .profit-loss-container p {
-    margin-top: 0.1em;
+    margin-top: 0.25em;
 }
 
 #binance-portfolio,

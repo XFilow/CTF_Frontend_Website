@@ -336,11 +336,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Get the canvas context
                     const ctx = document.getElementById(`${exchange}-balancePieChart`).getContext('2d');
         
-                    // Destroy existing chart if it exists
                     if (pieCharts[exchange]) {
-                        pieCharts[exchange].destroy();
-                    }
-        
+                        // Update data
+                        pieCharts[exchange].data = balanceChartData;
+                        pieCharts[exchange].update();
+                    } else {
                     // Create the pie chart
                     pieCharts[exchange] = new Chart(ctx, {
                         type: 'pie',

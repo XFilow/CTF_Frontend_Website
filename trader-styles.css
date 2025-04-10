@@ -734,6 +734,10 @@ td:nth-child(3) {
     display: inline-block;
 }
 
+.inside-card-title::after{
+    margin-left: 0.5em;
+}
+
 .inside-card-title.collapsed::after,
 #binance-btc-copy-trading-title.expanded::after,
 #binance-eth-copy-trading-title.expanded::after {
@@ -746,6 +750,13 @@ td:nth-child(3) {
 #binance-copy-trading-eth-card {
     max-width: 99%;
     padding-top: 0;
+}
+
+#binance-analytics-title,
+#binance-analytics-btc-title,
+#binance-analytics-eth-title {
+    padding: 0;
+    margin: 0;
 }
 
 .balances-container {

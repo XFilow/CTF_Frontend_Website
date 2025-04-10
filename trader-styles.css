@@ -664,6 +664,11 @@ td:nth-child(3) {
     align-items: center;
 }
 
+.analytics-card-title {
+    display: flex;
+    align-items: center;
+}
+
 .card-content-title {
     cursor: pointer;
     display: inline;
@@ -758,16 +763,16 @@ td:nth-child(3) {
     margin-bottom: 0.75em;
 }
 
-#binance-analytics-title.collapsed {
-    padding: 0;
-    margin-top: 0.75em;
-}
-
 #binance-analytics-btc-title,
 #binance-analytics-eth-title {
     padding: 0;
     margin-bottom: 0;
     margin-top: 0.75em;
+}
+
+#binance-analytics-btc-table-content,
+#binance-analytics-eth-table-content {
+    margin-top: 2em;
 }
 
 .balances-container {
@@ -856,11 +861,6 @@ td:nth-child(3) {
     word-wrap: break-word;   /* Allows breaking long words */
     overflow-wrap: anywhere; /* Breaks text at any point if needed */
     white-space: normal;     /* Ensures the text wraps */
-}
-
-#binance-analytics-btc-table-content,
-#binance-analytics-eth-table-content {
-    margin-top: 2em;
 }
 
 @media (max-width: 1250px) {

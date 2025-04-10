@@ -341,28 +341,29 @@ document.addEventListener('DOMContentLoaded', function() {
                         pieCharts[exchange].data = balanceChartData;
                         pieCharts[exchange].update();
                     } else {
-                    // Create the pie chart
-                    pieCharts[exchange] = new Chart(ctx, {
-                        type: 'pie',
-                        data: balanceChartData,
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    display: false
-                                },
-                                tooltip: {
-                                    enabled: true,
-                                    callbacks: {
-                                        label: function(context) {
-                                            const value = context.parsed || 0;
-                                            return ` $${value.toFixed(2)}`;
+                        // Create the pie chart
+                        pieCharts[exchange] = new Chart(ctx, {
+                            type: 'pie',
+                            data: balanceChartData,
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    },
+                                    tooltip: {
+                                        enabled: true,
+                                        callbacks: {
+                                            label: function(context) {
+                                                const value = context.parsed || 0;
+                                                return ` $${value.toFixed(2)}`;
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }
 

@@ -687,6 +687,7 @@ td:nth-child(3) {
 
 .card-title.collapsed,
 .inside-card-title.collapsed {
+    padding: 0;
     margin-bottom: 0;
     align-items: center;
 }
@@ -759,7 +760,7 @@ td:nth-child(3) {
 
 #binance-analytics-title.collapsed {
     margin-bottom: 0;
-    margin-top: 1em;
+    margin-top: 0.85em;
 }
 
 #binance-analytics-btc-title,

@@ -758,8 +758,7 @@ td:nth-child(3) {
     padding-top: 0;
 }
 
-#binance-analytics-btc-card.collapsed:hover,
-#binance-analytics-eth-card.collapsed:hover {
+#analytics-section .card-content.collapsed:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 

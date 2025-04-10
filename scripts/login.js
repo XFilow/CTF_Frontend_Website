@@ -23,10 +23,16 @@ document.addEventListener('DOMContentLoaded', function() {
             loginMessageContainer.style.borderColor = 'lime';
             loginMessageContainer.style.display = 'block';
         }
+        else if(message === 'rate-limit') {
+            loginMessageContainer.textContent = 'Too many requests - 5 mins timeout';
+            loginMessageContainer.style.color = 'red';
+            loginMessageContainer.style.borderColor = 'red';
+            loginMessageContainer.style.display = 'block';
+        }
         else if(message === 'terminated') {
             loginMessageContainer.textContent = 'Your account was terminated';
-            loginMessageContainer.style.color = 'lime';
-            loginMessageContainer.style.borderColor = 'lime';
+            loginMessageContainer.style.color = 'red';
+            loginMessageContainer.style.borderColor = 'red';
             loginMessageContainer.style.display = 'block';
         }
     }

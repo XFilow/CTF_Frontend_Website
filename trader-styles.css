@@ -645,6 +645,7 @@ td:nth-child(3) {
 .table-content.collapsed,
 .canvas-content.collapsed,
 .charts-content.collapsed {
+    display: none;
     border: none;
     max-height: 0;
     padding: 0;

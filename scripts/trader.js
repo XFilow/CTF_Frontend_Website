@@ -1393,7 +1393,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Sidebar expansion
     document.getElementById('sidebar-toggle').addEventListener('click', function() {
 
-        if (window.innerWidth <= 800) return;
+        if (window.innerWidth <= 1000) return;
         //sidebar.classList.toggle('expanded');
         //mainContent.classList.toggle('expanded');
         document.body.classList.toggle('icons-only');

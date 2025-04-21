@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
         emptyPortfolio.style.display = 'none';
         emptyProfitLoss.style.display = 'none';
 
-        const copyTrade = false;
+        const copyTrade = true;
         const timeFrames = {
             "7d": { label: "Weekly", days: 7 },
             "30d": { label: "Monthly", days: 30 },

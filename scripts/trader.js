@@ -632,10 +632,11 @@ document.addEventListener('DOMContentLoaded', function() {
             let shortsCount = totalTrades > 0 ? totalTrades - longsCount : 0;
             let avgTradeVolume = totalTrades > 0 ? (totalOrderDollarSize / totalTrades).toFixed(2) : 0;
             let profitableTrades = totalTrades > 0 ? ((profitableCount / totalTrades) * 100).toFixed(2) : 0;
-            let maxGainPercent = Math.max(...profitPercentages).toFixed(2);
+            let maxGainPercent = Math.max(...profitPercentages);
             let maxLossPercent = Math.min(...profitPercentages);
+            maxGainPercent = maxLossPercent > 0 ? maxGainPercent.toFixed(2) : 0;
             maxLossPercent = maxLossPercent < 0 ? maxLossPercent.toFixed(2) : 0;
-            
+
             // Max Gain / Max Loss in dollars
             let maxGainDollar = gains.length > 0 ? Math.max(...gains).toFixed(2) : "0.00";
             let maxLossDollar = losses.length > 0 ? -1 * Math.min(...losses).toFixed(2) : "0.00";
@@ -659,7 +660,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 row.innerHTML = `
                 <td>${totalTrades}</td>
                 <td>${profitableTrades}%</td>
-                <td>$${totalDollarGain}</td>
+                <td>$${totalDollarGain.toFixed(2)}</td>
                 <td>-$${maxLossDollar} / $${maxGainDollar}</td>
                 <td>-$${avgLossDollar} / $${avgGainDollar}</td>
                 <td>$${avgTradeVolume}</td>
@@ -964,9 +965,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Get the previous period label based on window size
-            const firstTradeDate = new Date(data[0].closeTime);
-            const previousPeriodDate = getPreviousPeriod(firstTradeDate, windowSize);
-            const previousPeriodLabel = formatLabel(previousPeriodDate, windowSize);
+            //const firstTradeDate = new Date(data[0].closeTime);
+            //const previousPeriodDate = getPreviousPeriod(firstTradeDate, windowSize);
+            //const previousPeriodLabel = formatLabel(previousPeriodDate, windowSize);
     
             // Determine color based on overall profit trend
             const firstProfit = cumulativeData.length > 0 ? cumulativeData[0] : 0;
@@ -1011,7 +1012,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (days > 30 && days <= 365) return "1mo";
         return "1y";
     }
-
+/*
     function getPreviousPeriod(date, windowSize) {
         const prevDate = new Date(date);
         if (windowSize === "1d") {
@@ -1023,7 +1024,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return prevDate;
     }
-
+*/
     function formatLabel(date, windowSize) {
         if (windowSize === "1d") return date.toLocaleDateString();
         if (windowSize === "1mo") return `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;

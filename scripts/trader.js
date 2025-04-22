@@ -875,8 +875,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 let label = formatLabel(date, windowSize);
 
                 let valueToAdd = element === 'analytics'
-                    ? parseFloat(trade.profitPercent)
-                    : parseFloat(trade.dollarGain);
+                    ? parseFloat(trade.dollarGain)
+                    : parseFloat(trade.profitPercent);
 
                 aggregatedProfits[label] = (aggregatedProfits[label] || 0) + valueToAdd;
             });
@@ -903,7 +903,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: element === 'analytics' ? "Profit/Loss (%)" : "Profit/Loss ($)",
+                        label: element === 'analytics' ? "Profit/Loss ($)" : "Profit/Loss (%)",
                         data: profitData,
                         backgroundColor: backgroundColor,
                         borderColor: borderColor,
@@ -915,11 +915,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     responsive: true,
                     plugins: {
                         legend: {
-                            display: !isSmallScreen,
-                            labels: {
-                                usePointStyle: true,
-                                pointStyle: 'circle'
-                            }
+                            display: !isSmallScreen
                         }
                     },
                     scales: {
@@ -976,8 +972,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 let label = formatLabel(date, windowSize);
 
                 const value = element === 'analytics'
-                    ? parseFloat(trade.cumulativeProfit)
-                    : parseFloat(trade.cumulativeDollarProfit);
+                    ? parseFloat(trade.cumulativeDollarProfit)
+                    : parseFloat(trade.cumulativeProfit);
 
                 aggregatedCumulative[label] = value;
             });
@@ -1009,7 +1005,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: element === 'analytics' ? "Cumulative Profit (%)" : "Cumulative Profit ($)",
+                        label: element === 'analytics' ? "Cumulative Profit ($)" : "Cumulative Profit (%)",
                         data: cumulativeData,
                         backgroundColor: backgroundColor,
                         borderColor: borderColor,
@@ -1021,11 +1017,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     responsive: true,
                     plugins: {
                         legend: {
-                            display: !isSmallScreen,
-                            labels: {
-                                usePointStyle: true,
-                                pointStyle: 'circle'
-                            }
+                            display: !isSmallScreen
                         }
                     },
                     scales: {

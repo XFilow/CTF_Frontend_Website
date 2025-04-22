@@ -2097,23 +2097,14 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCumulativeProfitChart('analytics', 'binance', 'btc', days, true);
     });
 
-    // Update Binance BTC Positions Histogram Copy-Trading
-    document.getElementById("binance-copy-trading-btc-positions-timeRange").addEventListener("change", (event) => {
+    // Update Copy-Trading Binance BTC Table and Charts
+    document.getElementById("binance-copy-trading-btc-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
+        updateStatsTable('copy-trading','binance', 'btc', days, false);
         updatePositionsChart('copy-trading','binance', 'btc', days, false);
-    });
-
-    // Update Binance BTC Profit-Loss Chart Copy-Trading
-    document.getElementById("binance-copy-trading-btc-profit-loss-timeRange").addEventListener("change", (event) => {
-        const days = parseInt(event.target.value);
         updateProfitLossChart('copy-trading', 'binance', 'btc', days, false);
-    });
-
-    // Update Binance BTC Cumulative Profits Chart Copy-Trading
-    document.getElementById("binance-copy-trading-btc-cumulative-profit-timeRange").addEventListener("change", (event) => {
-        const days = parseInt(event.target.value);
         updateCumulativeProfitChart('copy-trading', 'binance', 'btc', days, false);
-    });    
+    });
 
     /* ETH */
 
@@ -2135,21 +2126,12 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCumulativeProfitChart('analytics', 'binance', 'eth', days, true);
     });
 
-    // Update Binance ETH Positions Histogram Copy-Trading
-    document.getElementById("binance-copy-trading-eth-positions-timeRange").addEventListener("change", (event) => {
+    // Update Copy-Trading Binance ETH Table and Charts
+    document.getElementById("binance-copy-trading-eth-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
+        updateStatsTable('copy-trading','binance', 'eth', days, false);
         updatePositionsChart('copy-trading','binance', 'eth', days, false);
-    });
-
-    // Update Binance ETH Profit-Loss Chart Copy-Trading
-    document.getElementById("binance-copy-trading-eth-profit-loss-timeRange").addEventListener("change", (event) => {
-        const days = parseInt(event.target.value);
         updateProfitLossChart('copy-trading', 'binance', 'eth', days, false);
-    });
-
-    // Update Binance ETH Cumulative Profits Chart Copy-Trading
-    document.getElementById("binance-copy-trading-eth-cumulative-profit-timeRange").addEventListener("change", (event) => {
-        const days = parseInt(event.target.value);
         updateCumulativeProfitChart('copy-trading', 'binance', 'eth', days, false);
-    });    
+    }); 
 });

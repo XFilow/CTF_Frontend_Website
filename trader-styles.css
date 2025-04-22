@@ -1,1 +1,1121 @@
-.content-header,.sidebar{display:flex;box-sizing:border-box;color:#fff}.sidebar-menu,.sidebar-menu ul{list-style:none;padding:0;margin:0}.button,.footer-icon-link,.sidebar-menu a{text-decoration:none}body{font-family:Arial,sans-serif;color:#fff;background-color:#000;background-image:url('../static/backgrounds/CTF_background.webp');background-size:cover;background-position:center;background-repeat:no-repeat;display:flex;height:100vh;margin:0;padding:0}.body-container{display:flex;width:100%;height:100%}.sidebar{overflow:hidden;flex-direction:column;justify-content:space-between;width:230px;min-width:230px;transition:width .3s;background-color:rgba(0,0,0,.9);padding:0 .5em 1em}.sidebar-header{display:flex;align-items:center;cursor:pointer;height:80px;flex-shrink:0;margin:1em .5em}.sidebar-logo{width:3em;height:3em;margin-right:.25em;transition:margin .3s}.sidebar-title{transition:opacity .3s,margin .3s}.sidebar-menu{flex-grow:1}.sidebar-menu li{margin:.75em 0}.sidebar-menu a{color:#fff;display:flex;white-space:nowrap;align-items:center;padding:.5em 1.1em;transition:background-color .3s;font-size:1em}#binance-btc-copy-trading.expanded,#binance-eth-copy-trading.expanded,.sidebar-menu a:hover{background-color:rgba(255,255,255,.1)}.sidebar-icon{width:1.75em;height:1.75em;margin-right:1em}body.icons-only .sidebar{width:80px;min-width:80px}.sidebar-footer{margin-top:auto;display:flex;flex-direction:column;align-items:center}.footer-icon-links{display:flex;align-items:center;flex-direction:row}body.icons-only .footer-icon-links{flex-direction:column}.footer-icon-link{margin:.6em}.card,.card h2,.card h3{margin-bottom:1em}.footer-icons{background:0 0;height:1.75em;width:1.75em}.main-content{overflow-y:auto;border-left:1px solid #fff;transition:width .3s;flex-grow:1;padding:0 2em 2em}.content-header{position:sticky;justify-content:space-between;align-items:center;border-bottom:1px solid #fff;background-color:#000;padding:1em 1em .5em;z-index:1000;width:100%;top:0}.exchange-logo{display:inline;vertical-align:middle;width:2em;height:2em;margin-right:.15em}.coin-logo,.exchange-title-logo{display:inline;margin-right:.3em;vertical-align:middle}.exchange-title-logo{width:1.3em;height:1.3em}.coin-logo{width:2em;height:2em}#eth-copy-trading-logo{margin-right:0}.user-menu{display:none;align-items:center}.user-icon{cursor:pointer;vertical-align:middle;object-fit:cover;border-radius:50%;margin-left:.5em;width:70px;height:70px}.user-dropdown{position:relative;display:inline-block}.user-dropdown-toggle{color:#fff;background-color:transparent;cursor:pointer;border:1px solid #fff;border-radius:5px;padding:.5em;font-size:1em}.user-dropdown-menu{display:none;font-weight:700;position:absolute;list-style-type:none;border:1px solid #fff;background-color:rgba(0,0,0,.9);border-radius:5px;padding:.5em;margin-right:1em;margin-top:-1em;z-index:1000;right:0}.dropdown-menu,.dropdown-timeRange{position:relative;list-style-type:none;align-self:left;cursor:pointer}#binance-analytics-btc-table-content,#binance-analytics-eth-table-content,.card h4,.cards{margin-top:2em}.user-dropdown-menu li{cursor:pointer;padding:.5em}.user-dropdown-menu a{color:#fff;list-style:none;text-decoration:none}.user-dropdown-menu li:hover{background-color:rgba(255,255,255,.2)}.cards{display:block;gap:1em;flex-grow:1}.card{border:1px solid #fff;background-color:rgba(0,0,0,.75);border-radius:10px;padding-left:1em;padding-right:1em;flex:1;overflow-y:auto;overflow-x:hidden}.card h2{font-size:1.5em}.card h3{font-size:1.25em}.card h4{font-size:1.2em;margin-bottom:0}.card h5{font-size:1.1em;margin-top:1.25em;margin-bottom:0}#getting-started-card{display:none;color:#000;background-color:rgba(255,255,255,.75);margin-bottom:1em}.input-label{color:#fff;font-weight:700;font-size:1.25em;margin-bottom:.5em}#save-profile-button,.profile-info{margin-bottom:3em}.profile-info p{font-size:1em;margin:1em 0}.form-container label,.profile-changes label{display:block;font-weight:700;text-align:left;margin:2em auto .5em;font-size:1.25em}.form-container input,.profile-changes input{color:#fff;background-color:transparent;border:none;border-bottom:1px solid #fff;border-radius:0;font-size:1em;max-width:400px;width:100%;margin-bottom:1em;padding:.5em 0}.form-container input:focus,.profile-changes input:focus{outline:0}.file-input::file-selector-button{color:#000;cursor:pointer;border:1px solid #000;background-color:rgba(255,255,255,.75);padding:.25em .5em;border-radius:4px;font-size:1em;transition:background-color .3s}.password-change-action{display:flex;align-items:center;justify-content:flex-start}.button{display:flex;font-weight:700;border:1px solid #000;border-radius:5px;padding:.4em .6em;font-size:1em;transition:background-color .3s}.cancel-trading-button,.copy-trading-button,.header-button,.red-button,.white-button{padding:.4em 1em;font-weight:700}.card-content,.charts-content,.empty-card-content,.user-manual-content{box-sizing:border-box;transition:max-height .3s}.header-button{color:#fff;background-color:#000;border:2px solid #fff;font-size:1.25em;margin-right:1em}.cancel-trading-button,.copy-trading-button,.header-button:hover,.white-button{background-color:#fff;box-shadow:0 0 0 1.5px #fff}.cancel-trading-button,.copy-trading-button,.header-button:hover,.red-button,.white-button{border:2.5px solid #000}.header-button:hover{color:#000}.cancel-trading-button:active,.copy-trading-button:active,.header-button:active,.red-button:active,.table-delete-button:active,.table-edit-button:active,.white-button:active{transform:scale(.98)}.white-button{cursor:pointer}.copy-trading-button{cursor:pointer;display:inline;float:right;margin-top:.25em;margin-right:.5em;color:#000}.cancel-trading-button{cursor:pointer;display:inline;float:right;color:#000}.red-button{cursor:pointer;background-color:red;box-shadow:0 0 0 1.5px red}#terminate-profile-button{margin-bottom:1em}#save-password-button{margin-bottom:1em;margin-top:1em}.error-message{color:red}#add-exchange-button,#change-password-button,#new-exchange-button{margin:1em 0}.table{margin:0 auto 2em}.table-content{overflow-x:auto;margin:auto;width:80%}#binance-copy-trading-btc-table-content,#binance-copy-trading-eth-table-content,#exchanges-table-content{margin:2em auto}table{width:100%;border-collapse:collapse}td,th{text-align:left;vertical-align:middle;border-bottom:1px solid grey;padding:12px 15px}th{background-color:rgba(75,75,75,.75);font-weight:700}.table-buttons-group{display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:.5em}.table-delete-button,.table-edit-button{color:#000;border:none;cursor:pointer;font-weight:700;padding:5px 10px;border-radius:3px;margin:2px}.table-edit-button{background-color:#fff}.table-delete-button{background-color:red}td:nth-child(2){white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}.status-message,td:nth-child(3){max-width:300px;white-space:nowrap}td:nth-child(3){overflow:hidden;text-overflow:ellipsis}.new-exchange-form-submit{display:flex;align-items:center;justify-content:flex-start;gap:10px}.form-container{display:none}.form-container.active{display:block}.dropdown-menu{color:#fff;display:block;border:1px solid #fff;background-color:rgba(0,0,0,.7);border-radius:5px;margin-top:.5em;padding:.5em;font-size:1em}.dropdown-timeRange{color:#fff;display:block;border:1px solid rgba(255,255,255,.5);background-color:transparent;border-radius:5px;padding:.25em;font-size:em}.dropdown-menu:focus,.dropdown-menu:hover,.dropdown-timeRange:focus,.dropdown-timeRange:hover{background-color:#000;outline:0}.status-message{color:#fff;display:none;width:fit-content;font-weight:400;text-align:left;margin:10px;font-size:1em}.card-content,.empty-card-content{display:inline-block;border:1px solid #fff;border-radius:10px;padding:1em;margin:auto 1em 1em .5em;max-width:415px;width:100%;overflow:hidden;background-color:rgba(0,0,0,.75)}.empty-card-content{margin-top:1em}.user-manual-content{display:block;border-radius:10px;padding-left:1em;padding-right:1.5em;margin:auto 1em 1.5em .5em;width:100%;overflow:hidden;border:none;background-color:transparent;max-width:1250px}.charts-content{display:inline-block;border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:1em;margin:auto 1em 1em .5em;max-width:415px;width:100%;overflow:hidden;background-color:rgba(255,255,255,.1)}.canvas-content.collapsed,.card-content.collapsed,.charts-content.collapsed,.table-content.collapsed,.user-manual-content.collapsed{border:none;max-height:0;padding:0}.canvas-content.collapsed,.charts-content.collapsed,.table-content.collapsed{display:none;margin:0}.card-title,.inside-card-title{cursor:pointer;display:flex;align-items:center}.analytics-card-title{display:flex;align-items:center}.card-content-title{cursor:pointer;display:inline;align-items:center}.active-card-content-title,.card-content-text,.dashboard-content-title{display:inline;align-items:center}.card-title.collapsed,.inside-card-title.collapsed{padding:0;margin-bottom:0}#binance-positions-title.collapsed{padding-bottom:.75em}.card-title::before{content:'\25BD';margin-right:.5em;transition:transform .3s;display:inline-block}.card-title.collapsed::before{transform:rotate(-90deg)}#binance-btc-copy-trading,#binance-eth-copy-trading{background-color:rgba(0,0,0,.75)}#binance-btc-copy-trading:hover,#binance-eth-copy-trading:hover{cursor:pointer;background-color:rgba(255,255,255,.1)}#binance-btc-copy-trading-title::after,#binance-eth-copy-trading-title::after,.inside-card-title::after{content:'\25B6';margin-left:.25em;transition:transform .3s;display:inline-block}.inside-card-title::after{margin-left:.5em}#binance-btc-copy-trading-title.expanded::after,#binance-eth-copy-trading-title.expanded::after,.inside-card-title.collapsed::after{transform:rotate(90deg)}#binance-analytics-btc-card,#binance-analytics-eth-card,#binance-copy-trading-btc-card,#binance-copy-trading-eth-card{max-width:99%;padding-top:0}#binance-analytics-title{padding-bottom:0;margin-bottom:.75em}#binance-analytics-btc-title,#binance-analytics-eth-title{padding:0;margin-bottom:0;margin-top:.75em}.balances-container{display:flex;justify-content:space-between;gap:2em}.balance-section{flex:1;white-space:nowrap}.user-manual-image{width:100%;height:auto;display:block;object-fit:contain}.white-link{color:#fff;font-weight:700}.black-link{color:#000;font-weight:700}.black-link:hover,.white-link:hover{color:grey}.analytics-canvas,.copy-trade-canvas,.dashboard-canvas{width:100%}.canvas-content{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;width:100%}.balance-pie{display:flex;align-self:center;width:100%;max-width:95px;margin:0 .5em .75em}.profit-loss-container{display:flex;justify-content:space-between}.profit-loss-container p{margin-top:.25em}#binance-portfolio,#binance-profit-loss{padding-bottom:0}#binance-left-profit-loss-values,#binance-right-profit-loss-values{width:48%}#donations-card p,#faq-card p{word-wrap:break-word;overflow-wrap:anywhere;white-space:normal}@media (max-width:1600px){body{font-size:.95em}.sidebar{width:200px;min-width:200px}.sidebar-logo{width:2.75em;height:2.75em;margin-right:.2em}.sidebar-menu a{padding:.45em 1em}.main-content{padding:0 1.75em 1.75em}.user-icon{width:65px;height:65px}.user-manual-content{max-width:950px}.form-container input,.profile-changes input{max-width:375px}td:nth-child(2){max-width:140px}.status-message,td:nth-child(3){max-width:275px}.table-buttons-group{transform:scale(.95)}.charts-content{max-width:395px}.balance-pie{max-width:90px}}@media (max-width:1200px){body{background-image:url('../static/backgrounds/CTF_background_mobile.webp');font-size:.9em}.sidebar{width:180px;min-width:180px}.sidebar-header{margin:.5em .45em}.sidebar-logo{margin-right:.1em}.sidebar-menu a{padding:.35em 1em}.footer-icon-link{margin:.35em}.main-content{padding:0 1.5em 1.5em}.user-icon{width:60px;height:60px}.user-manual-content{max-width:700px}body.icons-only .sidebar{width:70px;min-width:70px}.form-container input,.profile-changes input{max-width:350px}td:nth-child(2){max-width:125px}.status-message,td:nth-child(3){max-width:250px}.table-buttons-group{transform:scale(.9)}.charts-content{max-width:375px}.balance-pie{max-width:85px}}@media (max-width:800px){body{background-image:url('../static/backgrounds/CTF_background_mobile.webp');font-size:.7em}.sidebar{width:120px;min-width:120px}.sidebar-header{margin:0 .3em;padding:0}.sidebar-logo{width:3em;height:3em;margin-right:.1em}.sidebar-menu a{padding:.35em .9em}.footer-icon-link{margin:.35em}.main-content{padding:0 1em 1em}.user-icon{width:40px;height:40px}.user-manual-content{max-width:400px}body.icons-only .sidebar{width:50px;min-width:50px}.charts-content,.form-container input,.profile-changes input{max-width:300px}td:nth-child(2){max-width:100px}.status-message,td:nth-child(3){max-width:200px}.table-buttons-group{transform:scale(.7)}.balance-pie{max-width:65px}}
+body {
+    font-family: Arial, sans-serif;
+    color: white;
+    background-color: black;
+    background-image: url('../static/backgrounds/CTF_background.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.body-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    color: white;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 230px;
+    min-width: 230px;
+    transition: width 0.3s;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 0 0.5em 1em 0.5em;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    height: 80px;
+    flex-shrink: 0;
+    margin: 1em 0.5em;
+}
+
+.sidebar-logo {
+    width: 3em; /* Fixed width for the logo */
+    height: 3em; /* Fixed height for the logo */
+    margin-right: 0.25em;
+    transition: margin 0.3s;
+}
+
+.sidebar-title {
+    transition: opacity 0.3s, margin 0.3s;
+    /*white-space: nowrap;  Prevent text from wrapping */
+}
+
+.sidebar-menu {
+    list-style: none;
+    flex-grow: 1;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    margin: 0.75em 0;
+}
+
+.sidebar-menu a {
+    color: white;
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+    text-decoration: none;
+    padding: 0.5em 1.1em;
+    transition: background-color 0.3s;
+    font-size: 1em;
+}
+
+.sidebar-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-icon {
+    width: 1.75em; /* Fixed width for the icons */
+    height: 1.75em; /* Fixed height for the icons */
+    margin-right: 1em;
+}
+
+/* Icons-only mode */
+body.icons-only .sidebar {
+    width: 80px;
+    min-width: 80px;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-icon-links {
+    display: flex;
+    align-items: center;
+    flex-direction: row; /* Horizontal layout by default */
+}
+
+body.icons-only .footer-icon-links {
+    flex-direction: column; /* Vertical layout in icons-only mode */
+}
+
+.footer-icon-link {
+    text-decoration: none;
+    margin: 0.6em;
+}
+
+.footer-icons {
+    background: transparent;
+    height: 1.75em;
+    width: 1.75em; /* Fixed width for footer icons */
+}
+
+/* Main Content Styles */
+.main-content {
+    overflow-y: auto;
+    border-left: 1px solid white;
+    transition: width 0.3s;
+    flex-grow: 1;
+    padding: 0 2em 2em 2em;
+
+}
+
+.content-header {
+    position: sticky;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: 1px solid white;
+    background-color: black;
+    padding: 1em 1em 0.5em 1em; /* Adjust padding as needed */    z-index: 1000;
+    width: 100%;
+    top: 0;
+}
+
+.exchange-logo {
+    display: inline;
+    vertical-align: middle; /* Aligns elements vertically in the middle */
+    width: 2em; /* Fixed width for the logo */
+    height: 2em; /* Fixed height for the logo */
+    margin-right: 0.15em;
+}
+
+.exchange-title-logo {
+    display: inline;
+    vertical-align: middle; /* Aligns elements vertically in the middle */
+    width: 1.3em; /* Fixed width for the logo */
+    height: 1.3em; /* Fixed height for the logo */
+    margin-right: 0.3em;  
+}
+
+.coin-logo {
+    display: inline;
+    vertical-align: middle; /* Aligns elements vertically in the middle */
+    width: 2em; /* Fixed width for the logo */
+    height: 2em; /* Fixed height for the logo */
+    margin-right: 0.3em;
+}
+
+#eth-copy-trading-logo {
+    margin-right: 0;
+}
+
+.user-menu {
+    display: none;
+    align-items: center;
+}
+
+.user-icon {
+    cursor: pointer;
+    vertical-align: middle;
+    object-fit: cover; /* Ensure the image covers the circular area */
+    border-radius: 50%; /* Make the image circular */
+    margin-left: 0.5em;
+    width: 70px;
+    height: 70px;
+}
+
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-dropdown-toggle {
+    color: white;
+    background-color: transparent;
+    cursor: pointer;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 0.5em;
+    font-size: 1em;
+}
+
+.user-dropdown-menu {
+    display: none;
+    font-weight: bold;
+    position: absolute;
+    list-style-type: none;
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 5px;
+    padding: 0.5em;
+    margin-right: 1em;
+    margin-top: -1em;
+    z-index: 1000;
+    right: 0;
+}
+
+.user-dropdown-menu li {
+    cursor: pointer;
+    padding: 0.5em;
+}
+
+.user-dropdown-menu a {
+    color:white;
+    list-style: none;
+    text-decoration: none;
+}
+
+.user-dropdown-menu li:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.cards {
+    display: block;
+    gap: 1em;
+    margin-top: 2em; /* Add space between the cards and the header */
+    flex-grow: 1;
+}
+
+.card {
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 10px;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-bottom: 1em; /* Add margin between cards */
+    flex: 1;
+    overflow-y: auto; /* Enables scrolling for content */
+    overflow-x: hidden; /* Enables scrolling for content */
+}
+
+.card h2 {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+}
+
+.card h3 {
+    font-size: 1.25em;
+    margin-bottom: 1em;
+}
+
+.card h4 {
+    font-size: 1.2em;
+    margin-top: 2em;
+    margin-bottom: 0;
+}
+
+.card h5 {
+    font-size: 1.1em;
+    margin-top: 1.25em;
+    margin-bottom: 0;
+}
+
+#getting-started-card {
+    display: none;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 1em;
+}
+
+.input-label {
+    color: white;
+    font-weight: bold;
+    font-size: 1.25em;
+    margin-bottom: 0.5em;
+}
+
+.profile-info {
+    margin-bottom: 3em;
+}
+
+.profile-info p {
+    font-size: 1em;
+    margin: 1em 0;
+}
+
+.profile-changes label,
+.form-container label {
+    display: block;
+    font-weight: bold;
+    text-align: left;
+    margin: 2em auto 0.5em auto;
+    font-size: 1.25em;
+}
+
+.profile-changes input,
+.form-container input {
+    color: white;
+    background-color: transparent;
+    border: none; /* Remove all borders */
+    border-bottom: 1px solid white; /* Add only the bottom border */
+    border-radius: 0; /* Remove border radius */
+    font-size: 1em;
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 1em;
+    padding: 0.5em 0; /* Adjust padding to remove side padding */
+}
+
+.profile-changes input:focus,
+.form-container input:focus {
+    outline: none; /* Remove default focus outline */
+}
+
+.file-input::file-selector-button {
+    color: black;
+    cursor: pointer;
+    border: 1px solid black;
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 0.25em 0.5em;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.password-change-action {
+    display: flex;
+    align-items: center; /* Align vertically */
+    justify-content: flex-start; /* Align items to the left */
+}
+
+.button {
+    display: flex;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0.4em 0.6em;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.header-button {
+    color: white;
+    font-weight: bold;
+    background-color: black;
+    border: 2px solid white;
+    font-size: 1.25em;
+    margin-right: 1em;
+    padding: 0.4em 1em;
+}
+
+.header-button:hover {
+    color: black;
+    background-color: white;
+    border: 2.5px solid black;
+    box-shadow: 0 0 0 1.5px white;
+}
+
+.header-button:active {
+    transform: scale(0.98); /* Slight shrink effect */
+}
+
+.white-button{
+    cursor: pointer;
+    font-weight: bold;
+    background-color: white;
+    padding: 0.4em 1em;
+    font-weight: bold;
+    border: 2.5px solid black;
+    box-shadow: 0 0 0 1.5px white;
+}
+
+.white-button:active {
+    transform: scale(0.98); /* Slight shrink effect */
+}
+
+#save-profile-button {
+    margin-bottom: 3em;    
+}
+
+.copy-trading-button {
+    cursor: pointer;
+    display: inline;
+    float: right;
+    margin-top: 0.25em;
+    margin-right: 0.5em;
+
+    padding: 0.4em 1em;
+    font-weight: bold;
+    background-color: white;
+    color: black;
+    border: 2.5px solid black;
+    box-shadow: 0 0 0 1.5px white;
+}
+
+.copy-trading-button:active {
+    transform: scale(0.98); /* Slight shrink effect */
+}
+
+.cancel-trading-button {
+    cursor: pointer;
+    display: inline;
+    float: right;
+
+    padding: 0.4em 1em;
+    font-weight: bold;
+    background-color: white;
+    color: black;
+    border: 2.5px solid black;
+    box-shadow: 0 0 0 1.5px white;
+}
+
+.cancel-trading-button:active {
+    transform: scale(0.98); /* Slight shrink effect */
+}
+
+.red-button{
+    cursor: pointer;
+    font-weight: bold;
+    background-color: red;
+    border: 2.5px solid black;
+    box-shadow: 0 0 0 1.5px red;
+    padding: 0.4em 1em;
+}
+
+.red-button:active {
+    transform: scale(0.98); /* Slight shrink effect */
+}
+
+#terminate-profile-button {
+    margin-bottom: 1em;    
+}
+
+#save-password-button {
+    margin-bottom: 1em;    
+    margin-top: 1em;
+}
+
+.error-message{
+    color: red;
+}
+
+#change-password-button,
+#add-exchange-button,
+#new-exchange-button {
+    margin: 1em 0;    
+}
+
+/* General table styles */
+.table {
+    margin: 0 auto 2em auto;
+}
+
+.table-content {
+    overflow-x: auto;
+    margin: auto;
+    width: 80%;
+}
+
+#exchanges-table-content{
+    margin: 2em auto;
+}
+
+#binance-copy-trading-btc-table-content,
+#binance-copy-trading-eth-table-content {
+    margin: 0 auto 2em auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    vertical-align: middle; /* Ensure vertical alignment */
+    border-bottom: 1px solid grey;
+    padding: 12px 15px;
+}
+
+th {
+    background-color: rgba(75, 75, 75, 0.75);;
+    font-weight: bold;
+}
+
+.table-buttons-group {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start; /* or center, if you prefer */
+    gap: 0.5em;       /* spacing between buttons */
+}
+
+.table-edit-button,
+.table-delete-button {
+    color: black;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 3px;
+    margin: 2px;
+}
+
+.table-edit-button{
+    background-color: white;
+}
+
+.table-delete-button {
+    background-color: red;
+}
+
+.table-edit-button:active,
+.table-delete-button:active {
+    transform: scale(0.98); /* Slight shrink effect */
+}
+
+td:nth-child(2) {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Show '...' when content overflows */
+    max-width: 150px; /* Adjust width as needed */
+}
+
+td:nth-child(3) {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Show '...' when content overflows */
+    max-width: 300px; /* Adjust width as needed */
+}
+
+.new-exchange-form-submit {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align items to the left */
+    gap: 10px; /* Adjust the gap as needed */
+}
+
+.form-container{
+    display: none;
+}
+
+.form-container.active {
+    display: block; /* Show when active */
+}
+
+.dropdown-menu {
+    color: white;
+    position: relative; /* Changed to relative for better positioning */
+    list-style-type: none;
+    align-self: left;
+    display: block;
+    cursor: pointer;
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+    margin-top: 0.5em;
+    padding: 0.5em;
+    font-size: 1em;
+}
+
+.dropdown-timeRange {
+    color: white;
+    position: relative; /* Changed to relative for better positioning */
+    list-style-type: none;
+    align-self: left;
+    display: block;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 0.25em;
+    font-size: 1.25em;
+    margin-top: 1em;
+}
+
+.dropdown-timeRange:hover,
+.dropdown-menu:hover {
+    background-color: black;
+    outline: none; /* Remove default outline */
+}
+
+.dropdown-timeRange:focus,
+.dropdown-menu:focus {
+    background-color: black;
+    outline: none; /* Remove default outline */
+}
+
+.status-message {
+    color: white;
+    display: none;
+    width: fit-content;
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap; /* Prevents text from wrapping */
+    /*border: 1px solid white;*/
+    margin: 10px;
+    font-size: 1em;
+    /*border-radius: 5px;
+    padding: 0.5em 0.5em;*/
+    max-width: 300px;
+}
+
+.card-content,
+.empty-card-content {
+    display: inline-block;
+    border: 1px solid white; /* Adds a white border */
+    border-radius: 10px; /* Optional: Adds rounded corners */
+    padding: 1em; /* Optional: Adds padding inside the border */
+    margin: auto 1em 1em 0.5em; /* Centers the container and adds vertical margin */
+    max-width: 415px; /* Sets a maximum width for the container */
+    width: 100%; /* Ensures the container adjusts to smaller screen sizes */
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.empty-card-content{
+    margin-top: 1em;
+}
+
+.user-manual-content {
+    display: block;
+    border-radius: 10px; /* Optional: Adds rounded corners */
+    padding-left: 1em; /* Optional: Adds padding inside the border */
+    padding-right: 1.5em; /* Optional: Adds padding inside the border */
+    margin: auto 1em 1.5em 0.5em; /* Centers the container and adds vertical margin */
+    width: 100%; /* Ensures the container adjusts to smaller screen sizes */
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+    border: none;
+    background-color: transparent;
+    max-width: 1250px; /* Sets a maximum width for the container */
+}
+
+.charts-content{
+    display: inline-block;
+    border: 1px solid; /* Adds a white border */
+    border-radius: 10px; /* Optional: Adds rounded corners */
+    padding: 1em; /* Optional: Adds padding inside the border */
+    margin: auto 1em 1em 0.5em; /* Centers the container and adds vertical margin */
+    max-width: 415px; /* Sets a maximum width for the container */
+    width: 100%; /* Ensures the container adjusts to smaller screen sizes */
+    box-sizing: border-box; /* Ensures padding and border are included in the width */
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.card-content.collapsed,
+.user-manual-content.collapsed,
+.table-content.collapsed,
+.canvas-content.collapsed,
+.charts-content.collapsed {
+    border: none;
+    max-height: 0;
+    padding: 0;
+}
+
+.table-content.collapsed,
+.canvas-content.collapsed,
+.charts-content.collapsed {
+    display: none;
+    margin: 0;
+}
+
+.card-title,
+.inside-card-title {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.analytics-card-title {
+    display: flex;
+    align-items: center;
+}
+
+.card-content-title {
+    cursor: pointer;
+    display: inline;
+    align-items: center;
+}
+
+.active-card-content-title {
+    display: inline;
+    align-items: center;
+}
+
+.dashboard-content-title {
+    display: inline;
+    align-items: center;
+}
+
+.card-content-text {
+    display: inline;
+    align-items: center;
+}
+
+.card-title.collapsed,
+.inside-card-title.collapsed {
+    padding: 0;
+    margin-bottom: 0;
+}
+
+/*#portfolio-title.collapsed,
+#profit-loss-title.collapsed,
+#active-bots-title.collapsed,*/
+#binance-positions-title.collapsed {
+    padding-bottom: 0.75em;
+}
+
+.card-title::before {
+    content: '\25BD'; /* Bottom arrow */
+    margin-right: 0.5em;
+    transition: transform 0.3s;
+    display: inline-block;
+}
+
+.card-title.collapsed::before {
+    transform: rotate(-90deg);
+}
+
+#binance-btc-copy-trading,
+#binance-eth-copy-trading {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+#binance-btc-copy-trading:hover,
+#binance-eth-copy-trading:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#binance-btc-copy-trading.expanded,
+#binance-eth-copy-trading.expanded {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.inside-card-title::after,
+#binance-btc-copy-trading-title::after,
+#binance-eth-copy-trading-title::after {
+    content: '\25B6'; /* Right arrow */
+    margin-left: 0.25em;
+    transition: transform 0.3s;
+    display: inline-block;
+}
+
+.inside-card-title::after{
+    margin-left: 0.5em;
+}
+
+.inside-card-title.collapsed::after,
+#binance-btc-copy-trading-title.expanded::after,
+#binance-eth-copy-trading-title.expanded::after {
+    transform: rotate(90deg);
+}
+
+#binance-analytics-btc-card,
+#binance-analytics-eth-card,
+#binance-copy-trading-btc-card,
+#binance-copy-trading-eth-card {
+    max-width: 99%;
+    padding-top: 0;
+}
+
+#binance-analytics-title {
+    padding-bottom: 0;
+    margin-bottom: 0.75em;
+}
+
+#binance-analytics-btc-title,
+#binance-analytics-eth-title {
+    padding: 0;
+    margin-bottom: 0;
+    margin-top: 0.75em;
+}
+
+#binance-analytics-btc-table-content,
+#binance-analytics-eth-table-content {
+    margin-top: 2em;
+}
+
+.balances-container {
+    display: flex; /* Use Flexbox for horizontal alignment */
+    justify-content: space-between; /* Distributes space between items */
+    gap: 2em; /* Adds space between the balance sections */
+}
+
+.balance-section {
+    flex: 1; /* Allows sections to grow and shrink equally */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.user-manual-image {
+    width: 100%;
+    height: auto;
+    display: block; /* removes extra space below image */
+    object-fit: contain; /* optional: keeps image from cropping */
+}
+
+.white-link {
+    color: white;
+    font-weight: bold;
+}
+
+.black-link {
+    color: black;
+    font-weight: bold;
+}
+
+.black-link:hover,
+.white-link:hover {
+    color: grey;
+}
+
+.dashboard-canvas,
+.analytics-canvas,
+.copy-trade-canvas {
+    width: 100%;
+}
+
+.canvas-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    width: 100%;
+}
+
+.balance-pie {
+    display: flex;
+    align-self: center;
+    width: 100%; /* Make the container responsive */
+    max-width: 95px; /* Set a maximum width */
+    margin: 0 0.5em 0.75em 0.5em; /* Center the container */
+}
+
+.profit-loss-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.profit-loss-container p {
+    margin-top: 0.25em;
+}
+
+#binance-portfolio,
+#binance-profit-loss{
+    padding-bottom: 0;
+}
+
+#binance-left-profit-loss-values,
+#binance-right-profit-loss-values {
+    width: 48%; /* Adjust width to fit properly */
+}
+/*
+.balance-section h4,
+.profit-loss-values h4 {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+*/
+
+#faq-card p,
+#donations-card p {
+    word-wrap: break-word;   /* Allows breaking long words */
+    overflow-wrap: anywhere; /* Breaks text at any point if needed */
+    white-space: normal;     /* Ensures the text wraps */
+}
+
+/* Media queries for medium-large screens */
+@media (max-width: 1600px) {
+    body {
+        font-size: 0.95em;
+    }
+
+    .sidebar {
+        width: 200px;
+        min-width: 200px;
+    }
+
+    .sidebar-logo {
+        width: 2.75em;
+        height: 2.75em;
+        margin-right: 0.2em;
+    }
+
+    .sidebar-menu a {
+        padding: 0.45em 1em;
+    }
+
+    .main-content {
+        padding: 0 1.75em 1.75em 1.75em;
+    }
+
+    .user-icon {
+        width: 65px;
+        height: 65px;
+    }
+
+    .user-manual-content {
+        max-width: 950px;
+    }
+
+    .profile-changes input,
+    .form-container input {
+        max-width: 375px;
+    }
+
+    td:nth-child(2) {
+        max-width: 140px;
+    }
+
+    td:nth-child(3) {
+        max-width: 275px;
+    }
+
+    .table-buttons-group {
+        transform: scale(0.95);
+    }
+
+    .charts-content {
+        max-width: 395px;
+    }
+
+    .balance-pie {
+        max-width: 90px;
+    }
+
+    .status-message {
+        max-width: 275px;
+    }
+}
+
+@media (max-width: 1200px) {
+    body {
+        background-image: url('../static/backgrounds/CTF_background_mobile.webp');
+        font-size: 0.9em;
+    }
+    
+    .sidebar {
+        width: 180px;
+        min-width: 180px;
+    }
+
+    .sidebar-header {
+        /*margin-left: 0.1em;*/
+        margin: 0.5em 0.45em;
+    }
+    
+    .sidebar-logo {
+        margin-right: 0.1em;
+    }
+/*
+    body.icons-only .sidebar-logo {
+        padding-left: 0.6em;
+    }
+*/
+    .sidebar-menu a {
+        padding: 0.35em 1em;
+    }
+
+    .footer-icon-link {
+        margin: 0.35em;
+    }
+
+    .main-content {
+        padding: 0 1.5em 1.5em 1.5em;
+    }
+
+    .user-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .user-manual-content {
+        max-width: 700px;
+    }
+
+    /* Icons-only mode */
+    body.icons-only .sidebar {
+        width: 70px;
+        min-width: 70px;
+    }
+
+    .profile-changes input,
+    .form-container input {
+        max-width: 350px;
+    }
+
+    td:nth-child(2) {
+        max-width: 125px; /* Adjust width as needed */
+    }
+    
+    td:nth-child(3) {
+        max-width: 250px; /* Adjust width as needed */
+    }
+
+    .table-buttons-group {
+        transform: scale(0.9);
+    }
+
+    .status-message {
+        max-width: 250px;
+    }
+
+    .charts-content{
+        max-width: 375px;
+    }
+
+    .balance-pie {
+        max-width: 85px; /* Set a maximum width */
+    }
+}
+
+/* Media queries for smartphones */
+@media (max-width: 800px) {
+    body {
+        background-image: url('../static/backgrounds/CTF_background_mobile.webp');
+        font-size: 0.7em;
+    }
+
+    .sidebar {
+        width: 120px;
+        min-width: 120px;
+    }
+
+    .sidebar-header {
+        /*margin-left: 0.1em;*/
+        margin: 0 0.3em;
+        padding: 0;
+    }
+    
+    .sidebar-logo {
+        width: 3em; /* Fixed width for the logo */
+        height: 3em; /* Fixed height for the logo */
+        margin-right: 0.1em;
+    }
+/*
+    body.icons-only .sidebar-logo {
+        padding-left: 0.6em;
+    }
+*/
+    .sidebar-menu a {
+        padding: 0.35em 0.9em;
+    }
+
+    .footer-icon-link {
+        margin: 0.35em;
+    }
+
+    .main-content {
+        padding: 0 1em 1em 1em;
+    }
+
+    .user-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .user-manual-content {
+        max-width: 400px;
+    }
+
+    /* Icons-only mode */
+    body.icons-only .sidebar {
+        width: 50px;
+        min-width: 50px;
+    }
+
+    .profile-changes input,
+    .form-container input {
+        max-width: 300px;
+    }
+
+    td:nth-child(2) {
+        max-width: 100px; /* Adjust width as needed */
+    }
+    
+    td:nth-child(3) {
+        max-width: 200px; /* Adjust width as needed */
+    }
+
+    .table-buttons-group {
+        transform: scale(0.7);
+    }
+
+    .status-message {
+        max-width: 200px;
+    }
+
+    .charts-content{
+        max-width: 300px;
+    }
+    
+    .balance-pie {
+        max-width: 65px; /* Set a maximum width */
+    }
+}

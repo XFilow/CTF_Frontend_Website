@@ -918,6 +918,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
+                    color: '#ffffff',
                     plugins: {
                         legend: {
                           labels: {
@@ -1024,6 +1025,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
+                    color: '#cccccc',
                     plugins: {
                         legend: {
                           labels: {

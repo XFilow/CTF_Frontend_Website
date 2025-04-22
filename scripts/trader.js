@@ -2082,7 +2082,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update Analytics Binance BTC Table and Charts
     document.getElementById("binance-analytics-btc-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
-        updateStatsTable('analytics','binance', 'btc', days, false);
+        updateStatsTable('analytics','binance', 'btc', days, true);
         updatePositionsChart('analytics','binance', 'btc', days, true);
         updateProfitLossChart('analytics', 'binance', 'btc', days, true);
         updateCumulativeProfitChart('analytics', 'binance', 'btc', days, true);
@@ -2102,7 +2102,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update Analytics Binance ETH Table and Charts
     document.getElementById("binance-analytics-eth-positions-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
-        updateStatsTable('analytics','binance', 'eth', days, false);
+        updateStatsTable('analytics','binance', 'eth', days, true);
         updatePositionsChart('analytics','binance', 'eth', days, true);
         updateProfitLossChart('analytics', 'binance', 'eth', days, true);
         updateCumulativeProfitChart('analytics', 'binance', 'eth', days, true);

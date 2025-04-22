@@ -775,7 +775,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            const isSmallScreen = window.innerWidth <= 1000;
+            //const isSmallScreen = window.innerWidth <= 1000;
             positionsCharts[chartKey] = new Chart(ctx, {
                 type: "bar",
                 data: {
@@ -790,14 +790,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
-                    plugins: {
-                        legend: {
-                            display: !isSmallScreen
-                        }
-                    },
                     scales: {
-                        x: { title: { display: true, text: getAxisLabel(windowSize) } },
-                        y: { title: { display: true, text: "Count" }, beginAtZero: true, 
+                        x: { title: { display: false } },
+                        y: { title: { display: false }, beginAtZero: true, 
                             ticks: {
                                 callback: (value) => Number.isInteger(value) ? value : null, // Only show whole numbers
                                 stepSize: function (context) {
@@ -897,7 +892,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const backgroundColor = isPositive ? "rgba(75, 190, 110, 0.3)" : "rgba(255, 100, 100, 0.3)";
             const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
 
-            const isSmallScreen = window.innerWidth <= 1000;
+            //const isSmallScreen = window.innerWidth <= 1000;
             profitLossCharts[chartKey] = new Chart(ctx, {
                 type: "line",
                 data: {
@@ -913,15 +908,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
-                    plugins: {
-                        legend: {
-                            display: !isSmallScreen
-                        }
-                    },
                     scales: {
-                        x: { title: { display: true, text: getAxisLabel(windowSize) } },
+                        x: { title: { display: false } },
                         y: {
-                            title: {display: true, text: element === 'analytics' ? "Profit (%)" : "Profit ($)"},
+                            title: {display: false },
                             beginAtZero: true
                         }
                     }
@@ -999,7 +989,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const backgroundColor = isPositive ? "rgba(75, 190, 110, 0.3)" : "rgba(255, 100, 100, 0.3)";
             const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
 
-            const isSmallScreen = window.innerWidth <= 1000;
+            //const isSmallScreen = window.innerWidth <= 1000;
             cumulativeProfitCharts[chartKey] = new Chart(ctx, {
                 type: "line",
                 data: {
@@ -1015,15 +1005,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
-                    plugins: {
-                        legend: {
-                            display: !isSmallScreen
-                        }
-                    },
                     scales: {
-                        x: { title: { display: true, text: getAxisLabel(windowSize) } },
+                        x: { title: { display: false } },
                         y: {
-                            title: {display: true, text: element === 'analytics' ? "Profit (%)" : "Profit ($)"},
+                            title: {display: false },
                             beginAtZero: true
                         }
                     }

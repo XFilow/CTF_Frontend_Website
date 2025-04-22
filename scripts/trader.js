@@ -634,7 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let profitableTrades = totalTrades > 0 ? ((profitableCount / totalTrades) * 100).toFixed(2) : 0;
             let maxGainPercent = Math.max(...profitPercentages);
             let maxLossPercent = Math.min(...profitPercentages);
-            maxGainPercent = maxLossPercent > 0 ? maxGainPercent.toFixed(2) : 0;
+            maxGainPercent = maxGainPercent > 0 ? maxGainPercent.toFixed(2) : 0;
             maxLossPercent = maxLossPercent < 0 ? maxLossPercent.toFixed(2) : 0;
 
             // Max Gain / Max Loss in dollars
@@ -790,20 +790,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
-                    plugins: {
-                        legend: {
-                            labels: {
-                                generateLabels: (chart) => {
-                                    const original = chart.options.plugins.legend.labels.generateLabels(chart);
-                                    return original.map(label => ({
-                                        ...label,
-                                        fillStyle: 'transparent',
-                                        strokeStyle: 'transparent'
-                                    }));
-                                }
-                            }
-                        }
-                    },
                     scales: {
                         x: { title: { display: false } },
                         y: { title: { display: false }, beginAtZero: true, 
@@ -922,20 +908,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
-                    plugins: {
-                        legend: {
-                            labels: {
-                                generateLabels: (chart) => {
-                                    const original = chart.defaults.plugins.legend.labels.generateLabels(chart);
-                                    return original.map(label => ({
-                                        ...label,
-                                        fillStyle: 'transparent',
-                                        strokeStyle: 'transparent'
-                                    }));
-                                }
-                            }
-                        }
-                    },
                     scales: {
                         x: { title: { display: false } },
                         y: {
@@ -1033,20 +1005,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
-                    plugins: {
-                        legend: {
-                            labels: {
-                                generateLabels: (chart) => {
-                                    const original = chart.defaults.plugins.legend.labels.generateLabels(chart);
-                                    return original.map(label => ({
-                                        ...label,
-                                        fillStyle: 'transparent',
-                                        strokeStyle: 'transparent'
-                                    }));
-                                }
-                            }
-                        }
-                    },
                     scales: {
                         x: { title: { display: false } },
                         y: {

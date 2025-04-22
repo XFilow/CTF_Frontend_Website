@@ -790,6 +790,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                generateLabels: (chart) => {
+                                    const original = chart.options.plugins.legend.labels.generateLabels(chart);
+                                    return original.map(label => ({
+                                        ...label,
+                                        fillStyle: 'transparent',
+                                        strokeStyle: 'transparent'
+                                    }));
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         x: { title: { display: false } },
                         y: { title: { display: false }, beginAtZero: true, 
@@ -908,6 +922,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                generateLabels: (chart) => {
+                                    const original = chart.defaults.plugins.legend.labels.generateLabels(chart);
+                                    return original.map(label => ({
+                                        ...label,
+                                        fillStyle: 'transparent',
+                                        strokeStyle: 'transparent'
+                                    }));
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         x: { title: { display: false } },
                         y: {
@@ -1005,6 +1033,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                generateLabels: (chart) => {
+                                    const original = chart.defaults.plugins.legend.labels.generateLabels(chart);
+                                    return original.map(label => ({
+                                        ...label,
+                                        fillStyle: 'transparent',
+                                        strokeStyle: 'transparent'
+                                    }));
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         x: { title: { display: false } },
                         y: {
@@ -1855,7 +1897,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Copy-trade Charts Display for Binance ETH 
-    document.getElementById('binance-eth-copy-trading-title').addEventListener('click', async function() {
+    document.getElementById('binance-eth-copy-trading').addEventListener('click', async function() {
         const binanceEthCopyTrading = document.getElementById('binance-eth-copy-trading');
         const binanceCopyTradingEthCard = document.getElementById('binance-copy-trading-eth-card');
         const binanceEthCopyTradingTitle = document.getElementById('binance-eth-copy-trading-title');

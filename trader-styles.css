@@ -202,6 +202,7 @@ body.icons-only .footer-icon-links {
     color: white;
     background-color: transparent;
     cursor: pointer;
+    overflow: hidden;
     border: 1px solid white;
     border-radius: 5px;
     padding: 0.5em;
@@ -250,7 +251,7 @@ body.icons-only .footer-icon-links {
     background-color: rgba(0, 0, 0, 0.75);
     border-radius: 10px;
     padding-left: 1em;
-    padding-right: 1em;
+    padding-right: 2em;
     margin-bottom: 1em; /* Add margin between cards */
     flex: 1;
     overflow-y: auto; /* Enables scrolling for content */
@@ -665,7 +666,8 @@ td:nth-child(3) {
     box-sizing: border-box; /* Ensures padding and border are included in the width */
     transition: max-height 0.3s ease;
     overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    background-color: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.5);
 }
 
@@ -892,6 +894,14 @@ td:nth-child(3) {
         font-size: 0.95em;
     }
 
+    .content-header {
+        padding-right: 0.75em;
+    }
+
+    .header-button {
+        font-size: 1.2em;
+    }
+
     .sidebar {
         width: 200px;
         min-width: 200px;
@@ -901,10 +911,11 @@ td:nth-child(3) {
         width: 2.75em;
         height: 2.75em;
         margin-right: 0.2em;
+        margin-left: 0.1em;
     }
 
     .sidebar-menu a {
-        padding: 0.45em 1em;
+        padding: 0.45em 1.1em;
     }
 
     .main-content {
@@ -918,6 +929,12 @@ td:nth-child(3) {
 
     .user-manual-content {
         max-width: 950px;
+    }
+    
+    /* Icons-only mode */
+    body.icons-only .sidebar {
+        width: 75px;
+        min-width: 75px;
     }
 
     .profile-changes input,
@@ -954,6 +971,14 @@ td:nth-child(3) {
     body {
         background-image: url('../static/backgrounds/CTF_background_mobile.webp');
         font-size: 0.9em;
+    }
+
+    .content-header {
+        padding-right: 0.5em;
+    }
+
+    .header-button {
+        font-size: 1.1em;
     }
     
     .sidebar {
@@ -1038,6 +1063,18 @@ td:nth-child(3) {
         font-size: 0.7em;
     }
 
+    .content-header {
+        padding-right: 0;
+    }
+
+    .header-button {
+        font-size: 1em;
+    }
+
+    #user-icon {
+        display: none;
+    }
+
     .sidebar {
         width: 120px;
         min-width: 120px;
@@ -1049,18 +1086,12 @@ td:nth-child(3) {
         padding: 0;
     }
     
-    .sidebar-logo {
-        width: 3em; /* Fixed width for the logo */
-        height: 3em; /* Fixed height for the logo */
-        margin-right: 0.1em;
-    }
-/*
     body.icons-only .sidebar-logo {
-        padding-left: 0.6em;
+        margin-left: -0.15em;
     }
-*/
+
     .sidebar-menu a {
-        padding: 0.35em 0.9em;
+        padding: 0.35em 0.65em;
     }
 
     .footer-icon-link {
@@ -1082,8 +1113,8 @@ td:nth-child(3) {
 
     /* Icons-only mode */
     body.icons-only .sidebar {
-        width: 50px;
-        min-width: 50px;
+        width: 45px;
+        min-width: 45px;
     }
 
     .profile-changes input,

@@ -790,7 +790,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
-                    color: '#ffffff',
+                    color: '#cccccc',
                     plugins: {
                         legend: {
                           labels: {
@@ -801,9 +801,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     },
                     scales: {
-                        x: { title: { display: false } },
+                        x: { title: { display: false }, ticks: { color: '#cccccc' } },
                         y: { title: { display: false }, beginAtZero: true, 
                             ticks: {
+                                color: '#cccccc',
                                 callback: (value) => Number.isInteger(value) ? value : null, // Only show whole numbers
                                 stepSize: function (context) {
                                     const maxValue = context.chart.scales.y.max; 
@@ -918,7 +919,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
-                    color: '#ffffff',
+                    color: '#cccccc',
                     plugins: {
                         legend: {
                           labels: {
@@ -929,9 +930,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     },
                     scales: {
-                        x: { title: { display: false } },
+                        x: { title: { display: false }, ticks: { color: '#cccccc' } },
                         y: {
-                            title: {display: false },
+                            title: { display: false },
+                            ticks: { color: '#cccccc' },
                             beginAtZero: true
                         }
                     }
@@ -1036,9 +1038,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     },
                     scales: {
-                        x: { title: { display: false } },
+                        x: { title: { display: false }, ticks: { color: '#cccccc' } },
                         y: {
-                            title: {display: false },
+                            title: { display: false },
+                            ticks: { color: '#cccccc' },
                             beginAtZero: true
                         }
                     }

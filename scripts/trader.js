@@ -790,6 +790,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
+                    color: '#ffffff',
+                    plugins: {
+                        legend: {
+                          labels: {
+                            usePointStyle: true,
+                            pointStyle: 'line',
+                            boxWidth: 0
+                            }
+                        }
+                    },
                     scales: {
                         x: { title: { display: false } },
                         y: { title: { display: false }, beginAtZero: true, 
@@ -908,6 +918,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
+                    plugins: {
+                        legend: {
+                          labels: {
+                            usePointStyle: true,
+                            pointStyle: 'line',
+                            boxWidth: 0
+                            }
+                        }
+                    },
                     scales: {
                         x: { title: { display: false } },
                         y: {
@@ -1005,6 +1024,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
+                    plugins: {
+                        legend: {
+                          labels: {
+                            usePointStyle: true,
+                            pointStyle: 'line',
+                            boxWidth: 0
+                            }
+                        }
+                    },
                     scales: {
                         x: { title: { display: false } },
                         y: {
@@ -2113,7 +2141,7 @@ document.addEventListener('DOMContentLoaded', function() {
     /* ETH */
 
     // Update Analytics Binance ETH Table and Charts
-    document.getElementById("binance-analytics-eth-positions-timeRange").addEventListener("change", (event) => {
+    document.getElementById("binance-analytics-eth-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
         updateStatsTable('analytics','binance', 'eth', days, true);
         updatePositionsChart('analytics','binance', 'eth', days, true);

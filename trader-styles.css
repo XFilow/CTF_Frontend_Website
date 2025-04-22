@@ -482,7 +482,7 @@ body.icons-only .footer-icon-links {
 
 #binance-copy-trading-btc-table-content,
 #binance-copy-trading-eth-table-content {
-    margin: 0 auto 2em auto;
+    margin: 0.5em auto 1.5em auto;
 }
 
 table {
@@ -588,7 +588,7 @@ td:nth-child(3) {
     background-color: transparent;
     border-radius: 5px;
     padding: 0.25em;
-    font-size: 1.25em;
+    font-size: 1.1em;
     margin-top: 1em;
 }
 
@@ -672,7 +672,8 @@ td:nth-child(3) {
 .user-manual-content.collapsed,
 .table-content.collapsed,
 .canvas-content.collapsed,
-.charts-content.collapsed {
+.charts-content.collapsed,
+.dropdown-timeRange.collapsed {
     border: none;
     max-height: 0;
     padding: 0;
@@ -680,7 +681,8 @@ td:nth-child(3) {
 
 .table-content.collapsed,
 .canvas-content.collapsed,
-.charts-content.collapsed {
+.charts-content.collapsed,
+.dropdown-timeRange.collapsed {
     display: none;
     margin: 0;
 }

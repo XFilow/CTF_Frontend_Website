@@ -552,7 +552,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     updatePositionsChart(element, exchange, coin, days, copyTrade);
                     updateProfitLossChart(element, exchange, coin, days, copyTrade);
                     updateCumulativeProfitChart(element, exchange, coin, days, copyTrade);
-                    updateStatsTable(element, exchange, coin, 0, copyTrade);
+                    updateStatsTable(element, exchange, coin, days, copyTrade);
                 });
             });
         } catch (error) {
@@ -1318,7 +1318,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     updatePositionsChart(element, exchange, coin, days, copyTrade);
                     updateProfitLossChart(element, exchange, coin, days, copyTrade);
                     updateCumulativeProfitChart(element, exchange, coin, days, copyTrade);
-                    updateStatsTable(element, exchange, coin, 0, copyTrade);
+                    updateStatsTable(element, exchange, coin, days, copyTrade);
                 });
             });
 
@@ -1628,7 +1628,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.inside-card-title').forEach(title => {
         title.addEventListener('click', function () {
             const cardContent = this.closest('.card-content'); // Find the nearest card-content
-            const targetContents = cardContent.querySelectorAll('.table-content, .canvas-content');
+            const targetContents = cardContent.querySelectorAll('.table-content, .canvas-content, .dropdown-timeRange');
             targetContents.forEach(content => {
                 content.classList.toggle('collapsed');
             });
@@ -2079,21 +2079,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
     /* BTC */
 
-    // Update Binance BTC Positions Histogram Analytics
-    document.getElementById("binance-analytics-btc-positions-timeRange").addEventListener("change", (event) => {
+    // Update Analytics Binance BTC Table and Charts
+    document.getElementById("binance-analytics-btc-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
+        updateStatsTable('analytics','binance', 'btc', days, false);
         updatePositionsChart('analytics','binance', 'btc', days, true);
-    });
-
-    // Update Binance BTC Binance Profit-Loss Chart Analytics
-    document.getElementById("binance-analytics-btc-profit-loss-timeRange").addEventListener("change", (event) => {
-        const days = parseInt(event.target.value);
         updateProfitLossChart('analytics', 'binance', 'btc', days, true);
-    });
-
-    // Update Binance BTC Cumulative Profits Chart Analytics
-    document.getElementById("binance-analytics-btc-cumulative-profit-timeRange").addEventListener("change", (event) => {
-        const days = parseInt(event.target.value);
         updateCumulativeProfitChart('analytics', 'binance', 'btc', days, true);
     });
 
@@ -2108,21 +2099,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* ETH */
 
-    // Update Binance ETH Positions Histogram Analytics
+    // Update Analytics Binance ETH Table and Charts
     document.getElementById("binance-analytics-eth-positions-timeRange").addEventListener("change", (event) => {
         const days = parseInt(event.target.value);
+        updateStatsTable('analytics','binance', 'eth', days, false);
         updatePositionsChart('analytics','binance', 'eth', days, true);
-    });
-
-    // Update Binance ETH Binance Profit-Loss Chart Analytics
-    document.getElementById("binance-analytics-eth-profit-loss-timeRange").addEventListener("change", (event) => {
-        const days = parseInt(event.target.value);
         updateProfitLossChart('analytics', 'binance', 'eth', days, true);
-    });
-
-    // Update Binance ETH Cumulative Profits Chart Analytics
-    document.getElementById("binance-analytics-eth-cumulative-profit-timeRange").addEventListener("change", (event) => {
-        const days = parseInt(event.target.value);
         updateCumulativeProfitChart('analytics', 'binance', 'eth', days, true);
     });
 

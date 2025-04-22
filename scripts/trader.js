@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateWindowOnResize() {
         //console.log("Resized!"); // Debug
-        const isSmallScreen = window.innerWidth <= 900;
+        const isSmallScreen = window.innerWidth <= 1000;
         if (isSmallScreen) {
             document.body.classList.add('icons-only');
             sidebarTitle.style.display = 'none';
@@ -774,7 +774,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 //console.log("No position data available after filtering.");
                 return;
             }
-    
+
+            const isSmallScreen = window.innerWidth <= 1000;
             positionsCharts[chartKey] = new Chart(ctx, {
                 type: "bar",
                 data: {
@@ -789,6 +790,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
+                    plugins: {
+                        legend: {
+                            display: !isSmallScreen
+                        }
+                    },
                     scales: {
                         x: { title: { display: true, text: getAxisLabel(windowSize) } },
                         y: { title: { display: true, text: "Count" }, beginAtZero: true, 
@@ -891,6 +897,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const backgroundColor = isPositive ? "rgba(75, 190, 110, 0.3)" : "rgba(255, 100, 100, 0.3)";
             const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
 
+            const isSmallScreen = window.innerWidth <= 1000;
             profitLossCharts[chartKey] = new Chart(ctx, {
                 type: "line",
                 data: {
@@ -908,7 +915,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     responsive: true,
                     plugins: {
                         legend: {
-                            display: false
+                            display: !isSmallScreen,
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
                         }
                     },
                     scales: {
@@ -992,6 +1003,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const backgroundColor = isPositive ? "rgba(75, 190, 110, 0.3)" : "rgba(255, 100, 100, 0.3)";
             const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
 
+            const isSmallScreen = window.innerWidth <= 1000;
             cumulativeProfitCharts[chartKey] = new Chart(ctx, {
                 type: "line",
                 data: {
@@ -1009,7 +1021,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     responsive: true,
                     plugins: {
                         legend: {
-                            display: false
+                            display: !isSmallScreen,
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
                         }
                     },
                     scales: {
@@ -1413,8 +1429,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Sidebar expansion
     document.getElementById('sidebar-toggle').addEventListener('click', function() {
-
-        if (window.innerWidth <= 1000) return;
+        const isSmallScreen = window.innerWidth <= 1000;
+        if (isSmallScreen) return;
         //sidebar.classList.toggle('expanded');
         //mainContent.classList.toggle('expanded');
         document.body.classList.toggle('icons-only');

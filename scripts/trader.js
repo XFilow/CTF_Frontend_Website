@@ -867,7 +867,12 @@ document.addEventListener('DOMContentLoaded', function() {
             data.forEach(trade => {
                 const date = new Date(trade.closeTime);
                 let label = formatLabel(date, windowSize);
-                aggregatedProfits[label] = (aggregatedProfits[label] || 0) + parseFloat(trade.profitPercent);
+
+                let valueToAdd = element === 'analytics'
+                    ? parseFloat(trade.profitPercent)
+                    : parseFloat(trade.dollarGain);
+
+                aggregatedProfits[label] = (aggregatedProfits[label] || 0) + valueToAdd;
             });
     
             const labels = Object.keys(aggregatedProfits);
@@ -891,7 +896,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: "Profit/Loss (%)",
+                        label: element === 'analytics' ? "Profit/Loss (%)" : "Profit/Loss ($)",
                         data: profitData,
                         backgroundColor: backgroundColor,
                         borderColor: borderColor,
@@ -901,10 +906,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
                     scales: {
                         x: { title: { display: true, text: getAxisLabel(windowSize) } },
                         y: {
-                            title: { display: true, text: "Profit (%)" },
+                            title: {display: true, text: element === 'analytics' ? "Profit (%)" : "Profit ($)"},
                             beginAtZero: true
                         }
                     }
@@ -953,7 +963,12 @@ document.addEventListener('DOMContentLoaded', function() {
             data.forEach(trade => {
                 const date = new Date(trade.closeTime);
                 let label = formatLabel(date, windowSize);
-                aggregatedCumulative[label] = parseFloat(trade.cumulativeProfit);
+
+                const value = element === 'analytics'
+                    ? parseFloat(trade.cumulativeProfit)
+                    : parseFloat(trade.cumulativeDollarProfit);
+
+                aggregatedCumulative[label] = value;
             });
     
             const labels = Object.keys(aggregatedCumulative);
@@ -982,7 +997,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: "Cumulative Profit (%)",
+                        label: element === 'analytics' ? "Cumulative Profit (%)" : "Cumulative Profit ($)",
                         data: cumulativeData,
                         backgroundColor: backgroundColor,
                         borderColor: borderColor,
@@ -992,10 +1007,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
                     scales: {
                         x: { title: { display: true, text: getAxisLabel(windowSize) } },
                         y: {
-                            title: { display: true, text: "Profit (%)" },
+                            title: {display: true, text: element === 'analytics' ? "Profit (%)" : "Profit ($)"},
                             beginAtZero: true
                         }
                     }

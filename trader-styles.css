@@ -833,9 +833,7 @@ td:nth-child(3) {
     color: grey;
 }
 
-.dashboard-canvas,
-.analytics-canvas,
-.copy-trade-canvas {
+.chart-canvas {
     width: 100%;
 }
 

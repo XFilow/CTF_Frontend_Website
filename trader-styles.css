@@ -922,6 +922,10 @@ td:nth-child(3) {
         padding: 0 1.75em 1.75em 1.75em;
     }
 
+    .card-content{
+        max-width: 400px;
+    }
+
     .user-icon {
         width: 65px;
         height: 65px;
@@ -1011,6 +1015,10 @@ td:nth-child(3) {
         padding: 0 1.5em 1.5em 1.5em;
     }
 
+    .card-content{
+        max-width: 375px;
+    }
+
     .user-icon {
         width: 60px;
         height: 60px;
@@ -1069,6 +1077,14 @@ td:nth-child(3) {
 
     .header-button {
         font-size: 1em;
+    }
+
+    .card-content{
+        max-width: 350px;
+    }
+
+    #user-dropdown-toggle {
+        margin-right: 1em;
     }
 
     #user-icon {

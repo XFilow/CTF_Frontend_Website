@@ -650,7 +650,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let avgLossPercent = lossesPercent.length > 0 ? (lossesPercent.reduce((a, b) => a + b, 0) / lossesPercent.length).toFixed(2) : "0.00";
 
             // PNL Ratio
-            let pnlRatio = avgGainPercent / avgLossPercent
+            let pnlRatio = (avgGainPercent / avgLossPercent).toFixed(2)
 
             // Long/Short Ratio
             let divisor = gcd(longsCount, shortsCount);
@@ -898,7 +898,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 //console.log("No profit/loss data available after filtering.");
                 return;
             }
-           
+                
+            // Prepend a starting point at zero
+            const firstLabelDate = new Date(labels[0]);
+            const paddedDate = new Date(firstLabelDate);
+            paddedDate.setDate(paddedDate.getDate() - 1);
+            labels.unshift(formatLabel(paddedDate, windowSize)); // Add "day before" as label
+            profitData.unshift(0);  // Add zero as first profit point
+
             // Determine color based on overall profit trend
             const firstProfit = profitData.length > 0 ? profitData[0] : 0;
             const lastProfit = profitData.length > 0 ? profitData[profitData.length - 1] : 0;
@@ -936,21 +943,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     scales: {
                         x: {
                             title: { display: false },
-                            ticks: {
-                                color: '#cccccc',
-                                callback: function(value, index, ticks) {
-                                    // Try to parse the label string as a date
-                                    const rawLabel = this.getLabelForValue(value);
-                                    const date = new Date(rawLabel);
-                                    if (!isNaN(date)) {
-                                        return date.toLocaleDateString('en-GB', {
-                                            day: '2-digit',
-                                            month: '2-digit'
-                                        });
-                                    }
-                                    return rawLabel;
-                                }
-                            }
+                            ticks: { color: '#cccccc' }
                         },
                         y: {
                             title: { display: false },
@@ -1019,10 +1012,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Get the previous period label based on window size
-            //const firstTradeDate = new Date(data[0].closeTime);
-            //const previousPeriodDate = getPreviousPeriod(firstTradeDate, windowSize);
-            //const previousPeriodLabel = formatLabel(previousPeriodDate, windowSize);
+            // Prepend a starting point at zero
+            const firstLabelDate = new Date(labels[0]);
+            const paddedDate = new Date(firstLabelDate);
+            paddedDate.setDate(paddedDate.getDate() - 1);
+            labels.unshift(formatLabel(paddedDate, windowSize)); // Add "day before" as label
+            cumulativeData.unshift(0);  // Add zero as first profit point
     
             // Determine color based on overall profit trend
             const firstProfit = cumulativeData.length > 0 ? cumulativeData[0] : 0;
@@ -1097,11 +1092,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (windowSize === "1mo") return `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
         return date.getFullYear().toString();
     }
-
+/*
     function getAxisLabel(windowSize) {
         return windowSize === "1d" ? "Date" : (windowSize === "1mo" ? "Month" : "Year");
     }
-
+*/
     // Find the greatest common divisor (GCD)
     function gcd(a, b) {
         return b === 0 ? a : gcd(b, a % b);

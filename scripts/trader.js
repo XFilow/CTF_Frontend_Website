@@ -900,11 +900,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
                 
             // Prepend a starting point at zero
-            const firstLabelDate = new Date(labels[0]);
-            const paddedDate = new Date(firstLabelDate);
+            const firstTrade = data[0];
+            const firstDate = new Date(firstTrade.closeTime);
+            const paddedDate = new Date(firstDate);
             paddedDate.setDate(paddedDate.getDate() - 1);
-            labels.unshift(formatLabel(paddedDate, windowSize)); // Add "day before" as label
-            profitData.unshift(0);  // Add zero as first profit point
+            labels.unshift(formatLabel(paddedDate, windowSize));
+            profitData.unshift(0);
 
             // Determine color based on overall profit trend
             const firstProfit = profitData.length > 0 ? profitData[0] : 0;
@@ -1013,11 +1014,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Prepend a starting point at zero
-            const firstLabelDate = new Date(labels[0]);
-            const paddedDate = new Date(firstLabelDate);
+            const firstTrade = data[0];
+            const firstDate = new Date(firstTrade.closeTime);
+            const paddedDate = new Date(firstDate);
             paddedDate.setDate(paddedDate.getDate() - 1);
-            labels.unshift(formatLabel(paddedDate, windowSize)); // Add "day before" as label
-            cumulativeData.unshift(0);  // Add zero as first profit point
+            labels.unshift(formatLabel(paddedDate, windowSize));
+            cumulativeData.unshift(0);
     
             // Determine color based on overall profit trend
             const firstProfit = cumulativeData.length > 0 ? cumulativeData[0] : 0;
@@ -1088,8 +1090,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 */
     function formatLabel(date, windowSize) {
-        if (windowSize === "1d") return date.toLocaleDateString();
-        if (windowSize === "1mo") return `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+        if (windowSize === "1d") {
+            return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
+        }
+        if (windowSize === "1mo") {
+            return `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+        }
         return date.getFullYear().toString();
     }
 /*

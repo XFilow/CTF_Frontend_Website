@@ -649,6 +649,9 @@ document.addEventListener('DOMContentLoaded', function() {
             let avgGainPercent = gainsPercent.length > 0 ? (gainsPercent.reduce((a, b) => a + b, 0) / gainsPercent.length).toFixed(2) : "0.00";
             let avgLossPercent = lossesPercent.length > 0 ? (lossesPercent.reduce((a, b) => a + b, 0) / lossesPercent.length).toFixed(2) : "0.00";
 
+            // PNL Ratio
+            let pnlRatio = avgGainPercent / avgLossPercent
+
             // Long/Short Ratio
             let divisor = gcd(longsCount, shortsCount);
             let longRatio = longsCount / divisor;
@@ -675,6 +678,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${maxLossPercent}% / ${maxGainPercent}%</td>
                 <td>${avgLossPercent}% / ${avgGainPercent}%</td>
                 <td>${avgTradeTime}</td>
+                <td>${pnlRatio}</td>
                 <td>${longRatio}:${shortRatio}</td>
                 `;
                 tableBody.appendChild(row); 
@@ -930,7 +934,24 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     },
                     scales: {
-                        x: { title: { display: false }, ticks: { color: '#cccccc' } },
+                        x: {
+                            title: { display: false },
+                            ticks: {
+                                color: '#cccccc',
+                                callback: function(value, index, ticks) {
+                                    // Try to parse the label string as a date
+                                    const rawLabel = this.getLabelForValue(value);
+                                    const date = new Date(rawLabel);
+                                    if (!isNaN(date)) {
+                                        return date.toLocaleDateString('en-GB', {
+                                            day: '2-digit',
+                                            month: '2-digit'
+                                        });
+                                    }
+                                    return rawLabel;
+                                }
+                            }
+                        },
                         y: {
                             title: { display: false },
                             ticks: { color: '#cccccc' },

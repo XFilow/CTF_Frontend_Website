@@ -903,7 +903,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const firstTrade = data[0];
             const firstDate = new Date(firstTrade.closeTime);
             const paddedDate = new Date(firstDate);
-            paddedDate.setDate(paddedDate.getDate() - 1);
+            
+            // Subtract based on timeframe
+            if (windowSize === '1d') {
+                paddedDate.setDate(paddedDate.getDate() - 1);
+            } else if (windowSize === '1mo') {
+                paddedDate.setMonth(paddedDate.getMonth() - 1);
+            } else if (windowSize === '1y') {
+                paddedDate.setFullYear(paddedDate.getFullYear() - 1);
+            }
+            
             labels.unshift(formatLabel(paddedDate, windowSize));
             profitData.unshift(0);
 
@@ -1017,7 +1026,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const firstTrade = data[0];
             const firstDate = new Date(firstTrade.closeTime);
             const paddedDate = new Date(firstDate);
-            paddedDate.setDate(paddedDate.getDate() - 1);
+            
+            // Subtract based on timeframe
+            if (windowSize === '1d') {
+                paddedDate.setDate(paddedDate.getDate() - 1);
+            } else if (windowSize === '1mo') {
+                paddedDate.setMonth(paddedDate.getMonth() - 1);
+            } else if (windowSize === '1y') {
+                paddedDate.setFullYear(paddedDate.getFullYear() - 1);
+            }
+            
             labels.unshift(formatLabel(paddedDate, windowSize));
             cumulativeData.unshift(0);
     
@@ -1094,7 +1112,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
         }
         if (windowSize === "1mo") {
-            return `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+            return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getFullYear()).slice(2)}`;
         }
         return date.getFullYear().toString();
     }

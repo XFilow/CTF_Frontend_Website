@@ -468,7 +468,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 row.innerHTML = `
                     <td data-label="Exchange">${exchangeData.exchange_name}</td>
                     <td data-label="Account Name">${exchangeData.account_name}</td>
-                    <td data-label="API Key">${exchangeData.api_key}</td>
+                    <td data-label="API Key">
+                        <span class="truncate">${exchangeData.api_key}</span>
+                    </td>
                     <td data-label="Actions">
                         <div class="table-buttons-group">
                             <button class="table-edit-button" onclick="editExchange('${exchange}')">Edit</button>

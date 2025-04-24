@@ -482,17 +482,19 @@ body.icons-only .footer-icon-links {
     margin: 2em auto;   
 }
 
+#binance-analytics-table-content,
+#binance-copy-trading-btc-table-content,
+#binance-copy-trading-eth-table-content {
+    margin-bottom: 1em;
+}
+
 #binance-positions-table-content{
     margin-bottom: 2em;   
 }
 
+#binance-analytics-table-content.collapsed,
 #binance-positions-table-content.collapsed{
     margin-bottom: 0;   
-}
-
-#binance-copy-trading-btc-table-content,
-#binance-copy-trading-eth-table-content {
-    margin-bottom: 2em;
 }
 
 table {
@@ -541,14 +543,6 @@ th {
 .table-edit-button:active,
 .table-delete-button:active {
     transform: scale(0.98); /* Slight shrink effect */
-}
-
-#exchanges-table td:nth-child(2) {
-    max-width: 150px; /* Adjust width as needed */
-}
-
-#exchanges-table td:nth-child(3) {
-    max-width: 300px; /* Adjust width as needed */
 }
 
 .new-exchange-form-submit {
@@ -886,10 +880,7 @@ th {
 /* Base style shared across tables */
 table.responsive-table {
     color: #ccc;
-    border-collapse: collapse;
     white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflowing content */
-    text-overflow: ellipsis; /* Show '...' when content overflows */
 }
 
 .responsive-table td {
@@ -901,6 +892,15 @@ table.responsive-table {
 
 .responsive-table tr:last-child td {
     border-bottom: none;
+}
+
+.truncate {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 230px;
+    vertical-align: bottom;
 }
 
 /* Media queries for medium-large screens */
@@ -956,14 +956,6 @@ table.responsive-table {
     .profile-changes input,
     .form-container input {
         max-width: 375px;
-    }
-
-    #exchanges-table td:nth-child(2) {
-        max-width: 140px;
-    }
-
-    #exchanges-table td:nth-child(3) {
-        max-width: 275px;
     }
 
     .table-buttons-group {
@@ -1046,14 +1038,6 @@ table.responsive-table {
     .profile-changes input,
     .form-container input {
         max-width: 350px;
-    }
-
-    #exchanges-table td:nth-child(2) {
-        max-width: 125px; /* Adjust width as needed */
-    }
-    
-    #exchanges-table td:nth-child(3) {
-        max-width: 250px; /* Adjust width as needed */
     }
 
     .table-buttons-group {
@@ -1167,14 +1151,6 @@ table.responsive-table {
         max-width: 300px;
     }
 
-    #exchanges-table td:nth-child(2) {
-        max-width: 200px; /* Adjust width as needed */
-    }
-
-    #exchanges-table td:nth-child(3) {
-        max-width: 250px; /* Adjust width as needed */
-    }
-
     .responsive-table thead {
         display: none;
     }
@@ -1188,17 +1164,21 @@ table.responsive-table {
     .responsive-table td {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        word-break: break-all;
         padding: 8px 10px;
         border: none;
         font-size: 14px;
+        gap: 0.5em;
     }
-
+    
     .responsive-table td::before {
         content: attr(data-label);
         font-weight: bold;
         color: #ccc;
         flex-basis: 50%;
+        flex-shrink: 0;
         min-width: 100px;
     }
 

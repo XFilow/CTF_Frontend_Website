@@ -1195,12 +1195,4 @@ table.responsive-table {
         padding: 0;
         align-items: center;
     }
-
-    .table-edit-button,
-    .table-delete-button {
-        padding: 5px 10px;
-        font-size: 13px;
-        border-radius: 3px;
-        margin: 0;
-    }
 }

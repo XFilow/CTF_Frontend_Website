@@ -466,11 +466,11 @@ body.icons-only .footer-icon-links {
     margin: 1em 0;    
 }
 
-/* General table styles */
+/* General table styles 
 .responsive-table {
     margin: 0 auto 2em auto;
 }
-
+*/
 .table-content {
     overflow-x: auto;
     margin: auto;
@@ -478,7 +478,7 @@ body.icons-only .footer-icon-links {
 }
 
 #exchanges-table-content{
-    margin-top: 2em;
+    margin: 2em auto;
 }
 
 #binance-copy-trading-btc-table-content,
@@ -872,19 +872,35 @@ td:nth-child(3) {
 #binance-right-profit-loss-values {
     width: 48%; /* Adjust width to fit properly */
 }
-/*
-.balance-section h4,
-.profit-loss-values h4 {
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-*/
 
 #faq-card p,
 #donations-card p {
     word-wrap: break-word;   /* Allows breaking long words */
     overflow-wrap: anywhere; /* Breaks text at any point if needed */
     white-space: normal;     /* Ensures the text wraps */
+}
+
+/* Base style shared across tables */
+table.responsive-table {
+    width: 80%;
+    margin: 0 auto; /* Center the table */
+    border-collapse: collapse;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 14px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.responsive-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.responsive-table tr:last-child td {
+    border-bottom: none;
 }
 
 /* Media queries for medium-large screens */
@@ -1153,33 +1169,36 @@ td:nth-child(3) {
     }
 
     .responsive-table {
-        border: 0;
+        width: 90%;
     }
-    
+
     .responsive-table thead {
-    display: none; /* Hide headers */
+        display: none;
     }
 
     .responsive-table tr {
-    display: block;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #444;
+        display: block;
+        margin-bottom: 1rem;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        padding: 0.5rem;
     }
 
     .responsive-table td {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 10px;
-    border: none;
-    /*font-size: 14px;*/
-    background-color: #111;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        border: none;
+        font-size: 14px;
     }
 
     .responsive-table td::before {
-    content: attr(data-label);
-    font-weight: bold;
-    text-transform: capitalize;
-    color: #ccc;
+        content: attr(data-label);
+        font-weight: bold;
+        color: #ccc;
+        flex-basis: 50%;
     }
+}
 
 }

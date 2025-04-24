@@ -1164,11 +1164,11 @@ table.responsive-table {
     }
 
     #exchanges-table td:nth-child(2) {
-        max-width: auto; /* Adjust width as needed */
+        max-width: 200px; /* Adjust width as needed */
     }
 
     #exchanges-table td:nth-child(3) {
-        max-width: auto; /* Adjust width as needed */
+        max-width: 250px; /* Adjust width as needed */
     }
 
     .responsive-table thead {
@@ -1195,11 +1195,15 @@ table.responsive-table {
         font-weight: bold;
         color: #ccc;
         flex-basis: 50%;
-        min-width: 70px;
+        min-width: 100px;
     }
 
-    #exchanges-table-content {
+    #exchanges-table-content{
         max-width: 90%;
+    }
+
+    .table-buttons-group {
+        justify-content: flex-end;
     }
 
     .table-delete-button {

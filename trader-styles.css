@@ -1167,7 +1167,7 @@ table.responsive-table {
     .responsive-table td {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: center;
         flex-wrap: nowrap; /* prevents label and value from splitting lines */
         word-break: break-word;
         padding: 8px 10px;
@@ -1179,9 +1179,9 @@ table.responsive-table {
         content: attr(data-label);
         font-weight: bold;
         color: #ccc;
+        white-space: nowrap;
         flex-shrink: 0;
         margin-right: 10px;
-        white-space: nowrap;
     }
 
     #exchanges-table-content{
@@ -1189,7 +1189,18 @@ table.responsive-table {
     }
 
     .table-buttons-group {
-        justify-content: flex-end;
-        margin-left: auto;
-      }
+        display: flex;
+        gap: 0.5em;
+        margin: 0;
+        padding: 0;
+        align-items: center;
+    }
+
+    .table-edit-button,
+    .table-delete-button {
+        padding: 5px 10px;
+        font-size: 13px;
+        border-radius: 3px;
+        margin: 0;
+    }
 }

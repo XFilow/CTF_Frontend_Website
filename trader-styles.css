@@ -475,10 +475,15 @@ body.icons-only .footer-icon-links {
     overflow-x: auto;
     margin: auto;
     width: 90%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 #exchanges-table-content{
     margin: 2em auto;   
+}
+
+#binance-positions-table-content{
+    margin-bottom: 2em;   
 }
 
 #binance-copy-trading-btc-table-content,
@@ -1154,7 +1159,7 @@ table.responsive-table {
     .table-content {
         background-color: rgba(255, 255, 255, 0.15);
         border: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: 10px; /* Optional: Adds rounded corners */
+        border-radius: 10px;
         max-width: 300px;
     }
 

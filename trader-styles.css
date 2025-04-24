@@ -474,11 +474,11 @@ body.icons-only .footer-icon-links {
 .table-content {
     overflow-x: auto;
     margin: auto;
-    width: 80%;
+    width: 90%;
 }
 
 #exchanges-table-content{
-    margin: 2em auto;
+    margin: 2em auto;   
 }
 
 #binance-copy-trading-btc-table-content,
@@ -535,16 +535,10 @@ th {
 }
 
 #exchanges-table td:nth-child(2) {
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflowing content */
-    text-overflow: ellipsis; /* Show '...' when content overflows */
     max-width: 150px; /* Adjust width as needed */
 }
 
 #exchanges-table td:nth-child(3) {
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflowing content */
-    text-overflow: ellipsis; /* Show '...' when content overflows */
     max-width: 300px; /* Adjust width as needed */
 }
 
@@ -882,9 +876,8 @@ th {
 
 /* Base style shared across tables */
 table.responsive-table {
-    margin: 0 auto; /* Center the table */
-    border-collapse: collapse;
     color: #ccc;
+    border-collapse: collapse;
     white-space: nowrap; /* Prevent text from wrapping */
     overflow: hidden; /* Hide overflowing content */
     text-overflow: ellipsis; /* Show '...' when content overflows */
@@ -1193,10 +1186,9 @@ table.responsive-table {
     }
 
     .responsive-table td::before {
-        white-space: nowrap; /* Prevent text from wrapping */
         content: attr(data-label);
         font-weight: bold;
-        color: white;
+        color: #ccc;
         flex-basis: 50%;
         min-width: 70px;
     }

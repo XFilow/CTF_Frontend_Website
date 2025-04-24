@@ -882,14 +882,12 @@ th {
 
 /* Base style shared across tables */
 table.responsive-table {
-    width: 80%;
     margin: 0 auto; /* Center the table */
     border-collapse: collapse;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    font-size: 14px;
-    border-radius: 10px;
-    overflow: hidden;
+    color: #ccc;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Show '...' when content overflows */
 }
 
 .responsive-table td {
@@ -1160,14 +1158,17 @@ table.responsive-table {
         max-width: 65px; /* Set a maximum width */
     }
 
-    .responsive-table {
+    .table-content {
         border: 1px solid; /* Adds a white border */
         border-radius: 10px; /* Optional: Adds rounded corners */
         background-color: rgba(255, 255, 255, 0.15);
         border-color: rgba(255, 255, 255, 0.5);
         max-width: 300px;
     }
-
+/*
+    .responsive-table {
+    }
+*/
     .responsive-table thead {
         display: none;
     }

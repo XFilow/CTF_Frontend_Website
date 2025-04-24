@@ -486,6 +486,10 @@ body.icons-only .footer-icon-links {
     margin-bottom: 2em;   
 }
 
+#binance-positions-table-content.collapsed{
+    margin-bottom: 0;   
+}
+
 #binance-copy-trading-btc-table-content,
 #binance-copy-trading-eth-table-content {
     margin-bottom: 2em;

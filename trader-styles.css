@@ -482,7 +482,8 @@ body.icons-only .footer-icon-links {
     margin: 2em auto;   
 }
 
-#binance-analytics-table-content,
+#binance-analytics-btc-table-content,
+#binance-analytics-eth-table-content,
 #binance-copy-trading-btc-table-content,
 #binance-copy-trading-eth-table-content {
     margin-bottom: 1em;
@@ -492,7 +493,8 @@ body.icons-only .footer-icon-links {
     margin-bottom: 2em;   
 }
 
-#binance-analytics-table-content.collapsed,
+#binance-analytics-btc-table-content.collapsed,
+#binance-analytics-eth-table-content.collapsed,
 #binance-positions-table-content.collapsed{
     margin-bottom: 0;   
 }
@@ -519,6 +521,7 @@ th {
     flex-wrap: nowrap;
     justify-content: flex-start; /* or center, if you prefer */
     gap: 0.5em;       /* spacing between buttons */
+    margin-right: 0;
 }
 
 .table-edit-button,
@@ -1164,33 +1167,21 @@ table.responsive-table {
     .responsive-table td {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        word-break: break-all;
-        padding: 8px 10px;
-        border: none;
-        font-size: 14px;
+        align-items: center;
+        flex-wrap: nowrap;
+        word-break: break-word;
         gap: 0.5em;
     }
-    
     .responsive-table td::before {
         content: attr(data-label);
         font-weight: bold;
         color: #ccc;
-        flex-basis: 50%;
         flex-shrink: 0;
-        min-width: 100px;
+        margin-right: 10px;
+        white-space: nowrap;
     }
 
     #exchanges-table-content{
         max-width: 90%;
-    }
-
-    .table-buttons-group {
-        justify-content: flex-end;
-    }
-
-    .table-delete-button {
-        margin-right: 0;
     }
 }

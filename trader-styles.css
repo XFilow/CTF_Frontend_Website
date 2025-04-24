@@ -1159,11 +1159,11 @@ table.responsive-table {
     }
 
     #exchanges-table td:nth-child(2) {
-        max-width: 90%; /* Adjust width as needed */
+        max-width: auto; /* Adjust width as needed */
     }
 
     #exchanges-table td:nth-child(3) {
-        max-width: 90%; /* Adjust width as needed */
+        max-width: auto; /* Adjust width as needed */
     }
 
     .responsive-table thead {

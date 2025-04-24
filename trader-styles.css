@@ -1159,30 +1159,19 @@ table.responsive-table {
     }
 
     .table-content {
-        border: 1px solid; /* Adds a white border */
-        border-radius: 10px; /* Optional: Adds rounded corners */
         background-color: rgba(255, 255, 255, 0.15);
-        border-color: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 10px; /* Optional: Adds rounded corners */
         max-width: 300px;
     }
-/*
-    .responsive-table {
-    }
-*/
+
     #exchanges-table td:nth-child(2) {
-        white-space: nowrap; /* Prevent text from wrapping */
-        overflow: hidden; /* Hide overflowing content */
-        text-overflow: ellipsis; /* Show '...' when content overflows */
-        max-width: 250px; /* Adjust width as needed */
+        max-width: 90%; /* Adjust width as needed */
     }
 
     #exchanges-table td:nth-child(3) {
-        white-space: nowrap; /* Prevent text from wrapping */
-        overflow: hidden; /* Hide overflowing content */
-        text-overflow: ellipsis; /* Show '...' when content overflows */
-        max-width: 300px; /* Adjust width as needed */
+        max-width: 90%; /* Adjust width as needed */
     }
-
 
     .responsive-table thead {
         display: none;
@@ -1207,11 +1196,16 @@ table.responsive-table {
         white-space: nowrap; /* Prevent text from wrapping */
         content: attr(data-label);
         font-weight: bold;
-        color: #ccc;
+        color: white;
         flex-basis: 50%;
+        min-width: 70px;
     }
 
     #exchanges-table-content {
         max-width: 90%;
+    }
+
+    .table-delete-button {
+        margin-right: 0;
     }
 }

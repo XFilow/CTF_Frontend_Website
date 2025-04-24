@@ -1184,4 +1184,9 @@ table.responsive-table {
     #exchanges-table-content{
         max-width: 90%;
     }
+
+    .table-buttons-group {
+        justify-content: flex-end;
+        margin-left: auto;
+    }
 }

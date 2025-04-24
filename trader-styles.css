@@ -1169,6 +1169,21 @@ table.responsive-table {
     .responsive-table {
     }
 */
+    #exchanges-table td:nth-child(2) {
+        white-space: nowrap; /* Prevent text from wrapping */
+        overflow: hidden; /* Hide overflowing content */
+        text-overflow: ellipsis; /* Show '...' when content overflows */
+        max-width: 250px; /* Adjust width as needed */
+    }
+
+    #exchanges-table td:nth-child(3) {
+        white-space: nowrap; /* Prevent text from wrapping */
+        overflow: hidden; /* Hide overflowing content */
+        text-overflow: ellipsis; /* Show '...' when content overflows */
+        max-width: 300px; /* Adjust width as needed */
+    }
+
+
     .responsive-table thead {
         display: none;
     }
@@ -1194,5 +1209,9 @@ table.responsive-table {
         font-weight: bold;
         color: #ccc;
         flex-basis: 50%;
+    }
+
+    #exchanges-table-content {
+        max-width: 90%;
     }
 }

@@ -538,14 +538,14 @@ td:nth-child(2) {
     white-space: nowrap; /* Prevent text from wrapping */
     overflow: hidden; /* Hide overflowing content */
     text-overflow: ellipsis; /* Show '...' when content overflows */
-    max-width: 150px; /* Adjust width as needed */
+    /*max-width: 150px; /* Adjust width as needed */
 }
 
 td:nth-child(3) {
     white-space: nowrap; /* Prevent text from wrapping */
     overflow: hidden; /* Hide overflowing content */
     text-overflow: ellipsis; /* Show '...' when content overflows */
-    max-width: 300px; /* Adjust width as needed */
+    /*max-width: 300px; /* Adjust width as needed */
 }
 
 .new-exchange-form-submit {
@@ -1169,7 +1169,9 @@ table.responsive-table {
     }
 
     .responsive-table {
-        width: 90%;
+        background-color: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.5);
+        max-width: 300px;
     }
 
     .responsive-table thead {
@@ -1178,8 +1180,6 @@ table.responsive-table {
 
     .responsive-table tr {
         display: block;
-        margin-bottom: 1rem;
-        background-color: rgba(0, 0, 0, 0.5);
         border-radius: 8px;
         padding: 0.5rem;
     }

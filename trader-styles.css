@@ -1161,6 +1161,8 @@ table.responsive-table {
     }
 
     .responsive-table {
+        border: 1px solid; /* Adds a white border */
+        border-radius: 10px; /* Optional: Adds rounded corners */
         background-color: rgba(255, 255, 255, 0.15);
         border-color: rgba(255, 255, 255, 0.5);
         max-width: 300px;

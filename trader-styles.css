@@ -534,18 +534,18 @@ th {
     transform: scale(0.98); /* Slight shrink effect */
 }
 
-td:nth-child(2) {
-    /*white-space: nowrap; /* Prevent text from wrapping */
-    /*overflow: hidden; /* Hide overflowing content */
-    /*text-overflow: ellipsis; /* Show '...' when content overflows */
-    /*max-width: 150px; /* Adjust width as needed */
+#exchanges-table td:nth-child(2) {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Show '...' when content overflows */
+    max-width: 150px; /* Adjust width as needed */
 }
 
-td:nth-child(3) {
-    /*white-space: nowrap; /* Prevent text from wrapping */
-    /*overflow: hidden; /* Hide overflowing content */
-    /*text-overflow: ellipsis; /* Show '...' when content overflows */
-    /*max-width: 300px; /* Adjust width as needed */
+#exchanges-table td:nth-child(3) {
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Show '...' when content overflows */
+    max-width: 300px; /* Adjust width as needed */
 }
 
 .new-exchange-form-submit {
@@ -958,11 +958,11 @@ table.responsive-table {
         max-width: 375px;
     }
 
-    td:nth-child(2) {
+    #exchanges-table td:nth-child(2) {
         max-width: 140px;
     }
 
-    td:nth-child(3) {
+    #exchanges-table td:nth-child(3) {
         max-width: 275px;
     }
 
@@ -1048,11 +1048,11 @@ table.responsive-table {
         max-width: 350px;
     }
 
-    td:nth-child(2) {
+    #exchanges-table td:nth-child(2) {
         max-width: 125px; /* Adjust width as needed */
     }
     
-    td:nth-child(3) {
+    #exchanges-table td:nth-child(3) {
         max-width: 250px; /* Adjust width as needed */
     }
 
@@ -1144,14 +1144,6 @@ table.responsive-table {
         max-width: 300px;
     }
 
-    td:nth-child(2) {
-        max-width: 100px; /* Adjust width as needed */
-    }
-    
-    td:nth-child(3) {
-        max-width: 200px; /* Adjust width as needed */
-    }
-
     .table-buttons-group {
         transform: scale(0.7);
     }
@@ -1194,6 +1186,7 @@ table.responsive-table {
     }
 
     .responsive-table td::before {
+        white-space: nowrap; /* Prevent text from wrapping */
         content: attr(data-label);
         font-weight: bold;
         color: #ccc;

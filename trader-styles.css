@@ -535,16 +535,16 @@ th {
 }
 
 td:nth-child(2) {
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflowing content */
-    text-overflow: ellipsis; /* Show '...' when content overflows */
+    /*white-space: nowrap; /* Prevent text from wrapping */
+    /*overflow: hidden; /* Hide overflowing content */
+    /*text-overflow: ellipsis; /* Show '...' when content overflows */
     /*max-width: 150px; /* Adjust width as needed */
 }
 
 td:nth-child(3) {
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide overflowing content */
-    text-overflow: ellipsis; /* Show '...' when content overflows */
+    /*white-space: nowrap; /* Prevent text from wrapping */
+    /*overflow: hidden; /* Hide overflowing content */
+    /*text-overflow: ellipsis; /* Show '...' when content overflows */
     /*max-width: 300px; /* Adjust width as needed */
 }
 

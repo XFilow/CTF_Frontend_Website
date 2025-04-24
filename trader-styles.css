@@ -1167,11 +1167,14 @@ table.responsive-table {
     .responsive-table td {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        flex-wrap: nowrap;
+        align-items: flex-start;
+        flex-wrap: nowrap; /* prevents label and value from splitting lines */
         word-break: break-word;
+        padding: 8px 10px;
+        font-size: 14px;
         gap: 0.5em;
     }
+
     .responsive-table td::before {
         content: attr(data-label);
         font-weight: bold;
@@ -1188,5 +1191,5 @@ table.responsive-table {
     .table-buttons-group {
         justify-content: flex-end;
         margin-left: auto;
-    }
+      }
 }

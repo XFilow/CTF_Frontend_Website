@@ -478,7 +478,7 @@ body.icons-only .footer-icon-links {
 }
 
 #exchanges-table-content{
-    margin: 2em auto;
+    margin-top: 2em;
 }
 
 #binance-copy-trading-btc-table-content,
@@ -1151,4 +1151,35 @@ td:nth-child(3) {
     .balance-pie {
         max-width: 65px; /* Set a maximum width */
     }
+
+    .responsive-table {
+        border: 0;
+    }
+    
+    .responsive-table thead {
+    display: none; /* Hide headers */
+    }
+
+    .responsive-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #444;
+    }
+
+    .responsive-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border: none;
+    /*font-size: 14px;*/
+    background-color: #111;
+    }
+
+    .responsive-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    text-transform: capitalize;
+    color: #ccc;
+    }
+
 }

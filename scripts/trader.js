@@ -466,17 +466,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 hasExchanges = true;
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${exchangeData.exchange_name}</td>
-                    <td>${exchangeData.account_name}</td>
-                    <td>${exchangeData.api_key}</td>
-                    <td>
+                    <td data-label="Exchange">${exchangeData.exchange_name}</td>
+                    <td data-label="Account Name">${exchangeData.account_name}</td>
+                    <td data-label="API Key">${exchangeData.api_key}</td>
+                    <td data-label="Actions">
                         <div class="table-buttons-group">
                             <button class="table-edit-button" onclick="editExchange('${exchange}')">Edit</button>
                             <button class="table-delete-button" onclick="deleteExchange('${exchange}')">Delete</button>
                         </div>
                     </td>
                 `;
-    
                 tableBody.appendChild(row);
             });
     
@@ -661,27 +660,27 @@ document.addEventListener('DOMContentLoaded', function() {
             const row = document.createElement("tr");
             if (element === 'analytics') {
                 row.innerHTML = `
-                <td>${totalTrades}</td>
-                <td>${profitableTrades}%</td>
-                <td>$${totalDollarGain.toFixed(2)}</td>
-                <td>-$${maxLossDollar} / $${maxGainDollar}</td>
-                <td>-$${avgLossDollar} / $${avgGainDollar}</td>
-                <td>$${avgTradeVolume}</td>
-                <td>${avgTradeTime}</td>
+                <td data-label="Trades">${totalTrades}</td>
+                <td data-label="Profitable %">${profitableTrades}%</td>
+                <td data-label="PNL">$${totalDollarGain.toFixed(2)}</td>
+                <td data-label="Max Loss/Gain">-$${maxLossDollar} / $${maxGainDollar}</td>
+                <td data-label="Avg Loss/Gain">-$${avgLossDollar} / $${avgGainDollar}</td>
+                <td data-label="Avg Trade Volume">$${avgTradeVolume}</td>
+                <td data-label="Avg Trade Time">${avgTradeTime}</td>
                 `;
                 tableBody.appendChild(row);
             }
             else if (element === 'copy-trading') {
                 row.innerHTML = `
-                <td>${totalTrades}</td>
-                <td>${profitableTrades}%</td>
-                <td>${maxLossPercent}% / ${maxGainPercent}%</td>
-                <td>${avgLossPercent}% / ${avgGainPercent}%</td>
-                <td>${avgTradeTime}</td>
-                <td>${pnlRatio}</td>
-                <td>${longRatio}:${shortRatio}</td>
+                <td data-label="Trades">${totalTrades}</td>
+                <td data-label="Profitable %">${profitableTrades}%</td>
+                <td data-label="Max Loss/Gain">${maxLossPercent}% / ${maxGainPercent}%</td>
+                <td data-label="Avg Loss/Gain">${avgLossPercent}% / ${avgGainPercent}%</td>
+                <td data-label="Avg Trade Time">${avgTradeTime}</td>
+                <td data-label="PNL Ratio">${pnlRatio}</td>
+                <td data-label="Long/Short Ratio">${longRatio}:${shortRatio}</td>
                 `;
-                tableBody.appendChild(row); 
+                tableBody.appendChild(row);
             }
         } catch (error) {
             console.error("Error fetching trade analytics:", error);

@@ -462,12 +462,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (exchangeData.message === 'No exchange data' || Object.keys(exchangeData).length === 0) {
                     return; // Skip if no data
                 }
-    
+
                 hasExchanges = true;
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td data-label="Exchange">${exchangeData.exchange_name}</td>
-                    <td data-label="Account Name">${exchangeData.account_name}</td>
+                    <td data-label="Account Name">
+                        <span class="truncate">${exchangeData.account_name}</span>
+                    </td>
                     <td data-label="API Key">
                         <span class="truncate">${exchangeData.api_key}</span>
                     </td>

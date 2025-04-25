@@ -900,7 +900,7 @@ table.responsive-table {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 330px;
+    max-width: 400px;
     vertical-align: bottom;
 }
 
@@ -973,6 +973,10 @@ table.responsive-table {
 
     .status-message {
         max-width: 275px;
+    }
+
+    .truncate {
+        max-width: 350px;
     }
 }
 
@@ -1055,6 +1059,10 @@ table.responsive-table {
 
     .balance-pie {
         max-width: 85px; /* Set a maximum width */
+    }
+
+    .truncate {
+        max-width: 275px;
     }
 }
 

@@ -1311,17 +1311,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const pnl = parseFloat(pos.unrealizedProfit || "0");
             const margin = Math.abs(parseFloat(pos.positionAmt) * parseFloat(pos.entryPrice) / parseFloat(pos.leverage));
             const roi = margin !== 0 ? ((pnl / margin) * 100).toFixed(2) : '0.00';
-    
+        
             rows += `
                 <tr id="row-${pos.symbol}">
-                    <td>${pos.symbol}</td>
-                    <td>${parseFloat(pos.positionAmt) > 0 ? 'Long' : 'Short'}</td>
-                    <td>${pos.leverage}x</td>
-                    <td>${pos.positionAmt} ${pos.symbol.replace("USDT", "")}</td>
-                    <td>$${parseFloat(pos.entryPrice).toString()}</td>
-                    <td id="markPrice-${pos.symbol}">$${markPrice}</td>
-                    <td id="pnl-${pos.symbol}">$${pnl.toFixed(2)}</td>
-                    <td id="roi-${pos.symbol}">${roi}%</td>
+                    <td data-label="Symbol">${pos.symbol}</td>
+                    <td data-label="Position">${parseFloat(pos.positionAmt) > 0 ? 'Long' : 'Short'}</td>
+                    <td data-label="Leverage">${pos.leverage}x</td>
+                    <td data-label="Size">${pos.positionAmt} ${pos.symbol.replace("USDT", "")}</td>
+                    <td data-label="Entry Price">$${parseFloat(pos.entryPrice).toString()}</td>
+                    <td data-label="Mark Price" id="markPrice-${pos.symbol}">$${markPrice}</td>
+                    <td data-label="PNL" id="pnl-${pos.symbol}">$${pnl.toFixed(2)}</td>
+                    <td data-label="ROI" id="roi-${pos.symbol}">${roi}%</td>
                 </tr>
             `;
         });

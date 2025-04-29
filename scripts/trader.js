@@ -1985,7 +1985,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
           
             const mode_result = await mode_response.json();
-            //console.log('Mode change response:', result);
+            console.log('Mode change response:', result);
         
             if (mode_response.ok) {
                 const leverage_response = await fetch('https://api.cryptotradingflow.com/trader/leverage', {

@@ -1972,7 +1972,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!confirm('Start Copy-Trading Binance BTCUSDT Bot?')) return;
 
         try {
-            const leverage_response = await fetch('https://api.cryptotradingflow.com/trader/leverage', {
+            const mode_response = await fetch('https://api.cryptotradingflow.com/trader/mode', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -1980,17 +1980,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify({
                     exchange: 'binance',
-                    coin: 'btc',
-                    leverage: 100
+                    hedgeMode: false
                 })
             });
           
-            const result = await leverage_response.json();
-            //console.log('Leverage change response:', result);
+            const mode_result = await mode_response.json();
+            //console.log('Mode change response:', result);
         
-            if (leverage_response.ok) {
-                // Send the password update request
-                const response = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
+            if (mode_response.ok) {
+                const leverage_response = await fetch('https://api.cryptotradingflow.com/trader/leverage', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -1998,21 +1996,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     body: JSON.stringify({
                         exchange: 'binance',
-                        coin: 'btc'
+                        coin: 'btc',
+                        leverage: 100
                     })
                 });
+            
+                const leverage_result = await leverage_response.json();
+                //console.log('Leverage change response:', result);
+            
+                if (leverage_response.ok) {
+                    // Send the password update request
+                    const response = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            exchange: 'binance',
+                            coin: 'btc'
+                        })
+                    });
 
-                if (!response.ok) {
-                    console.error('Failed to copy-trade BTC:', response.statusText);
-                    return;
+                    if (!response.ok) {
+                        console.error('Failed to copy-trade BTC:', response.statusText);
+                        return;
+                    }
+
+                    // Show BTC bot UI
+                    document.getElementById('no-active-bot').style.display = 'none';
+                    document.getElementById('binance-btc-bot').style.display = 'inline-block';
+
+                } else {
+                    alert(`Failed to update leverage: ${leverage_result.error || 'Unknown error'}`);
                 }
-
-                // Show BTC bot UI
-                document.getElementById('no-active-bot').style.display = 'none';
-                document.getElementById('binance-btc-bot').style.display = 'inline-block';
-
             } else {
-                alert(`Failed to update leverage: ${result.error || 'Unknown error'}`);
+                alert(`Failed to update Trading Mode: ${mode_result.error || 'Unknown error'}`);
             }
         } catch (error) {
             console.error('Error copy-trading BTC:', error);
@@ -2032,7 +2051,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!confirm('Start Copy-Trading Binance ETHUSDT Bot?')) return;
 
         try {
-            const leverage_response = await fetch('https://api.cryptotradingflow.com/trader/leverage', {
+            const mode_response = await fetch('https://api.cryptotradingflow.com/trader/mode', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -2040,17 +2059,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify({
                     exchange: 'binance',
-                    coin: 'eth',
-                    leverage: 50
+                    hedgeMode: false
                 })
             });
           
-            const result = await leverage_response.json();
-            //console.log('Leverage change response:', result);
+            const mode_result = await mode_response.json();
+            //console.log('Mode change response:', result);
         
-            if (leverage_response.ok) {
-                // Send the password update request
-                const response = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
+            if (mode_response.ok) {
+                const leverage_response = await fetch('https://api.cryptotradingflow.com/trader/leverage', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -2058,21 +2075,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     body: JSON.stringify({
                         exchange: 'binance',
-                        coin: 'eth'
+                        coin: 'eth',
+                        leverage: 50
                     })
                 });
+            
+                const leverage_result = await leverage_response.json();
+                //console.log('Leverage change response:', result);
+            
+                if (leverage_response.ok) {
+                    // Send the password update request
+                    const response = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            exchange: 'binance',
+                            coin: 'eth'
+                        })
+                    });
 
-                if (!response.ok) {
-                    console.error('Failed to copy-trade ETH:', response.statusText);
-                    return;
+                    if (!response.ok) {
+                        console.error('Failed to copy-trade ETH:', response.statusText);
+                        return;
+                    }
+
+                    // Show ETH bot UI
+                    document.getElementById('no-active-bot').style.display = 'none';
+                    document.getElementById('binance-eth-bot').style.display = 'inline-block';
+
+                } else {
+                    alert(`Failed to update leverage: ${leverage_result.error || 'Unknown error'}`);
                 }
-
-                // Show ETH bot UI
-                document.getElementById('no-active-bot').style.display = 'none';
-                document.getElementById('binance-eth-bot').style.display = 'inline-block';
-
             } else {
-                alert(`Failed to update leverage: ${result.error || 'Unknown error'}`);
+                alert(`Failed to update Trading Mode: ${mode_result.error || 'Unknown error'}`);
             }
         } catch (error) {
             console.error('Error copy-trading ETH:', error);

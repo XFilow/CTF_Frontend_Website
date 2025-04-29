@@ -1981,12 +1981,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({
                     exchange: 'binance',
                     coin: 'btc',
-                    leverage: 50
+                    leverage: 100
                 })
             });
           
             const result = await leverage_response.json();
-            console.log('Leverage change response:', result);
+            //console.log('Leverage change response:', result);
         
             if (leverage_response.ok) {
                 // Send the password update request
@@ -2032,8 +2032,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!confirm('Start Copy-Trading Binance ETHUSDT Bot?')) return;
 
         try {
-            // Send the password update request
-            const response = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
+            const leverage_response = await fetch('https://api.cryptotradingflow.com/trader/leverage', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -2041,23 +2040,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify({
                     exchange: 'binance',
-                    coin: 'eth'
+                    coin: 'eth',
+                    leverage: 50
                 })
             });
+          
+            const result = await leverage_response.json();
+            //console.log('Leverage change response:', result);
+        
+            if (leverage_response.ok) {
+                // Send the password update request
+                const response = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        exchange: 'binance',
+                        coin: 'eth'
+                    })
+                });
 
-            if (!response.ok) {
-                console.error('Failed to copy-trade ETH:', response.statusText);
-                return;
+                if (!response.ok) {
+                    console.error('Failed to copy-trade ETH:', response.statusText);
+                    return;
+                }
+
+                // Show ETH bot UI
+                document.getElementById('no-active-bot').style.display = 'none';
+                document.getElementById('binance-eth-bot').style.display = 'inline-block';
+
+            } else {
+                alert(`Failed to update leverage: ${result.error || 'Unknown error'}`);
             }
-
-            // Show ETH bot UI
-            document.getElementById('no-active-bot').style.display = 'none';
-            document.getElementById('binance-eth-bot').style.display = 'inline-block';
-
         } catch (error) {
             console.error('Error copy-trading ETH:', error);
         }
-            */
+        */
     });
     
     // Cancel-trade Binance BTC 
@@ -2074,7 +2094,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (!confirm('Stop Copy-Trading the Binance BTCUSDT Bot?')) return;
+        if (!confirm('Stop Copy-Trading Binance BTCUSDT Bot?')) return;
 
         try {
             // Send the password update request
@@ -2137,7 +2157,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (!confirm('Stop Copy-Trading the Binance ETHUSDT Bot?')) return;
+        if (!confirm('Stop Copy-Trading Binance ETHUSDT Bot?')) return;
 
         try {
             // Send the password update request

@@ -653,8 +653,8 @@ document.addEventListener('DOMContentLoaded', function() {
             let avgLossPercent = lossesPercent.length > 0 ? (lossesPercent.reduce((a, b) => a + b, 0) / lossesPercent.length).toFixed(2) : "0.00";
 
             // PNL Ratio
-            let pnlRatio = (avgGainPercent / avgLossPercent).toFixed(2)
-
+            let pnlRatio = Math.abs(avgGainPercent / avgLossPercent).toFixed(2);
+            
             // Long/Short Ratio
             let divisor = gcd(longsCount, shortsCount);
             let longRatio = longsCount / divisor;

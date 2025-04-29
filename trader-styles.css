@@ -657,7 +657,6 @@ th {
     border: 1px solid; /* Adds a white border */
     border-radius: 10px; /* Optional: Adds rounded corners */
     padding: 1em; /* Optional: Adds padding inside the border */
-    margin-bottom: 1em; /* Centers the container and adds vertical margin */
     max-width: 415px; /* Sets a maximum width for the container */
     width: 100%; /* Ensures the container adjusts to smaller screen sizes */
     box-sizing: border-box; /* Ensures padding and border are included in the width */
@@ -1061,6 +1060,50 @@ table.responsive-table {
         max-width: 85px; /* Set a maximum width */
     }
 
+    .table-content {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 10px;
+        max-width: 375px;
+    }
+
+    .responsive-table thead {
+        display: none;
+    }
+
+    .responsive-table tr {
+        display: block;
+        border-radius: 8px;
+        padding: 0.5rem;
+    }
+
+    .responsive-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap; /* prevents label and value from splitting lines */
+        word-break: break-word;
+        padding: 8px 10px;
+        font-size: 14px;
+        gap: 0.5em;
+    }
+
+    .responsive-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #ccc;
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin-right: 10px;
+    }
+    
+    #binance-analytics-btc-table-content,
+    #binance-analytics-eth-table-content,
+    #binance-copy-trading-btc-table-content,
+    #binance-copy-trading-eth-table-content {
+        margin-bottom: 1em;
+    }
+
     .truncate {
         max-width: 300px;
     }
@@ -1153,10 +1196,6 @@ table.responsive-table {
         max-width: 65px; /* Set a maximum width */
     }
 
-    .canvas-content {
-        gap: 0;
-    }
-
     .table-content {
         background-color: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.5);
@@ -1194,21 +1233,6 @@ table.responsive-table {
         margin-right: 10px;
     }
     
-    #binance-positions-table-content,
-    #exchanges-table-content{
-        margin-left: auto;
-    }
-
-    #binance-positions-table-content,
-    #binance-analytics-btc-card,
-    #binance-analytics-eth-card,
-    #binance-copy-trading-btc-card,
-    #binance-copy-trading-eth-card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
     #binance-analytics-btc-table-content,
     #binance-analytics-eth-table-content,
     #binance-copy-trading-btc-table-content,

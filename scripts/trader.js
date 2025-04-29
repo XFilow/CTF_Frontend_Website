@@ -1981,7 +1981,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     
             const modeData = await getModeRes.json();
-            console.log('Current trading mode:', modeData.hedgeMode ? 'Hedge Mode' : 'One-Way Mode');
+            //console.log('Current trading mode:', modeData.hedgeMode ? 'Hedge Mode' : 'One-Way Mode');
     
             // 2. If in hedge mode, switch to one-way
             if (modeData.hedgeMode === true) {
@@ -1998,7 +1998,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
     
                 const modeResult = await modeSwitchRes.json();
-                console.log('Mode change response:', modeResult);
+                //console.log('Mode change response:', modeResult);
     
                 if (!modeSwitchRes.ok) {
                     alert(`Failed to update Trading Mode: ${modeResult.error || 'Unknown error'}`);

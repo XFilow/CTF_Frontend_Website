@@ -1972,7 +1972,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!confirm('Start Copy-Trading Binance BTCUSDT Bot?')) return;
 
         try {
-            const leverage_response = await fetch('/trader/changeLeverage', {
+            const leverage_response = await fetch('https://api.cryptotradingflow.com/trader/leverage', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

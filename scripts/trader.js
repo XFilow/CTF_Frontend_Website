@@ -657,7 +657,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let avgLossPercent = lossesPercent.length > 0 ? (lossesPercent.reduce((a, b) => a + b, 0) / lossesPercent.length).toFixed(2) : "0.00";
 
             // PNL Ratio
-            let pnlRatio = parseFloat(avgLossPercent) === 0 ? "∞" : Math.abs(avgGainPercent / avgLossPercent).toFixed(2);
+            let pnlRatio = parseFloat(avgLossPercent) === 0 ? "-" : Math.abs(avgGainPercent / avgLossPercent).toFixed(2);
 
             // Long/Short Ratio
             let divisor = gcd(longsCount, shortsCount);
@@ -905,39 +905,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 //console.log("No profit/loss data available after filtering.");
                 return;
             }
-                
-            // Prepend a starting point at zero
-            const firstTrade = data[0];
-            const paddedDate = new Date(firstTrade.closeTime);
-            
-            // Subtract based on timeframe
-            if (windowSize === '1d') {
-                paddedDate.setDate(paddedDate.getDate() - 1);
-            } else if (windowSize === '1mo') {
-                paddedDate.setMonth(paddedDate.getMonth() - 1);
-            } else if (windowSize === '1y') {
-                paddedDate.setFullYear(paddedDate.getFullYear() - 1);
-            }
-            
-            const overallPrepend = days === 0;
-            const earliestAllowedDate = overallPrepend ? null : new Date();
-            if (earliestAllowedDate) {
-                earliestAllowedDate.setDate(earliestAllowedDate.getDate() - days);
-            }
-
-            const formattedLabel = formatLabel(paddedDate, windowSize);
-            if ((overallPrepend || paddedDate >= earliestAllowedDate) && !labels.includes(formattedLabel)) {
-                labels.unshift(formattedLabel);
-                profitData.unshift(0);
-            }
-
-            // Determine color based on overall profit trend
-            const firstProfit = profitData.length > 0 ? profitData[0] : 0;
-            const lastProfit = profitData.length > 0 ? profitData[profitData.length - 1] : 0;
-            const isPositive = lastProfit >= firstProfit;
-
-            const backgroundColor = isPositive ? "rgba(75, 190, 110, 0.3)" : "rgba(255, 100, 100, 0.3)";
-            const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
 
             //const isSmallScreen = window.innerWidth <= 1000;
             profitLossCharts[chartKey] = new Chart(ctx, {
@@ -947,8 +914,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     datasets: [{
                         label: element === 'analytics' ? "Profit/Loss ($)" : "Profit/Loss (%)",
                         data: profitData,
-                        backgroundColor: backgroundColor,
-                        borderColor: borderColor,
+                        backgroundColor: "rgba(255, 255, 255, 0.3)",
+                        borderColor: "rgb(255, 255, 255)",
                         borderWidth: 2,
                         fill: false
                     }]

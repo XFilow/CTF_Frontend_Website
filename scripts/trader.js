@@ -502,7 +502,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const binanceAnalyticsEthTitle = document.getElementById('binance-analytics-eth-title');
         const binanceAnalyticsEthCard = document.getElementById('binance-analytics-eth-card');
 
-        const days = 7; // Initialize with Weekly View (Last 7 Days)
+        // Initialize with Weekly View (Last 7 Days)
+        document.getElementById("binance-analytics-btc-timeRange").value = "7";
+        document.getElementById("binance-analytics-eth-timeRange").value = "7";
+
+        const days = 7; 
         const copyTrade = true;
         const element = 'analytics';
         
@@ -653,7 +657,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let avgLossPercent = lossesPercent.length > 0 ? (lossesPercent.reduce((a, b) => a + b, 0) / lossesPercent.length).toFixed(2) : "0.00";
 
             // PNL Ratio
-            let pnlRatio = Math.abs(avgGainPercent / avgLossPercent).toFixed(2);
+            let pnlRatio = avgLossPercent === 0 ? "∞" : Math.abs(avgGainPercent / avgLossPercent).toFixed(2);
 
             // Long/Short Ratio
             let divisor = gcd(longsCount, shortsCount);
@@ -904,8 +908,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             // Prepend a starting point at zero
             const firstTrade = data[0];
-            const firstDate = new Date(firstTrade.closeTime);
-            const paddedDate = new Date(firstDate);
+            const paddedDate = new Date(firstTrade.closeTime);
             
             // Subtract based on timeframe
             if (windowSize === '1d') {
@@ -916,8 +919,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 paddedDate.setFullYear(paddedDate.getFullYear() - 1);
             }
             
-            labels.unshift(formatLabel(paddedDate, windowSize));
-            profitData.unshift(0);
+            const earliestAllowedDate = new Date();
+            earliestAllowedDate.setDate(earliestAllowedDate.getDate() - days);
+
+            const formattedLabel = formatLabel(paddedDate, windowSize);
+            if (paddedDate >= earliestAllowedDate && !labels.includes(formattedLabel)) {
+                labels.unshift(formattedLabel);
+                profitData.unshift(0);
+            }
 
             // Determine color based on overall profit trend
             const firstProfit = profitData.length > 0 ? profitData[0] : 0;
@@ -1027,8 +1036,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Prepend a starting point at zero
             const firstTrade = data[0];
-            const firstDate = new Date(firstTrade.closeTime);
-            const paddedDate = new Date(firstDate);
+            const paddedDate = new Date(firstTrade.closeTime);
             
             // Subtract based on timeframe
             if (windowSize === '1d') {
@@ -1039,8 +1047,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 paddedDate.setFullYear(paddedDate.getFullYear() - 1);
             }
             
-            labels.unshift(formatLabel(paddedDate, windowSize));
-            cumulativeData.unshift(0);
+            const earliestAllowedDate = new Date();
+            earliestAllowedDate.setDate(earliestAllowedDate.getDate() - days);
+
+            const formattedLabel = formatLabel(paddedDate, windowSize);
+            if (paddedDate >= earliestAllowedDate && !labels.includes(formattedLabel)) {
+                labels.unshift(formattedLabel);
+                cumulativeData.unshift(0);
+            }
     
             // Determine color based on overall profit trend
             const firstProfit = cumulativeData.length > 0 ? cumulativeData[0] : 0;
@@ -1379,7 +1393,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const binanceCopyTradingBtcCard = document.getElementById('binance-copy-trading-btc-card');
         const binanceCopyTradingEthCard = document.getElementById('binance-copy-trading-eth-card');
 
-        const days = 7; // Initialize with Weekly View (Last 7 Days)
+        // Initialize with Weekly View (Last 7 Days)
+        document.getElementById("binance-copy-trading-btc-timeRange").value = "7";
+        document.getElementById("binance-copy-trading-eth-timeRange").value = "7";
+
+        const days = 7; 
         const copyTrade = false;
         const element = 'copy-trading';
 

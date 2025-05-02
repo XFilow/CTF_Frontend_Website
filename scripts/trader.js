@@ -914,8 +914,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     datasets: [{
                         label: element === 'analytics' ? "Profit/Loss ($)" : "Profit/Loss (%)",
                         data: profitData,
-                        backgroundColor: "rgba(100, 30, 150, 0.3)",
-                        borderColor: "rgb(100, 30, 150)",
+                        backgroundColor: "rgb(125, 50, 175)",
+                        borderColor: "rgb(125, 50, 175)",
                         borderWidth: 2,
                         fill: false
                     }]
@@ -1034,7 +1034,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const lastProfit = cumulativeData.length > 0 ? cumulativeData[cumulativeData.length - 1] : 0;
             const isPositive = lastProfit >= firstProfit;
 
-            const backgroundColor = isPositive ? "rgba(75, 190, 110, 0.3)" : "rgba(255, 100, 100, 0.3)";
+            const backgroundColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
             const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
 
             //const isSmallScreen = window.innerWidth <= 1000;

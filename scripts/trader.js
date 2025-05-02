@@ -657,7 +657,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let avgLossPercent = lossesPercent.length > 0 ? (lossesPercent.reduce((a, b) => a + b, 0) / lossesPercent.length).toFixed(2) : "0.00";
 
             // PNL Ratio
-            let pnlRatio = avgLossPercent === 0 ? "∞" : Math.abs(avgGainPercent / avgLossPercent).toFixed(2);
+            let pnlRatio = parseFloat(avgLossPercent) === 0 ? "∞" : Math.abs(avgGainPercent / avgLossPercent).toFixed(2);
 
             // Long/Short Ratio
             let divisor = gcd(longsCount, shortsCount);
@@ -919,11 +919,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 paddedDate.setFullYear(paddedDate.getFullYear() - 1);
             }
             
-            const earliestAllowedDate = new Date();
-            earliestAllowedDate.setDate(earliestAllowedDate.getDate() - days);
+            const overallPrepend = days === 0;
+            const earliestAllowedDate = overallPrepend ? null : new Date();
+            if (earliestAllowedDate) {
+                earliestAllowedDate.setDate(earliestAllowedDate.getDate() - days);
+            }
 
             const formattedLabel = formatLabel(paddedDate, windowSize);
-            if (paddedDate >= earliestAllowedDate && !labels.includes(formattedLabel)) {
+            if ((overallPrepend || paddedDate >= earliestAllowedDate) && !labels.includes(formattedLabel)) {
                 labels.unshift(formattedLabel);
                 profitData.unshift(0);
             }
@@ -1047,11 +1050,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 paddedDate.setFullYear(paddedDate.getFullYear() - 1);
             }
             
-            const earliestAllowedDate = new Date();
-            earliestAllowedDate.setDate(earliestAllowedDate.getDate() - days);
+            const overallPrepend = days === 0;
+            const earliestAllowedDate = overallPrepend ? null : new Date();
+            if (earliestAllowedDate) {
+                earliestAllowedDate.setDate(earliestAllowedDate.getDate() - days);
+            }
 
             const formattedLabel = formatLabel(paddedDate, windowSize);
-            if (paddedDate >= earliestAllowedDate && !labels.includes(formattedLabel)) {
+            if ((overallPrepend || paddedDate >= earliestAllowedDate) && !labels.includes(formattedLabel)) {
                 labels.unshift(formattedLabel);
                 cumulativeData.unshift(0);
             }

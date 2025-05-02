@@ -914,8 +914,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     datasets: [{
                         label: element === 'analytics' ? "Profit/Loss ($)" : "Profit/Loss (%)",
                         data: profitData,
-                        backgroundColor: "rgba(255, 255, 255, 0.3)",
-                        borderColor: "rgb(255, 255, 255)",
+                        backgroundColor: "rgba(100, 30, 150, 0.3)",
+                        borderColor: "rgb(100, 30, 150)",
                         borderWidth: 2,
                         fill: false
                     }]

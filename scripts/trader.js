@@ -1034,8 +1034,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const lastProfit = cumulativeData.length > 0 ? cumulativeData[cumulativeData.length - 1] : 0;
             const isPositive = lastProfit >= firstProfit;
 
-            const backgroundColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
-            const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
+            const backgroundColor = isPositive ? "rgb(60, 190, 100)" : "rgb(255, 70, 70)";
+            const borderColor = isPositive ? "rgb(60, 190, 100)" : "rgb(255, 70, 70)";
 
             //const isSmallScreen = window.innerWidth <= 1000;
             cumulativeProfitCharts[chartKey] = new Chart(ctx, {

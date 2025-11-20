@@ -634,7 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             let shortsCount = totalTrades > 0 ? totalTrades - longsCount : 0;
             let avgTradeVolume = totalTrades > 0 ? (totalOrderDollarSize / totalTrades).toFixed(2) : 0;
-            let profitableTrades = totalTrades > 0 ? ((profitableCount / totalTrades) * 100).toFixed(2) : 0;
+            let profitableTrades = totalTrades > 0 ? profitableCount : 0; //((profitableCount / totalTrades) * 100).toFixed(2) : 0;
             let maxGainPercent = Math.max(...profitPercentages);
             let maxLossPercent = Math.min(...profitPercentages);
             maxGainPercent = maxGainPercent > 0 ? maxGainPercent.toFixed(2) : 0;
@@ -665,7 +665,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (element === 'analytics') {
                 row.innerHTML = `
                 <td data-label="Trades">${totalTrades}</td>
-                <td data-label="Profitable %">${profitableTrades}%</td>
+                <td data-label="Profitable Trades">${profitableTrades}%</td>
                 <td data-label="PNL">$${totalDollarGain.toFixed(2)}</td>
                 <td data-label="Max Loss/Gain">-$${maxLossDollar} / $${maxGainDollar}</td>
                 <td data-label="Avg Loss/Gain">-$${avgLossDollar} / $${avgGainDollar}</td>
@@ -677,7 +677,7 @@ document.addEventListener('DOMContentLoaded', function() {
             else if (element === 'copy-trading') {
                 row.innerHTML = `
                 <td data-label="Trades">${totalTrades}</td>
-                <td data-label="Profitable %">${profitableTrades}%</td>
+                <td data-label="Profitable Trades">${profitableTrades}%</td>
                 <td data-label="Max Loss/Gain">${maxLossPercent}% / ${maxGainPercent}%</td>
                 <td data-label="Avg Loss/Gain">${avgLossPercent}% / ${avgGainPercent}%</td>
                 <td data-label="Avg Trade Time">${avgTradeTime}</td>

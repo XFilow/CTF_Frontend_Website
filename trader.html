@@ -84,7 +84,7 @@
                     <a href="https://t.me/cryptotradingflow" class="footer-icon-link" aria-label="Telegram" target="_blank">
                         <img src="../static/icons/telegram_icon.webp" alt="Telegram Icon" class="footer-icons">
                     </a>
-                    <a href="https://www.youtube.com/@CTFlowbots" class="footer-icon-link" aria-label="Youtube" target="_blank">
+                    <a href="https://www.youtube.com/@CTradingFlow" class="footer-icon-link" aria-label="Youtube" target="_blank">
                         <img src="../static/icons/youtube_icon.webp" alt="Youtube Icon" class="footer-icons">
                     </a>
                 </div>
@@ -529,7 +529,7 @@
                                 <p>To open a Futures account go to the following link and click on the Open Account button:</p>
                                 <p><a href="https://www.binance.com/futures/home" class="white-link" target="_blank">https://www.binance.com/futures/home</a></p>
                                 <br><p>Create a Futures account in Classic Trading mode.</p>
-                                <p>After opening your Futures account, you'll need to wait 3 days for Binance to validate the account. Once validated, you'll be able to use 100x leverage.</p>
+                                <p>After opening your Futures account, you'll need to wait 3 days for Binance to validate the account. Only after validation will you be able to copy-trade our CTF bots.</p>
                                 <br>
                                 <hr style="width: 100%; border: 1px solid #ccc;" />
                                 <br>
@@ -570,6 +570,7 @@
                                 <br><br>
                                 <hr style="width: 100%; border: 1px solid #ccc;" />
                                 <br>
+                                <!--
                                 <h3>Configuring Binance Futures trading settings for BTC</h3>
                                 <p>Under the Futures tab highlighted by the red box select USDⓈ-M Futures highlighted by the orange box.</p>
                                 <img src="../static/images/binance6.webp" alt="Image" class="user-manual-image">
@@ -593,6 +594,7 @@
                                 <br><br>
                                 <hr style="width: 100%; border: 1px solid #ccc;" />
                                 <br>
+                                -->
                                 <h3>Connecting to the Binance API</h3>
                                 <p>Go to the Crypto Trading Flow website:</p>
                                 <p><a href="https://www.cryptotradingflow.com" class="white-link" target="_blank">https://www.cryptotradingflow.com</a></p>
@@ -666,7 +668,7 @@
                         <div class="card">
                             <h3>🔐 Security & Privacy</h3>
                             <h4>- Is it safe to share my API keys with CTF?</h4>
-                            <p>Yes. Your API keys are encrypted and securely stored. We only request Futures trading permissions—withdrawals are never required.</p>
+                            <p>Yes. Your API keys are encrypted and securely stored. We only request Futures trading permissions - withdrawals are never required.</p>
                             <h4>- Is it safe to share my API keys with CTF?</h4>
                             <p>Only enable Futures Trading. Leave Withdrawals disabled for security.</p>
                             <hr style="width: 100%; border: 1px solid #ccc; margin: 2.5em auto;" />
@@ -681,13 +683,13 @@
                             <hr style="width: 100%; border: 1px solid #ccc; margin: 2.5em auto;" />
                             <h3>💸 Fees & Costs</h3>   
                             <h4>- Do I have to pay to use the CTF bots?</h4>
-                            <p>No. There's currently no subscription fee—you only pay standard trading fees charged by the exchange.</p>
+                            <p>No. There's currently no subscription fee - you only pay standard trading fees charged by the exchange.</p>
                             <h4>- Are there performance fees on profits?</h4>
                             <p>No. CTF does not take a share of your profits.</p>
                             <hr style="width: 100%; border: 1px solid #ccc; margin: 2.5em auto;" />
                             <h3>📈 Performance & Results</h3>   
                             <h4>- How can I view my performance?</h4>
-                            <p>Visit <a href="https://www.cryptotradingflow.com/trader#copy-trading" class="white-link" target="_blank">CTF Analytics</a> to view your trade history, profit charts, and performance data.</p>
+                            <p>Visit <a href="https://www.cryptotradingflow.com/trader#analytics" class="white-link" target="_blank">CTF Analytics</a> to view your trade history, profit charts, and performance data.</p>
                             <h4>- Are the bot strategies backtested?</h4>
                             <p>Yes. All strategies are backtested and monitored in real time.</p>
                             <p>📉 Past results do not guarantee future performance.</p>
@@ -711,15 +713,14 @@
                             <h4>- What's the minimum amount I need to have?</h4>
                             <p>Minimum trade requirements:</p>
                             <p>- BTCUSDT: 0.002 BTC</p>
-                            <p>- ETHUSDT: 0.011 ETH</p>
-                            <p>⚠️ Insufficient balances may prevent trades and limit performance due to fewer entries.</p>
+                            <p>- ETHUSDT: 0.024 ETH</p>
                         </div>
                     </div>      
                 </section>
             </div>
         </main>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../scripts/trader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="../scripts/trader.js" defer></script>
 </body>
 </html>

@@ -502,7 +502,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const binanceAnalyticsEthTitle = document.getElementById('binance-analytics-eth-title');
         const binanceAnalyticsEthCard = document.getElementById('binance-analytics-eth-card');
 
-        const days = 7; // Initialize with Weekly View (Last 7 Days)
+        // Initialize with Weekly View (Last 7 Days)
+        document.getElementById("binance-analytics-btc-timeRange").value = "7";
+        document.getElementById("binance-analytics-eth-timeRange").value = "7";
+
+        const days = 7; 
         const copyTrade = true;
         const element = 'analytics';
         
@@ -653,7 +657,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let avgLossPercent = lossesPercent.length > 0 ? (lossesPercent.reduce((a, b) => a + b, 0) / lossesPercent.length).toFixed(2) : "0.00";
 
             // PNL Ratio
-            let pnlRatio = Math.abs(avgGainPercent / avgLossPercent).toFixed(2);
+            let pnlRatio = parseFloat(avgLossPercent) === 0 ? "-" : Math.abs(avgGainPercent / avgLossPercent).toFixed(2);
 
             // Long/Short Ratio
             let divisor = gcd(longsCount, shortsCount);
@@ -901,31 +905,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 //console.log("No profit/loss data available after filtering.");
                 return;
             }
-                
-            // Prepend a starting point at zero
-            const firstTrade = data[0];
-            const firstDate = new Date(firstTrade.closeTime);
-            const paddedDate = new Date(firstDate);
-            
-            // Subtract based on timeframe
-            if (windowSize === '1d') {
-                paddedDate.setDate(paddedDate.getDate() - 1);
-            } else if (windowSize === '1mo') {
-                paddedDate.setMonth(paddedDate.getMonth() - 1);
-            } else if (windowSize === '1y') {
-                paddedDate.setFullYear(paddedDate.getFullYear() - 1);
-            }
-            
-            labels.unshift(formatLabel(paddedDate, windowSize));
-            profitData.unshift(0);
-
-            // Determine color based on overall profit trend
-            const firstProfit = profitData.length > 0 ? profitData[0] : 0;
-            const lastProfit = profitData.length > 0 ? profitData[profitData.length - 1] : 0;
-            const isPositive = lastProfit >= firstProfit;
-
-            const backgroundColor = isPositive ? "rgba(75, 190, 110, 0.3)" : "rgba(255, 100, 100, 0.3)";
-            const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
 
             //const isSmallScreen = window.innerWidth <= 1000;
             profitLossCharts[chartKey] = new Chart(ctx, {
@@ -935,8 +914,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     datasets: [{
                         label: element === 'analytics' ? "Profit/Loss ($)" : "Profit/Loss (%)",
                         data: profitData,
-                        backgroundColor: backgroundColor,
-                        borderColor: borderColor,
+                        backgroundColor: "rgb(125, 50, 175)",
+                        borderColor: "rgb(125, 50, 175)",
                         borderWidth: 2,
                         fill: false
                     }]
@@ -1027,8 +1006,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Prepend a starting point at zero
             const firstTrade = data[0];
-            const firstDate = new Date(firstTrade.closeTime);
-            const paddedDate = new Date(firstDate);
+            const paddedDate = new Date(firstTrade.closeTime);
             
             // Subtract based on timeframe
             if (windowSize === '1d') {
@@ -1039,16 +1017,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 paddedDate.setFullYear(paddedDate.getFullYear() - 1);
             }
             
-            labels.unshift(formatLabel(paddedDate, windowSize));
-            cumulativeData.unshift(0);
+            const overallPrepend = days === 0;
+            const earliestAllowedDate = overallPrepend ? null : new Date();
+            if (earliestAllowedDate) {
+                earliestAllowedDate.setDate(earliestAllowedDate.getDate() - days);
+            }
+
+            const formattedLabel = formatLabel(paddedDate, windowSize);
+            if ((overallPrepend || paddedDate >= earliestAllowedDate) && !labels.includes(formattedLabel)) {
+                labels.unshift(formattedLabel);
+                cumulativeData.unshift(0);
+            }
     
             // Determine color based on overall profit trend
             const firstProfit = cumulativeData.length > 0 ? cumulativeData[0] : 0;
             const lastProfit = cumulativeData.length > 0 ? cumulativeData[cumulativeData.length - 1] : 0;
             const isPositive = lastProfit >= firstProfit;
 
-            const backgroundColor = isPositive ? "rgba(75, 190, 110, 0.3)" : "rgba(255, 100, 100, 0.3)";
-            const borderColor = isPositive ? "rgb(75, 190, 110)" : "rgb(255, 100, 100)";
+            const backgroundColor = isPositive ? "rgb(60, 190, 100)" : "rgb(255, 70, 70)";
+            const borderColor = isPositive ? "rgb(60, 190, 100)" : "rgb(255, 70, 70)";
 
             //const isSmallScreen = window.innerWidth <= 1000;
             cumulativeProfitCharts[chartKey] = new Chart(ctx, {
@@ -1379,7 +1366,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const binanceCopyTradingBtcCard = document.getElementById('binance-copy-trading-btc-card');
         const binanceCopyTradingEthCard = document.getElementById('binance-copy-trading-eth-card');
 
-        const days = 7; // Initialize with Weekly View (Last 7 Days)
+        // Initialize with Weekly View (Last 7 Days)
+        document.getElementById("binance-copy-trading-btc-timeRange").value = "7";
+        document.getElementById("binance-copy-trading-eth-timeRange").value = "7";
+
+        const days = 7; 
         const copyTrade = false;
         const element = 'copy-trading';
 
@@ -1960,35 +1951,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Copy-trade Binance BTC 
-    document.getElementById('binance-btc-copy-button').addEventListener('click', async function(e) {
-        e.stopPropagation(); // Prevents parent click
-        
+    document.getElementById('binance-btc-copy-button').addEventListener('click', async function (e) {
+        e.stopPropagation();
+    
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
             return;
         }
-
+    
         if (!confirm('Start Copy-Trading Binance BTCUSDT Bot?')) return;
-
+    
         try {
-            const mode_response = await fetch('https://api.cryptotradingflow.com/trader/mode', {
-                method: 'POST',
+            // 1. Get current trading mode
+            const getModeRes = await fetch('https://api.cryptotradingflow.com/trader/mode?exchange=binance', {
+                method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    exchange: 'binance',
-                    hedgeMode: false
-                })
+                    'Authorization': `Bearer ${token}`
+                }
             });
-          
-            const mode_result = await mode_response.json();
-            //console.log('Mode change response:', result);
-        
-            if (mode_response.ok) {
-                const leverage_response = await fetch('https://api.cryptotradingflow.com/trader/leverage', {
+            const modeData = await getModeRes.json();
+    
+            // 2. If in hedge mode, switch to one-way
+            if (modeData.hedgeMode === true) {
+                const modeSwitchRes = await fetch('https://api.cryptotradingflow.com/trader/mode', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -1996,43 +1982,60 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     body: JSON.stringify({
                         exchange: 'binance',
-                        coin: 'btc',
-                        leverage: 100
+                        hedgeMode: false
                     })
                 });
-            
-                const leverage_result = await leverage_response.json();
-                //console.log('Leverage change response:', result);
-            
-                if (leverage_response.ok) {
-                    // Send the password update request
-                    const response = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            exchange: 'binance',
-                            coin: 'btc'
-                        })
-                    });
-
-                    if (!response.ok) {
-                        console.error('Failed to copy-trade BTC:', response.statusText);
-                        return;
-                    }
-
-                    // Show BTC bot UI
-                    document.getElementById('no-active-bot').style.display = 'none';
-                    document.getElementById('binance-btc-bot').style.display = 'inline-block';
-
-                } else {
-                    alert(`Failed to update leverage: ${leverage_result.error || 'Unknown error'}`);
+    
+                const modeResult = await modeSwitchRes.json();
+                if (!modeSwitchRes.ok) {
+                    alert(`Failed to update Trading Mode: ${modeResult.error || 'Unknown error'}`);
+                    return;
                 }
-            } else {
-                alert(`Failed to update Trading Mode: ${mode_result.error || 'Unknown error'}`);
             }
+    
+            // 3. Update leverage
+            const leverageRes = await fetch('https://api.cryptotradingflow.com/trader/leverage', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    exchange: 'binance',
+                    coin: 'btc',
+                    leverage: 100
+                })
+            });
+    
+            const leverageData = await leverageRes.json();
+            if (!leverageRes.ok) {
+                alert(`Failed to update leverage: ${leverageData.error || 'Unknown error'}`);
+                return;
+            }
+    
+            // 4. Start copy-trading
+            const copyTradeRes = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    exchange: 'binance',
+                    coin: 'btc'
+                })
+            });
+    
+            const copyTradeResult = await copyTradeRes.json();
+            if (!copyTradeRes.ok) {
+                alert(`Failed to copy-trade BTC: ${copyTradeResult.error || 'Unknown error'}`);
+                return;
+            }
+    
+            // 5. Show BTC bot UI
+            document.getElementById('no-active-bot').style.display = 'none';
+            document.getElementById('binance-btc-bot').style.display = 'inline-block';
+    
         } catch (error) {
             console.error('Error copy-trading BTC:', error);
         }
@@ -2040,34 +2043,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Copy-trade Binance ETH 
     document.getElementById('binance-eth-copy-button').addEventListener('click', async function(e) {
-        e.stopPropagation(); // Prevents parent click
+        e.stopPropagation();
         /*
         const token = localStorage.getItem('token');
         if (!token) {
             console.log('User is not logged in');
             return;
         }
-
+    
         if (!confirm('Start Copy-Trading Binance ETHUSDT Bot?')) return;
-
+    
         try {
-            const mode_response = await fetch('https://api.cryptotradingflow.com/trader/mode', {
-                method: 'POST',
+            // 1. Get current trading mode
+            const getModeRes = await fetch('https://api.cryptotradingflow.com/trader/mode?exchange=binance', {
+                method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    exchange: 'binance',
-                    hedgeMode: false
-                })
+                    'Authorization': `Bearer ${token}`
+                }
             });
-          
-            const mode_result = await mode_response.json();
-            //console.log('Mode change response:', result);
-        
-            if (mode_response.ok) {
-                const leverage_response = await fetch('https://api.cryptotradingflow.com/trader/leverage', {
+            const modeData = await getModeRes.json();
+    
+            // 2. If in hedge mode, switch to one-way
+            if (modeData.hedgeMode === true) {
+                const modeSwitchRes = await fetch('https://api.cryptotradingflow.com/trader/mode', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -2075,47 +2073,63 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     body: JSON.stringify({
                         exchange: 'binance',
-                        coin: 'eth',
-                        leverage: 50
+                        hedgeMode: false
                     })
                 });
-            
-                const leverage_result = await leverage_response.json();
-                //console.log('Leverage change response:', result);
-            
-                if (leverage_response.ok) {
-                    // Send the password update request
-                    const response = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            exchange: 'binance',
-                            coin: 'eth'
-                        })
-                    });
-
-                    if (!response.ok) {
-                        console.error('Failed to copy-trade ETH:', response.statusText);
-                        return;
-                    }
-
-                    // Show ETH bot UI
-                    document.getElementById('no-active-bot').style.display = 'none';
-                    document.getElementById('binance-eth-bot').style.display = 'inline-block';
-
-                } else {
-                    alert(`Failed to update leverage: ${leverage_result.error || 'Unknown error'}`);
+    
+                const modeResult = await modeSwitchRes.json();
+                if (!modeSwitchRes.ok) {
+                    alert(`Failed to update Trading Mode: ${modeResult.error || 'Unknown error'}`);
+                    return;
                 }
-            } else {
-                alert(`Failed to update Trading Mode: ${mode_result.error || 'Unknown error'}`);
             }
+    
+            // 3. Update leverage
+            const leverageRes = await fetch('https://api.cryptotradingflow.com/trader/leverage', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    exchange: 'binance',
+                    coin: 'eth',
+                    leverage: 50
+                })
+            });
+    
+            const leverageData = await leverageRes.json();
+            if (!leverageRes.ok) {
+                alert(`Failed to update leverage: ${leverageData.error || 'Unknown error'}`);
+                return;
+            }
+    
+            // 4. Start copy-trading
+            const copyTradeRes = await fetch('https://api.cryptotradingflow.com/trader/copy-trade', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    exchange: 'binance',
+                    coin: 'eth'
+                })
+            });
+    
+            const copyTradeResult = await copyTradeRes.json();
+            if (!copyTradeRes.ok) {
+                alert(`Failed to copy-trade ETH: ${copyTradeResult.error || 'Unknown error'}`);
+                return;
+            }
+    
+            // 5. Show ETH bot UI
+            document.getElementById('no-active-bot').style.display = 'none';
+            document.getElementById('binance-eth-bot').style.display = 'inline-block';
+    
         } catch (error) {
             console.error('Error copy-trading ETH:', error);
-        }
-        */
+        }*/
     });
     
     // Cancel-trade Binance BTC 
